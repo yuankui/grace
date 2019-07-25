@@ -1,23 +1,21 @@
 import React, {Component} from 'react';
 import { EditorState } from 'draft-js';
 import 'draft-js/dist/Draft.css';
-import Editor from 'draft-js-plugins-editor';
-import createMentionPlugin, { defaultSuggestionsFilter } from 'draft-js-mention-plugin';
+import Editor, {createEditorStateWithText} from 'draft-js-plugins-editor';
+import createSideToolbarPlugin from 'draft-js-side-toolbar-plugin';
 import editorStyles from './editorStyles.css';
-import mentions from './mentions';
+
+const sideToolbarPlugin =  createSideToolbarPlugin();
+const { SideToolbar } = sideToolbarPlugin;
+const plugins = [sideToolbarPlugin];
+const text = 'The toolbar above the editor can be used for formatting text, as in conventional static editors  …';
+
 
 
 export default class App extends Component {
 
-    constructor(props) {
-        super(props);
-
-        this.mentionPlugin = createMentionPlugin();
-    }
-
     state = {
-        editorState: EditorState.createEmpty(),
-        suggestions: mentions,
+        editorState: createEditorStateWithText(text),
     };
 
     onChange = (editorState) => {
@@ -26,24 +24,11 @@ export default class App extends Component {
         });
     };
 
-    onSearchChange = ({ value }) => {
-        this.setState({
-            suggestions: defaultSuggestionsFilter(value, mentions),
-        });
-    };
-
-    onAddMention = () => {
-        // get the mention object selected
-    }
-
     focus = () => {
         this.editor.focus();
     };
 
     render() {
-        const { MentionSuggestions } = this.mentionPlugin;
-        const plugins = [this.mentionPlugin];
-
         return (
             <div className={editorStyles.editor} onClick={this.focus}>
                 <Editor
@@ -52,11 +37,7 @@ export default class App extends Component {
                     plugins={plugins}
                     ref={(element) => { this.editor = element; }}
                 />
-                <MentionSuggestions
-                    onSearchChange={this.onSearchChange}
-                    suggestions={this.state.suggestions}
-                    onAddMention={this.onAddMention}
-                />
+                <SideToolbar />
             </div>
         );
     }
