@@ -1,13 +1,16 @@
 import React, {Component} from 'react';
 import {Editor, EditorState, RichUtils} from 'draft-js';
-
+import 'draft-js-plugins-editor';
 
 export default class App extends Component {
 
     constructor(props) {
         super(props);
         this.state = {editorState: EditorState.createEmpty()};
-        this.onChange = (editorState) => this.setState({editorState});
+        this.onChange = (editorState) => {
+            console.log(JSON.stringify(editorState));
+            this.setState({editorState});
+        };
         this.handleKeyCommand = this.handleKeyCommand.bind(this);
     }
 
