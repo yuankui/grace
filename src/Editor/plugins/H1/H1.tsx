@@ -1,24 +1,34 @@
 import * as React from 'react';
 import './style.css';
-import BasePlugin from "../BasePlugin";
+import {BasePlugin} from "../BasePlugin";
 
-interface H1Props {
+interface H1Param {
     value: string,
 }
 
-interface H1State {
-}
+export default class H1 extends BasePlugin<H1Param, any> {
+    pluginName(): string {
+        return "h1";
 
+    }
 
-export default class H1 extends BasePlugin<H1Props, H1State> {
     keyPress = (e: React.KeyboardEvent<HTMLHeadingElement>) => {
         if (e.key === 'Enter') {
             e.preventDefault();
+
+            if (this.props.parent != null) {
+                this.props.parent.onNewLine(this);
+            }
         }
     };
 
+    onChange = (e: React.FormEvent<HTMLHeadingElement>) => {
+        // TODO fix this
+        console.log(JSON.stringify(e));
+    };
+
     render() {
-        return <h1 contentEditable={true} spellCheck={true} placeholder="Heading 1" data-root="true"
-                    className="title">需求</h1>
+        return <h1 onInput={(e) => this.onChange(e)} contentEditable={true} placeholder="Heading 1" onKeyPress={e => this.keyPress(e)}>
+        </h1>
     }
 };

@@ -8,7 +8,7 @@ export default class Editor extends Component {
         return (
             <div>
                 <Div>
-                    <H1 value={"hello"} />
+                    <H1 parent={this} value={"hello"} />
                 </Div>
             </div>
         );
