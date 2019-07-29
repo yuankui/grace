@@ -1,6 +1,4 @@
-@import "~draft-js/dist/Draft.css";
 @import './App.css';
-@import '~draft-js-side-toolbar-plugin/lib/plugin.css';
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
