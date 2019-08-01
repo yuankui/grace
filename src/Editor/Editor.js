@@ -1,16 +1,22 @@
-import React, {Component} from 'react';
-import './editor.css';
-import H1 from "./plugins/H1/H1";
-import Div from "./plugins/Div/Div";
+// It is important to import the Editor which accepts plugins.
 
-export default class Editor extends Component {
-    render() {
-        return (
-            <div>
-                <Div>
-                    <H1 parent={this} value={"hello"} />
-                </Div>
-            </div>
-        );
-    }
-}
+import Editor from 'draft-js-plugins-editor';
+
+import createImagePlugin from 'draft-js-image-plugin';
+import React from 'react';
+
+const imagePlugin = createImagePlugin();
+
+// The Editor accepts an array of plugins. In this case, only the imagePlugin
+// is passed in, although it is possible to pass in multiple plugins.
+const MyEditor = ({ editorState, onChange }) => {
+    return (
+        <Editor
+            editorState={editorState}
+            onChange={onChange}
+            plugins={[imagePlugin]}
+        />
+    );
+};
+
+export default MyEditor;

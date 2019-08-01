@@ -1,9 +1,10 @@
-import React, {Component} from 'react';
+import React, {Component, useState} from 'react';
 import Editor from "./Editor/Editor";
+import {EditorState} from 'draft-js';
 
-export default class App extends Component {
+export default () => {
 
-    render() {
-        return <Editor/>
-    }
+    let [state, setState] = useState(EditorState.createEmpty());
+
+    return <Editor editorState={state} onChange={setState}/>;
 }
