@@ -1,7 +1,7 @@
 // @ts-ignore
 import Editor from 'draft-js-plugins-editor';
 import React, {Component} from 'react';
-import {createAcckeyPlugin} from './plugins/acckey-plugin';
+import {createAcckeyPlugin} from './plugins/hotkey';
 import {EditorState} from "draft-js";
 
 
