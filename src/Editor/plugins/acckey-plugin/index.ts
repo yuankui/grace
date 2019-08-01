@@ -1,4 +1,4 @@
-import Draft, {EditorState, getDefaultKeyBinding, RichUtils,DraftHandleValue} from "draft-js";
+import {DraftHandleValue, EditorState, getDefaultKeyBinding, RichUtils} from "draft-js";
 
 interface KeyCommand {
     command: string,

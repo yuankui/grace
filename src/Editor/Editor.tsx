@@ -1,16 +1,29 @@
 // @ts-ignore
 import Editor from 'draft-js-plugins-editor';
-import React from 'react';
+import React, {Component} from 'react';
 import {createAcckeyPlugin} from './plugins/acckey-plugin';
+import {EditorState} from "draft-js";
 
 
-export default function MyEditor(props: any) {
-    let plugins = [createAcckeyPlugin(props.onChange)];
-    return (
-        <Editor
-            editorState={props.editorState}
-            onChange={props.onChange}
-            plugins={plugins}
-        />
-    );
+export class MyEditor extends Component<any> {
+    state = {
+        state: EditorState.createEmpty(),
+        plugins: [createAcckeyPlugin(this.props.onChange)],
+    };
+
+    onChange = (e: EditorState) => {
+        this.setState({
+            state: e,
+        });
+    };
+    render() {
+        let plugins = [createAcckeyPlugin(this.onChange)];
+        return (
+            <Editor
+                editorState={this.state.state}
+                onChange={this.onChange}
+                plugins={plugins}
+            />
+        );
+    }
 };
