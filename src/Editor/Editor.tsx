@@ -1,29 +1,21 @@
 // @ts-ignore
-import Editor from 'draft-js-plugins-editor';
 import React, {Component} from 'react';
-import {createAcckeyPlugin} from './plugins/hotkey';
-import {EditorState} from "draft-js";
+import {Model, Widget} from "./plugins/core";
+import {createWidget} from "./plugins/factory";
 
+interface Props {
+    model: Model,
+}
 
-export class MyEditor extends Component<any> {
-    state = {
-        state: EditorState.createEmpty(),
-        plugins: [createAcckeyPlugin(this.props.onChange)],
-    };
+export class MyEditor extends Component<Props, any> {
+    private widget: Widget;
 
-    onChange = (e: EditorState) => {
-        this.setState({
-            state: e,
-        });
-    };
-    render() {
-        let plugins = [createAcckeyPlugin(this.onChange)];
-        return (
-            <Editor
-                editorState={this.state.state}
-                onChange={this.onChange}
-                plugins={plugins}
-            />
-        );
+    constructor(props: Readonly<Props>) {
+        super(props);
+        this.widget = createWidget(props.model.type, props.model);
     }
-};
+
+    render() {
+        return this.widget.render();
+    }
+}
