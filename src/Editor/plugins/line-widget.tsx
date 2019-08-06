@@ -3,16 +3,22 @@ import {ReactNode} from "react";
 import * as React from "react";
 import {WidgetFactory} from "./factory";
 
-export class LineWidget implements Widget<any> {
+interface Props {
+}
+
+export class LineWidget implements Widget<Props> {
     private model: Model<any> = EmptyModel;
+    private children: Array<Widget<any>> = [];
 
     init(model: Model<any>, factory: WidgetFactory): void {
         this.model = model;
+        this.children = this.model.children.map(m => factory(m.type, m));
     }
 
     render(): ReactNode {
+        let renders = this.children.map(w => w.render());
         return <div>
-
+            {renders}
         </div>
     }
 }

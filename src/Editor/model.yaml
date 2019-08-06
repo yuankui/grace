@@ -1,5 +1,4 @@
 type: line
-prop: ${css}
 children:
   - type: text
     prop:
