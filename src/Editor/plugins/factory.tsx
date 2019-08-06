@@ -4,6 +4,7 @@ import {EmptyModel, Model, Widget} from "./core";
 import {TextWidget} from "./text-widget";
 import {LinkWidget} from "./link-widget";
 import {MentionWidget} from "./mention-widget";
+import {CommentWidget} from "./comment-widget";
 
 class InvalidWidget implements Widget<any> {
     private model: Model<any> = EmptyModel;
@@ -36,6 +37,7 @@ let factory: FactoryMap = {
     text: () => new TextWidget(),
     link: () => new LinkWidget(),
     mention: () => new MentionWidget(),
+    comment: () => new CommentWidget(),
 };
 
 export interface WidgetFactory {

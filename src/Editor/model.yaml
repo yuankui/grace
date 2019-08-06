@@ -21,7 +21,8 @@ children:
         content: "hello kitty"
     children:
       - type: text
-        prop: 争议部分
+        prop:
+          value: 争议部分
   - type: link
     prop:
       href: http://yuankui.me
@@ -33,6 +34,3 @@ children:
     prop:
       id: yuankui
       name: 袁奎
-  - type: tag
-    prop:
-      value: very good
