@@ -1,9 +1,9 @@
 import {Model, Widget} from "./core";
 
-export class LineWidget implements Widget {
+export class LineWidget implements Widget<any> {
     render(): any {
     }
 
-    init(model: Model): void {
+    init(model: Model<any>): void {
     }
 }

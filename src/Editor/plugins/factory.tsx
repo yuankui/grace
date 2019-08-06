@@ -1,22 +1,21 @@
 import {LineWidget} from "./line-widget";
 import * as React from "react";
-import {Model, Widget} from "./core";
+import {EmptyModel, Model, Widget} from "./core";
 import {TextWidget} from "./text-widget";
 
-class InvalidWidget implements Widget {
-    private model: Model | undefined;
+class InvalidWidget implements Widget<any> {
+    private model: Model<any> = EmptyModel;
     render(): any {
-        let type = this.model === undefined? "undefined": this.model.type;
-        return <span>|unknown-widget:{type}|</span>
+        return <span>|unknown-widget:{this.model.type}|</span>
     }
 
-    init(model: Model): void {
+    init(model: Model<any>): void {
         this.model = model;
     }
 
 }
 interface Factory {
-    (): Widget;
+    (): Widget<any>;
 }
 interface FactoryMap {
     [pluginName: string]: Factory;
@@ -27,7 +26,7 @@ let factory: FactoryMap = {
     text: () => new TextWidget(),
 };
 
-export function createWidget(name: string, model: Model): Widget {
+export function createWidget(name: string, model: Model<any>): Widget<any> {
     let factory1 = factory[name];
     if(factory1 == null) {
         let invalidWidget = new InvalidWidget();

@@ -4,11 +4,11 @@ import {Model, Widget} from "./plugins/core";
 import {createWidget} from "./plugins/factory";
 
 interface Props {
-    model: Model,
+    model: Model<any>,
 }
 
 export class MyEditor extends Component<Props, any> {
-    private widget: Widget;
+    private widget: Widget<any>;
 
     constructor(props: Readonly<Props>) {
         super(props);

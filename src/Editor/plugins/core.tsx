@@ -1,13 +1,18 @@
 import {ReactNode} from "react";
 
-export interface Model {
+export interface Model<P> {
     type: string;
-    prop: any;
-    children?: Array<Model>;
+    prop: P;
+    children?: Array<Model<any>>;
 }
 
-export interface Widget {
-    init(model: Model): void;
+export let EmptyModel: Model<any> = {
+    type: "empty",
+    prop: null,
+};
+
+export interface Widget<P> {
+    init(model: Model<P>): void;
     render(): ReactNode;
 }
 
