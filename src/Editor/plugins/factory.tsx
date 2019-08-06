@@ -9,7 +9,7 @@ class InvalidWidget implements Widget<any> {
         return <span>|unknown-widget:{this.model.type}|</span>
     }
 
-    init(model: Model<any>): void {
+    init(model: Model<any>, factory: WidgetFactory): void {
         this.model = model;
     }
 
@@ -17,6 +17,7 @@ class InvalidWidget implements Widget<any> {
 interface Factory {
     (): Widget<any>;
 }
+
 interface FactoryMap {
     [pluginName: string]: Factory;
 }
@@ -26,14 +27,18 @@ let factory: FactoryMap = {
     text: () => new TextWidget(),
 };
 
+export interface WidgetFactory {
+    (name: string, model: Model<any>): Widget<any>;
+}
+
 export function createWidget(name: string, model: Model<any>): Widget<any> {
     let factory1 = factory[name];
     if(factory1 == null) {
         let invalidWidget = new InvalidWidget();
-        invalidWidget.init(model);
+        invalidWidget.init(model, createWidget);
         return invalidWidget;
     }
     let widget = factory1();
-    widget.init(model);
+    widget.init(model, createWidget);
     return widget;
 }

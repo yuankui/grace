@@ -1,6 +1,7 @@
 // @ts-ignore
 import {EmptyModel, Model, Widget} from "./core";
 import * as React from "react";
+import {WidgetFactory} from "./factory";
 
 interface Props {
     value: string,
@@ -11,7 +12,7 @@ export class TextWidget implements Widget<Props> {
         return <span>{this.model.prop.value}</span>
     }
 
-    init(model: Model<Props>): void {
+    init(model: Model<any>, factory: WidgetFactory): void {
         this.model = model;
     }
 }

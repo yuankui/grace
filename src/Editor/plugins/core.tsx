@@ -1,4 +1,5 @@
 import {ReactNode} from "react";
+import {WidgetFactory} from "./factory";
 
 export interface Model<P> {
     type: string;
@@ -12,7 +13,7 @@ export let EmptyModel: Model<any> = {
 };
 
 export interface Widget<P> {
-    init(model: Model<P>): void;
+    init(model: Model<P>, factory: WidgetFactory): void;
     render(): ReactNode;
 }
 
