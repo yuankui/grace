@@ -29,9 +29,9 @@ children:
       - type: text
         prop:
           value: click me!
-  - type: memtion
+  - type: mention
     prop:
-      id: ${id}
+      id: yuankui
       name: 袁奎
   - type: tag
     prop:
