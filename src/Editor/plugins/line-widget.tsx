@@ -16,9 +16,9 @@ export class LineWidget implements Widget<Props> {
     }
 
     render(): ReactNode {
-        let renders = this.children.map(w => w.render());
+        let children = this.children.map((w, i) => <span key={i}>{w.render()}</span>);
         return <div>
-            {renders}
+            {children}
         </div>
     }
 }

@@ -8,11 +8,12 @@ interface Props {
 }
 export class TextWidget implements Widget<Props> {
     private model: Model<Props> = EmptyModel;
-    render(): any {
-        return <span>{this.model.prop.value}</span>
-    }
-
     init(model: Model<any>, factory: WidgetFactory): void {
         this.model = model;
+    }
+
+    render(): any {
+        console.log(this.model.prop.value);
+        return <span>{this.model.prop.value}</span>
     }
 }

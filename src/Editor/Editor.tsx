@@ -1,5 +1,5 @@
 // @ts-ignore
-import React, {Component} from 'react';
+import {Component} from 'react';
 import {Model, Widget} from "./plugins/core";
 import {createWidget} from "./plugins/factory";
 
