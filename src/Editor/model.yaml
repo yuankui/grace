@@ -1,3 +1,6 @@
+# type->string: the widget type
+# props->object: the props of the widget
+#   the prop may also be a component(type+props)
 type: line
 props:
   children:
