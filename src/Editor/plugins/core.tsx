@@ -1,20 +1,12 @@
-import {ReactNode} from "react";
+import {Component} from "react";
 import {WidgetFactory} from "./factory";
 
-export interface Model<P> {
-    type: string;
-    prop: P;
-    children: Array<Model<any>>;
+export interface WidgetProp {
+    factory: WidgetFactory,
+    type: string,
 }
 
-export let EmptyModel: Model<any> = {
-    type: "empty",
-    prop: null,
-    children: [],
-};
+export abstract class Widget<P extends WidgetProp, S> extends Component<P, S> {
 
-export interface Widget<P> {
-    init(model: Model<P>, factory: WidgetFactory): void;
-    render(): ReactNode;
 }
 

@@ -1,57 +1,37 @@
 import {LineWidget} from "./line-widget";
 import * as React from "react";
-import {EmptyModel, Model, Widget} from "./core";
+import {Widget, WidgetProp} from "./core";
 import {TextWidget} from "./text-widget";
 import {LinkWidget} from "./link-widget";
 import {MentionWidget} from "./mention-widget";
 import {CommentWidget} from "./comment-widget";
-
-class InvalidWidget implements Widget<any> {
-    private model: Model<any> = EmptyModel;
-
-    render(): any {
-        const style = {
-            background: 'grey',
-            padding: 3,
-            borderRadius: 10,
-        };
-        return <span style={style}>|unknown-widget:{this.model.type}|</span>
-    }
-
-    init(model: Model<any>, factory: WidgetFactory): void {
-        this.model = model;
-    }
-
-}
-
-interface Factory {
-    (): Widget<any>;
-}
+import {ReactElement, ReactNode} from "react";
 
 interface FactoryMap {
-    [pluginName: string]: Factory;
+    [pluginName: string]: any;
 }
 
 let factory: FactoryMap = {
-    line: () => new LineWidget(),
-    text: () => new TextWidget(),
-    link: () => new LinkWidget(),
-    mention: () => new MentionWidget(),
-    comment: () => new CommentWidget(),
+    line: LineWidget,
+    text: TextWidget,
+    link: LinkWidget,
+    mention: MentionWidget,
+    comment: CommentWidget,
 };
 
-export interface WidgetFactory {
-    (name: string, model: Model<any>): Widget<any>;
+class InvalidWidget extends Widget<WidgetProp, any> {
+    render(): ReactNode {
+        return <span>invalid node{this.props.type}</span>;
+    }
 }
 
-export function createWidget(name: string, model: Model<any>): Widget<any> {
-    let factory1 = factory[name];
-    if (factory1 == null) {
-        let invalidWidget = new InvalidWidget();
-        invalidWidget.init(model, createWidget);
-        return invalidWidget;
-    }
-    let widget = factory1();
-    widget.init(model, createWidget);
-    return widget;
+export interface WidgetFactory {
+    (name: string, props: WidgetProp): Widget<any, any>;
+}
+
+export function createWidget(name: string, props: WidgetProp): ReactElement {
+    let WidgetName = factory[name];
+    if (WidgetName == null)
+        WidgetName = InvalidWidget;
+    return <WidgetName {...props}/>;
 }

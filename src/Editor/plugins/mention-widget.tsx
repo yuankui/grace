@@ -1,4 +1,4 @@
-import {EmptyModel, Model, Widget} from "./core";
+import {EmptyModel, WidgetProp, Widget} from "./core";
 import {WidgetFactory} from "./factory";
 import {ReactNode} from "react";
 import * as React from "react";
@@ -9,8 +9,8 @@ interface Props {
 }
 
 export class MentionWidget implements Widget<Props>{
-    private model: Model<Props> = EmptyModel;
-    init(model: Model<Props>, factory: WidgetFactory): void {
+    private model: WidgetProp<Props> = EmptyModel;
+    init(model: WidgetProp<Props>, factory: WidgetFactory): void {
         this.model = model;
     }
 

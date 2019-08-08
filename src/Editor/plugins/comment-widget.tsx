@@ -1,4 +1,4 @@
-import {EmptyModel, Model, Widget} from "./core";
+import {EmptyModel, WidgetProp, Widget} from "./core";
 import {WidgetFactory} from "./factory";
 import {ReactNode} from "react";
 import * as React from "react";
@@ -9,9 +9,9 @@ interface Props {
 }
 
 export class CommentWidget implements Widget<Props>{
-    private model: Model<Props> = EmptyModel;
+    private model: WidgetProp<Props> = EmptyModel;
     private children: Widget<any>[] = [];
-    init(model: Model<Props>, factory: WidgetFactory): void {
+    init(model: WidgetProp<Props>, factory: WidgetFactory): void {
         this.model = model;
         this.children = model.children.map(m => factory(m.type, m));
     }

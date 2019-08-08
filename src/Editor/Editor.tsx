@@ -1,10 +1,10 @@
 // @ts-ignore
 import {Component} from 'react';
-import {Model, Widget} from "./plugins/core";
+import {WidgetProp, Widget} from "./plugins/core";
 import {createWidget} from "./plugins/factory";
 
 interface Props {
-    model: Model<any>,
+    model: WidgetProp<any>,
 }
 
 export class MyEditor extends Component<Props, any> {
