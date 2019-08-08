@@ -1,36 +1,38 @@
 type: line
-children:
-  - type: text
-    prop:
-      value: hello this is header
-      styles:
-        - BOLD
-        - ITALLIC
-        - UNDERLINE
-        - CROSS
-        - CODE
-        - COLOR: RED
-  - type: comment
-    expand: true
-    prop:
-      - time: 2019-1-1 11:22:23
-        name: yuankui
-        content: "hello kitty"
-      - time: 2019-1-1 11:22:23
-        name: yuankui
-        content: "hello kitty"
-    children:
-      - type: text
-        prop:
-          value: 争议部分
-  - type: link
-    prop:
-      href: http://yuankui.me
-    children:
-      - type: text
-        prop:
-          value: click me!
-  - type: mention
-    prop:
-      id: yuankui
-      name: 袁奎
+props:
+  children:
+    - type: text
+      props:
+        value: hello this is header
+        styles:
+          - BOLD
+          - ITALLIC
+          - UNDERLINE
+          - CROSS
+          - CODE
+          - COLOR: RED
+    - type: comment
+      props:
+        expand: true
+        comments:
+          - time: 2019-1-1 11:22:23
+            name: yuankui
+            content: "hello kitty"
+          - time: 2019-1-1 11:22:23
+            name: yuankui
+            content: "hello kitty"
+        children:
+          - type: text
+            props:
+              value: 争议部分
+    - type: link
+      props:
+        href: http://yuankui.me
+        children:
+          - type: text
+            props:
+              value: click me!
+    - type: mention
+      props:
+        id: yuankui
+        name: 袁奎
