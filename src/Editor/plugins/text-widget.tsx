@@ -1,13 +1,13 @@
 import * as React from "react";
 import {ReactNode} from "react";
-import {Widget, WidgetProp} from "./core";
+import {Widget} from "./core";
 
-interface Props extends WidgetProp{
+interface Props{
     value: string,
 }
 export class TextWidget extends Widget<Props, any> {
 
     render(): ReactNode {
-        return <span>{this.props.value}</span>
+        return <span>{this.props.props.value}</span>
     }
 }

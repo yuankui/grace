@@ -1,8 +1,8 @@
-import {Widget, WidgetProp} from "./core";
+import {Widget} from "./core";
 import * as React from "react";
 import {ReactNode} from "react";
 
-interface Props extends WidgetProp {
+interface Props {
     id: string,
     name: string,
 }
@@ -10,6 +10,6 @@ interface Props extends WidgetProp {
 export class MentionWidget extends Widget<Props, any> {
 
     render(): ReactNode {
-        return <span className='mention-plugin'>@{this.props.name}({this.props.id})</span>
+        return <span className='mention-plugin'>@{this.props.props.name}({this.props.props.id})</span>
     }
 }

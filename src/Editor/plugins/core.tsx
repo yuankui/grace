@@ -4,12 +4,17 @@ export interface WidgetConfig {
     type: string,
     props: object,
 }
-export interface WidgetProp {
+
+interface ChangeCallback<V> {
+    (v: V): void,
+}
+export interface WidgetProp<V> {
     factory: WidgetFactory,
-    [other:string]: any,
+    props: V
+    onChange?: ChangeCallback<V>,
 }
 
-export class Widget<P extends WidgetProp, S> extends Component<P, S> {
+export class Widget<V, S> extends Component<WidgetProp<V>, S> {
 
 }
 
