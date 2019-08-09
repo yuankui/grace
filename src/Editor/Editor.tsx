@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {Component, ReactNode} from 'react';
-import {WidgetValue} from "./plugins/core";
+import {Selection, WidgetValue} from "./plugins/core";
 import {getWidget} from "./plugins/factory";
 
 interface Props {
@@ -20,8 +20,13 @@ export class MyEditor extends Component<Props, State> {
                 type: 'text',
                 params: {
                     value: 'hello this is header'
+                },
+                selection: {
+                    widget: undefined,
+                    range: null,
                 }
             },
+
         }
     }
 
