@@ -1,34 +1,41 @@
 # type->string: the widget type
-# $otherProps->any: the props of the widget
+# props->object: the props of the widget
 #   the prop may also be a component(type+props)
 type: line
-children:
-  - type: text
-    value: hello this is header
-    styles:
-      - BOLD
-      - ITALLIC
-      - UNDERLINE
-      - CROSS
-      - CODE
-      - COLOR: RED
-  - type: comment
-    expand: true
-    comments:
-      - time: 2019-1-1 11:22:23
-        name: yuankui
-        content: "hello kitty"
-      - time: 2019-1-1 11:22:23
-        name: yuankui
-        content: "hello kitty"
-    children:
-      - type: text
-        value: 争议部分
-  - type: link
-    href: http://yuankui.me
-    children:
-      - type: text
-        value: click me!
-  - type: mention
-    id: yuankui
-    name: 袁奎
+props:
+  children:
+    - type: text
+      props:
+        value: hello this is header
+        styles:
+          - BOLD
+          - ITALLIC
+          - UNDERLINE
+          - CROSS
+          - CODE
+          - COLOR: RED
+    - type: comment
+      props:
+        expand: true
+        comments:
+          - time: 2019-1-1 11:22:23
+            name: yuankui
+            content: "hello kitty"
+          - time: 2019-1-1 11:22:23
+            name: yuankui
+            content: "hello kitty"
+        children:
+          - type: text
+            props:
+              value: 争议部分
+    - type: link
+      props:
+        href: http://yuankui.me
+        children:
+          - type: text
+            props:
+              value: click me!
+    - type: mention
+      props:
+        id: yuankui
+        name: 袁奎

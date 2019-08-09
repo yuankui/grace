@@ -1,22 +1,21 @@
-import {EmptyModel, WidgetProp, Widget} from "./core";
-import {WidgetFactory} from "./factory";
-import {ReactNode} from "react";
+import {Widget, WidgetConfig, WidgetProp} from "./core";
 import * as React from "react";
+import {ReactNode} from "react";
 
-interface Props {
+interface Props extends WidgetProp {
     href: string,
+    children: Array<WidgetConfig>
 }
 
-export class LinkWidget implements Widget<Props>{
-    private model: WidgetProp<Props> = EmptyModel;
-    private children: Widget<any>[] = [];
-    init(model: WidgetProp<Props>, factory: WidgetFactory): void {
-        this.model = model;
-        this.children = model.children.map(m => factory(m.type, m));
+export class LinkWidget extends Widget<Props, any>{
+    private readonly children: React.ReactElement<any, string | React.JSXElementConstructor<any>>[];
+
+    constructor(props: Props, context: any) {
+        super(props, context);
+        this.children = props.children.map((c) => props.factory(c));
     }
 
     render(): ReactNode {
-        let children = this.children.map(w => w.render());
-        return <a href={this.model.prop.href}>{children}</a>
+        return <a href={this.props.href}>{this.children}</a>
     }
 }

@@ -1,26 +1,31 @@
-import {EmptyModel, WidgetProp, Widget} from "./core";
-import {WidgetFactory} from "./factory";
-import {ReactNode} from "react";
+import {Widget, WidgetConfig, WidgetProp} from "./core";
 import * as React from "react";
+import {ReactNode} from "react";
 
-interface Props {
-    id: string,
+interface Comment {
+    time: string,
     name: string,
+    content: string,
 }
 
-export class CommentWidget implements Widget<Props>{
-    private model: WidgetProp<Props> = EmptyModel;
-    private children: Widget<any>[] = [];
-    init(model: WidgetProp<Props>, factory: WidgetFactory): void {
-        this.model = model;
-        this.children = model.children.map(m => factory(m.type, m));
+interface Props extends WidgetProp{
+    children: Array<WidgetConfig>,
+    comments: Array<Comment>,
+    expand: boolean,
+}
+
+export class CommentWidget extends Widget<Props, any>{
+    private readonly children: React.ReactElement<any, string | React.JSXElementConstructor<any>>[];
+
+    constructor(props: Props, context: any) {
+        super(props, context);
+        this.children = props.children.map(c => props.factory(c));
     }
 
     render(): ReactNode {
-        let children = this.children.map(w => w.render());
         return <span style={{
             fontStyle: 'italic',
             cursor: 'crosshair'
-        }}>{children}</span>
+        }}>{this.children}</span>
     }
 }

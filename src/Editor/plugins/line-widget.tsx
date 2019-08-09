@@ -1,24 +1,22 @@
-import {EmptyModel, WidgetProp, Widget} from "./core";
-import {ReactNode} from "react";
+import {Widget, WidgetConfig, WidgetProp} from "./core";
 import * as React from "react";
-import {WidgetFactory} from "./factory";
+import {ReactNode} from "react";
 
-interface Props {
+interface Props extends WidgetProp {
+    children: Array<WidgetConfig>,
 }
 
-export class LineWidget implements Widget<Props> {
-    private model: WidgetProp<any> = EmptyModel;
-    private children: Array<Widget<any>> = [];
+export class LineWidget extends Widget<Props, any> {
+    private readonly children: React.ReactElement<any, string | React.JSXElementConstructor<any>>[];
 
-    init(model: WidgetProp<any>, factory: WidgetFactory): void {
-        this.model = model;
-        this.children = this.model.children.map(m => factory(m.type, m));
+    constructor(props: Props, context: any) {
+        super(props, context);
+        this.children = props.children.map(c => props.factory(c));
     }
 
     render(): ReactNode {
-        let children = this.children.map((w, i) => <span key={i}>{w.render()}</span>);
         return <div>
-            {children}
+            {this.children}
         </div>
     }
 }

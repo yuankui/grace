@@ -1,12 +1,15 @@
 import {Component} from "react";
 import {WidgetFactory} from "./factory";
-
+export interface WidgetConfig {
+    type: string,
+    props: object,
+}
 export interface WidgetProp {
     factory: WidgetFactory,
-    type: string,
+    [other:string]: any,
 }
 
-export abstract class Widget<P extends WidgetProp, S> extends Component<P, S> {
+export class Widget<P extends WidgetProp, S> extends Component<P, S> {
 
 }
 

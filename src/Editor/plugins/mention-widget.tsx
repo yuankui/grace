@@ -1,24 +1,19 @@
-import {EmptyModel, WidgetProp, Widget} from "./core";
-import {WidgetFactory} from "./factory";
-import {ReactNode} from "react";
+import {Widget, WidgetProp} from "./core";
 import * as React from "react";
+import {ReactNode} from "react";
 
-interface Props {
+interface Props extends WidgetProp {
     id: string,
     name: string,
 }
 
-export class MentionWidget implements Widget<Props>{
-    private model: WidgetProp<Props> = EmptyModel;
-    init(model: WidgetProp<Props>, factory: WidgetFactory): void {
-        this.model = model;
-    }
+export class MentionWidget extends Widget<Props, any> {
 
     render(): ReactNode {
         return <span style={{
             padding: 2,
             background: 'purple',
             borderRadius: 5,
-        }}>{this.model.prop.name}({this.model.prop.id})</span>
+        }}>{this.props.name}({this.props.id})</span>
     }
 }

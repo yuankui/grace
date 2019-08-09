@@ -1,21 +1,21 @@
-// @ts-ignore
+import * as React from 'react';
 import {Component} from 'react';
-import {WidgetProp, Widget} from "./plugins/core";
+import {WidgetConfig} from "./plugins/core";
 import {createWidget} from "./plugins/factory";
 
 interface Props {
-    model: WidgetProp<any>,
+    model: WidgetConfig,
 }
 
 export class MyEditor extends Component<Props, any> {
-    private widget: Widget<any>;
+    private readonly widget: React.ReactElement;
 
     constructor(props: Readonly<Props>) {
         super(props);
-        this.widget = createWidget(props.model.type, props.model);
+        this.widget = createWidget(props.model);
     }
 
     render() {
-        return this.widget.render();
+        return this.widget;
     }
 }
