@@ -1,21 +1,42 @@
 import * as React from 'react';
-import {Component} from 'react';
-import {WidgetConfig} from "./plugins/core";
-import {createWidget} from "./plugins/factory";
+import {Component, ReactNode} from 'react';
+import {WidgetValue} from "./plugins/core";
+import {getWidget} from "./plugins/factory";
 
 interface Props {
-    model: WidgetConfig,
+    value: WidgetValue<any>,
 }
 
-export class MyEditor extends Component<Props, any> {
-    private readonly widget: React.ReactElement;
+interface State {
+    value: WidgetValue<any>,
+}
+export class MyEditor extends Component<Props, State> {
+
 
     constructor(props: Readonly<Props>) {
         super(props);
-        this.widget = createWidget(props.model);
+        this.state = {
+            value: {
+                type: 'text',
+                params: {
+                    value: 'hello this is header'
+                }
+            },
+        }
     }
 
-    render() {
-        return this.widget;
+    render(): ReactNode {
+        const Child = getWidget("text");
+
+        return <Child factory={getWidget}
+                      value={this.state.value}
+                      onChange={(v) => this.onChange(v)}
+        />
+    }
+
+    private onChange(v: any) {
+        this.setState({
+            value: v,
+        })
     }
 }

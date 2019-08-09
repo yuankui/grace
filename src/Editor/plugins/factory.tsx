@@ -1,22 +1,16 @@
 import {LineWidget} from "./line-widget";
 import * as React from "react";
-import {ReactElement, ReactNode} from "react";
-import {Widget, WidgetConfig} from "./core";
+import {ComponentClass, ReactNode} from "react";
+import {Widget, WidgetProps} from "./core";
 import {TextWidget} from "./text-widget";
-import {LinkWidget} from "./link-widget";
-import {MentionWidget} from "./mention-widget";
-import {CommentWidget} from "./comment-widget";
 
 interface FactoryMap {
-    [pluginName: string]: any;
+    [pluginName: string]: ComponentClass<WidgetProps<any>>;
 }
 
 let factory: FactoryMap = {
     line: LineWidget,
     text: TextWidget,
-    link: LinkWidget,
-    mention: MentionWidget,
-    comment: CommentWidget,
 };
 
 interface InvalidWidgetProp {
@@ -26,19 +20,19 @@ interface InvalidWidgetProp {
 
 class InvalidWidget extends Widget<InvalidWidgetProp, any> {
     render(): ReactNode {
-        return <span className='invalid-node'>invalid node{this.props.props.type}</span>;
+        return <span className='invalid-node'>invalid node{this.props.value.type}</span>;
     }
 }
 
 export interface WidgetFactory {
-    (config: WidgetConfig, key?: number): ReactElement;
+    (type: string): ComponentClass<WidgetProps<any>>;
 }
 
-export function createWidget(config: WidgetConfig, key?: number): ReactElement {
-    let WidgetName = factory[config.type];
+export function getWidget(type: string): ComponentClass<WidgetProps<any>> {
+    let WidgetName = factory[type];
     if (WidgetName == null) {
-        return <InvalidWidget factory={createWidget} props={config} key={key}/>
+        return InvalidWidget;
     }
 
-    return <WidgetName props={config.props} factory={createWidget} key={key}/>;
+    return WidgetName;
 }

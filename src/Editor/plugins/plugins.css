@@ -8,9 +8,15 @@
     border-radius: 5px;
 }
 
-
-/*comment0plugin*/
-
+/*mention*/
 .mention-plugin {
     color: grey;
+}
+
+
+/*comment*/
+
+.comment-plugin {
+    font-style: italic;
+    cursor: crosshair;
 }

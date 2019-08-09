@@ -1,20 +1,26 @@
 import {Component} from "react";
 import {WidgetFactory} from "./factory";
-export interface WidgetConfig {
-    type: string,
-    props: object,
+
+export interface WidgetProps<P> {
+    onChange?: ChangeCallback<WidgetValue<P>>,
+    key?: number
+    value: WidgetValue<P>,
+    factory: WidgetFactory,
 }
 
-interface ChangeCallback<V> {
+/**
+ * P: params
+ */
+export interface WidgetValue<P> {
+    type: string,
+    params: P,
+}
+
+export interface ChangeCallback<V> {
     (v: V): void,
 }
-export interface WidgetProp<V> {
-    factory: WidgetFactory,
-    props: V
-    onChange?: ChangeCallback<V>,
-}
 
-export class Widget<V, S> extends Component<WidgetProp<V>, S> {
+export class Widget<P, S> extends Component<WidgetProps<P>, S> {
 
 }
 

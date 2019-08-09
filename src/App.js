@@ -1,7 +1,7 @@
 import React from 'react';
 import {MyEditor} from "./Editor/Editor";
-import config from './Editor/model.yaml';
+import config from './Editor/models/test.yaml';
 
 export default () => {
-    return <MyEditor model={config}/>;
+    return <MyEditor value={config}/>;
 }

@@ -1,23 +1,26 @@
-import {Widget, WidgetConfig, WidgetProp} from "./core";
+import {Widget, WidgetValue} from "./core";
 import * as React from "react";
 import {ReactNode} from "react";
 
 interface Props {
-    children: Array<WidgetConfig>,
+    children: Array<WidgetValue<any>>,
 }
 
 export class LineWidget extends Widget<Props, any> {
-    private readonly children: React.ReactElement<any, string | React.JSXElementConstructor<any>>[];
+    render(): ReactNode {
+        const children = this.props.value.params.children.map((c, i) => {
+            const Child = this.props.factory(c.type);
+            return <Child factory={this.props.factory}
+                          value={c}
+                          onChange={(v) => this.onChildChange(v, i)}/>
+        });
 
-
-    constructor(props: WidgetProp<Props>, context: any) {
-        super(props, context);
-        this.children = props.props.children.map((c, i) => props.factory(c, i));
+        return <div>
+            {children}
+        </div>
     }
 
-    render(): ReactNode {
-        return <div>
-            {this.children}
-        </div>
+    private onChildChange(v: any, i: number) {
+
     }
 }
