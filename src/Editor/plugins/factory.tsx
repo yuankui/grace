@@ -6,7 +6,6 @@ import {LinkWidget} from "./link-widget";
 import {MentionWidget} from "./mention-widget";
 import {CommentWidget} from "./comment-widget";
 import {ReactElement, ReactNode} from "react";
-import './factory.less';
 interface FactoryMap {
     [pluginName: string]: any;
 }
@@ -31,14 +30,14 @@ class InvalidWidget extends Widget<InvalidWidgetProp, any> {
 }
 
 export interface WidgetFactory {
-    (config: WidgetConfig): ReactElement;
+    (config: WidgetConfig, key?: number): ReactElement;
 }
 
-export function createWidget(config: WidgetConfig): ReactElement {
+export function createWidget(config: WidgetConfig, key?: number): ReactElement {
     let WidgetName = factory[config.type];
     if (WidgetName == null) {
-        return <InvalidWidget type={config.type} factory={createWidget} props={config.props} />
+        return <InvalidWidget type={config.type} factory={createWidget} props={config.props} key={key}/>
     }
 
-    return <WidgetName {...config.props} factory={createWidget}/>;
+    return <WidgetName {...config.props} factory={createWidget} key={key}/>;
 }

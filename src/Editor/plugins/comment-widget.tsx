@@ -8,18 +8,18 @@ interface Comment {
     content: string,
 }
 
-interface Props extends WidgetProp{
+interface Props extends WidgetProp {
     children: Array<WidgetConfig>,
     comments: Array<Comment>,
     expand: boolean,
 }
 
-export class CommentWidget extends Widget<Props, any>{
+export class CommentWidget extends Widget<Props, any> {
     private readonly children: React.ReactElement<any, string | React.JSXElementConstructor<any>>[];
 
     constructor(props: Props, context: any) {
         super(props, context);
-        this.children = props.children.map(c => props.factory(c));
+        this.children = props.children.map((c, i) => props.factory(c, i));
     }
 
     render(): ReactNode {

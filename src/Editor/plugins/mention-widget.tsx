@@ -10,10 +10,6 @@ interface Props extends WidgetProp {
 export class MentionWidget extends Widget<Props, any> {
 
     render(): ReactNode {
-        return <span style={{
-            padding: 2,
-            background: 'purple',
-            borderRadius: 5,
-        }}>{this.props.name}({this.props.id})</span>
+        return <span className='mention-plugin'>@{this.props.name}({this.props.id})</span>
     }
 }

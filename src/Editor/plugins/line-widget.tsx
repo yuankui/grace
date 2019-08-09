@@ -11,7 +11,7 @@ export class LineWidget extends Widget<Props, any> {
 
     constructor(props: Props, context: any) {
         super(props, context);
-        this.children = props.children.map(c => props.factory(c));
+        this.children = props.children.map((c,i) => props.factory(c, i));
     }
 
     render(): ReactNode {

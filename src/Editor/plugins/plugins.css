@@ -1,0 +1,16 @@
+/*invalid node*/
+.invalid-node {
+    text-decoration: chocolate line-through;
+    cursor: not-allowed;
+    background: purple;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+
+/*comment0plugin*/
+
+.mention-plugin {
+    color: grey;
+}
