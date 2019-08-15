@@ -1,47 +1,38 @@
-import * as React from 'react';
-import {Component, ReactNode} from 'react';
-import {Selection, WidgetValue} from "./plugins/core";
-import {getWidget} from "./plugins/factory";
+import React, {Component} from 'react';
+import {EditorState} from 'draft-js';
+// @ts-ignore
+import Editor from 'draft-js-plugins-editor/lib/index';
 
+interface StateChange{
+    (value: EditorState): void,
+}
 interface Props {
-    value: WidgetValue<any>,
+    editorState: EditorState,
+    onChange: StateChange,
 }
 
 interface State {
-    value: WidgetValue<any>,
 }
+
+
 export class MyEditor extends Component<Props, State> {
+    state = {
+        editorState: EditorState.createEmpty(),
+    };
 
+    onChange = (editorState: EditorState) => {
+        this.props.onChange(editorState);
+    };
 
-    constructor(props: Readonly<Props>) {
-        super(props);
-        this.state = {
-            value: {
-                type: 'text',
-                params: {
-                    value: 'hello this is header'
-                },
-                selection: {
-                    widget: undefined,
-                    range: null,
-                }
-            },
+    render() {
+        const plugins: any = [];
 
-        }
-    }
-
-    render(): ReactNode {
-        const Child = getWidget("text");
-
-        return <Child factory={getWidget}
-                      value={this.state.value}
-                      onChange={(v) => this.onChange(v)}
-        />
-    }
-
-    private onChange(v: any) {
-        this.setState({
-            value: v,
-        })
+        return (
+                <Editor
+                    editorState={this.props.editorState}
+                    onChange={this.onChange}
+                    plugins={plugins}
+                />
+        );
     }
 }

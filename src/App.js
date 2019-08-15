@@ -1,7 +1,19 @@
 import React from 'react';
 import {MyEditor} from "./Editor/Editor";
-import config from './Editor/models/test.yaml';
+import {EditorState} from "draft-js";
 
-export default () => {
-    return <MyEditor value={config}/>;
+export class App extends React.Component {
+    state = {
+        editorState: EditorState.createEmpty(),
+    };
+
+    onChange = (v) => {
+        this.setState({
+            editorState: v,
+        });
+    };
+
+    render() {
+        return <MyEditor editorState={this.state.editorState} onChange={this.onChange}/>;
+    }
 }
