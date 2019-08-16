@@ -7,19 +7,28 @@ import {
 } from "draft-js";
 import * as React from "react";
 
-
+const map: any = {
+    'command-h1': 'header-one',
+    'command-h2': 'header-two',
+    'command-h3': 'header-three',
+    'command-h4': 'header-four',
+    'command-h5': 'header-five',
+    'command-h6': 'header-six',
+};
 export function createAcckeysPlugin(onChange: StateChange) {
     return {
         keyBindingFn: function (e: React.KeyboardEvent): string | null {
-            if (e.metaKey && e.key === '1') {
-                return 'header-one';
+            // h1 ----> h6
+            if (e.metaKey && 48+1 <= e.keyCode && e.keyCode <= 48 + 6) {
+                return 'command-h' + e.key;
             }
             return getDefaultKeyBinding(e)
         },
 
         handleKeyCommand(command: string, editorState: EditorState, eventTimeStamp: number): DraftHandleValue {
-            if (command === 'header-one') {
-                let state = RichUtils.toggleBlockType(editorState, command);
+            if (command.startsWith('command-h')) {
+                const cmd = map[command];
+                let state = RichUtils.toggleBlockType(editorState, cmd);
                 onChange(state);
                 return 'handled';
             }
