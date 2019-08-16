@@ -3,7 +3,7 @@ import {EditorState, Modifier, RichUtils} from 'draft-js';
 // @ts-ignore
 import Editor from 'draft-js-plugins-editor/lib/index';
 import {Button} from "antd";
-import {createAcckeysPlugin} from "./plugins/acckeys-plugin";
+import {createAcckeysPlugin} from "./plugins/toggle-header-plugin";
 
 export interface StateChange{
     (value: EditorState): void,
