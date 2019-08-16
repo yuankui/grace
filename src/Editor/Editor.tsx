@@ -37,7 +37,7 @@ export class MyEditor extends Component<Props, State> {
         const props = mergePlugins(plugins);
 
         return (
-                <div>
+                <div className='editor'>
                     <div>
                         <Button onClick={e=>this.onClick('header-one')}>H1</Button>
                         <Button onClick={e=>this.onClick('unordered-list-item')}>-</Button>
