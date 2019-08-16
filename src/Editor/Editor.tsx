@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
-import {EditorState, Modifier, RichUtils} from 'draft-js';
-// @ts-ignore
-import Editor from 'draft-js-plugins-editor/lib/index';
+import {EditorState, RichUtils, Editor} from 'draft-js';
 import {Button} from "antd";
-import {createAcckeysPlugin} from "./plugins/toggle-header-plugin";
+import {createToggleHeaderPlugin} from "./plugins/toggle-header-plugin";
+import {createToggleListPlugin} from "./plugins/toggle-list-plugin";
 
 export interface StateChange{
     (value: EditorState): void,
@@ -30,8 +29,11 @@ export class MyEditor extends Component<Props, State> {
 
     render() {
         const plugins: any = [
-            createAcckeysPlugin(this.props.onChange),
+            createToggleHeaderPlugin(this.props.onChange),
+            createToggleListPlugin(this.props.editorState, this.props.onChange),
         ];
+
+        const props = createToggleListPlugin(this.props.editorState, this.props.onChange);
 
         return (
                 <div>
@@ -42,9 +44,8 @@ export class MyEditor extends Component<Props, State> {
                     <Editor
                         editorState={this.props.editorState}
                         onChange={this.onChange}
-                        plugins={plugins}>
-
-                    </Editor>
+                        {...props}
+                    />
                 </div>
         );
     }

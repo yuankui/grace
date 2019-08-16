@@ -15,14 +15,14 @@ const map: any = {
     'command-h5': 'header-five',
     'command-h6': 'header-six',
 };
-export function createAcckeysPlugin(onChange: StateChange) {
+export function createToggleHeaderPlugin(onChange: StateChange) {
     return {
         keyBindingFn: function (e: React.KeyboardEvent): string | null {
             // h1 ----> h6
             if (e.metaKey && 48+1 <= e.keyCode && e.keyCode <= 48 + 6) {
                 return 'command-h' + e.key;
             }
-            return getDefaultKeyBinding(e)
+            return getDefaultKeyBinding(e);
         },
 
         handleKeyCommand(command: string, editorState: EditorState, eventTimeStamp: number): DraftHandleValue {
