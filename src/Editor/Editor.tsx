@@ -3,8 +3,9 @@ import {EditorState, Modifier, RichUtils} from 'draft-js';
 // @ts-ignore
 import Editor from 'draft-js-plugins-editor/lib/index';
 import {Button} from "antd";
+import {createAcckeysPlugin} from "./plugins/acckeys-plugin";
 
-interface StateChange{
+export interface StateChange{
     (value: EditorState): void,
 }
 interface Props {
@@ -28,7 +29,9 @@ export class MyEditor extends Component<Props, State> {
     };
 
     render() {
-        const plugins: any = [];
+        const plugins: any = [
+            createAcckeysPlugin(this.props.onChange),
+        ];
 
         return (
                 <div>
