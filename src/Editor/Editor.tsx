@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import {EditorState} from 'draft-js';
+import {EditorState, Modifier, RichUtils} from 'draft-js';
 // @ts-ignore
 import Editor from 'draft-js-plugins-editor/lib/index';
+import {Button} from "antd";
 
 interface StateChange{
     (value: EditorState): void,
@@ -16,11 +17,13 @@ interface State {
 
 
 export class MyEditor extends Component<Props, State> {
-    state = {
-        editorState: EditorState.createEmpty(),
-    };
 
     onChange = (editorState: EditorState) => {
+        this.props.onChange(editorState);
+    };
+
+    onClick = (type: string) => {
+        const editorState = RichUtils.toggleBlockType(this.props.editorState, type);
         this.props.onChange(editorState);
     };
 
@@ -28,11 +31,18 @@ export class MyEditor extends Component<Props, State> {
         const plugins: any = [];
 
         return (
-                <Editor
-                    editorState={this.props.editorState}
-                    onChange={this.onChange}
-                    plugins={plugins}
-                />
+                <div>
+                    <div>
+                        <Button onClick={e=>this.onClick('header-one')}>H1</Button>
+                        <Button onClick={e=>this.onClick('unordered-list-item')}>-</Button>
+                    </div>
+                    <Editor
+                        editorState={this.props.editorState}
+                        onChange={this.onChange}
+                        plugins={plugins}>
+
+                    </Editor>
+                </div>
         );
     }
 }

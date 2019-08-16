@@ -14,6 +14,8 @@ export class App extends React.Component {
     };
 
     render() {
-        return <MyEditor editorState={this.state.editorState} onChange={this.onChange}/>;
+        return <div>
+            <MyEditor editorState={this.state.editorState} onChange={this.onChange}/>
+        </div>;
     }
 }
