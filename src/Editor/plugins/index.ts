@@ -1,8 +1,10 @@
-import {EditorState, DraftHandleValue, getDefaultKeyBinding} from "draft-js";
+import {EditorState, DraftHandleValue, getDefaultKeyBinding, DraftEditorCommand} from "draft-js";
 import * as React from "react";
 
+export type Command = DraftEditorCommand | string;
+
 export interface Plugin {
-    handleKeyCommand?(command: string, editorState: EditorState, eventTimeStamp: number): DraftHandleValue,
+    handleKeyCommand?(command: Command, editorState: EditorState, eventTimeStamp: number): DraftHandleValue,
 
     handleBeforeInput?(chars: string, editorState: EditorState, eventTimeStamp: number): DraftHandleValue,
 

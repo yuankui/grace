@@ -7,6 +7,7 @@ import {
     Modifier,
 } from "draft-js";
 import * as React from "react";
+import {Command} from "../index";
 
 const prefixMap: any = {
     '-': 'unordered-list-item',
@@ -59,7 +60,7 @@ export function createToggleListPlugin(value: EditorState, onChange: StateChange
             return "handled";
         },
 
-        handleKeyCommand(command: string, editorState: EditorState, eventTimeStamp: number): DraftHandleValue {
+        handleKeyCommand(command: Command, editorState: EditorState, eventTimeStamp: number): DraftHandleValue {
             if (command === "unordered-list1") {
                 let state = RichUtils.toggleBlockType(editorState, '');
                 onChange(state);
