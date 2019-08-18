@@ -3,7 +3,7 @@ import {EditorState, RichUtils, Editor} from 'draft-js';
 import {Button} from "antd";
 import {createToggleHeaderPlugin} from "./plugins/toggle-header-plugin";
 import {createToggleListPlugin} from "./plugins/toggle-list-plugin";
-import {mergePlugins} from "./plugins";
+import {EditorPlugin, mergePlugins} from "./plugins";
 
 export interface StateChange{
     (value: EditorState): void,
@@ -29,7 +29,7 @@ export class MyEditor extends Component<Props, State> {
     };
 
     render() {
-        const plugins: any = [
+        const plugins: Array<EditorPlugin> = [
             createToggleHeaderPlugin(this.props.onChange),
             createToggleListPlugin(this.props.editorState, this.props.onChange),
         ];

@@ -3,7 +3,7 @@ import * as React from "react";
 
 export type Command = DraftEditorCommand | string;
 
-export interface Plugin {
+export interface EditorPlugin {
     handleKeyCommand?(command: Command, editorState: EditorState, eventTimeStamp: number): DraftHandleValue,
 
     handleBeforeInput?(chars: string, editorState: EditorState, eventTimeStamp: number): DraftHandleValue,
@@ -11,7 +11,7 @@ export interface Plugin {
     keyBindingFn?(e: React.KeyboardEvent): string | null,
 }
 
-export function mergePlugins(plugins: Array<Plugin>): Plugin {
+export function mergePlugins(plugins: Array<EditorPlugin>): EditorPlugin {
     return {
         handleKeyCommand(command: string, editorState: EditorState, eventTimeStamp: number): DraftHandleValue {
             const handled = plugins.some(plugin => {

@@ -6,6 +6,7 @@ import {
     RichUtils
 } from "draft-js";
 import * as React from "react";
+import {EditorPlugin} from "../index";
 
 const map: any = {
     'command-h1': 'header-one',
@@ -15,7 +16,8 @@ const map: any = {
     'command-h5': 'header-five',
     'command-h6': 'header-six',
 };
-export function createToggleHeaderPlugin(onChange: StateChange) {
+
+export function createToggleHeaderPlugin(onChange: StateChange): EditorPlugin {
     return {
         keyBindingFn: function (e: React.KeyboardEvent): string | null {
             // h1 ----> h6

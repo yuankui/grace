@@ -1,13 +1,7 @@
 import {StateChange} from "../../Editor";
-import {
-    EditorState,
-    getDefaultKeyBinding,
-    DraftHandleValue,
-    RichUtils,
-    Modifier,
-} from "draft-js";
+import {DraftHandleValue, EditorState, Modifier, RichUtils,} from "draft-js";
 import * as React from "react";
-import {Command} from "../index";
+import {Command, EditorPlugin} from "../index";
 
 const prefixMap: any = {
     '-': 'unordered-list-item',
@@ -21,7 +15,7 @@ const prefixMap: any = {
     '######': 'header-six',
 };
 
-export function createToggleListPlugin(value: EditorState, onChange: StateChange) {
+export function createToggleListPlugin(value: EditorState, onChange: StateChange): EditorPlugin {
     return {
         handleBeforeInput(chars: string, editorState: EditorState, eventTimeStamp: number): DraftHandleValue {
             if (chars !== ' ') {
@@ -64,6 +58,7 @@ export function createToggleListPlugin(value: EditorState, onChange: StateChange
         },
 
         handleKeyCommand(command: Command, editorState: EditorState, eventTimeStamp: number): DraftHandleValue {
+            console.log('command', command);
             if (command === "unordered-list1") {
                 let state = RichUtils.toggleBlockType(editorState, '');
                 onChange(state);
