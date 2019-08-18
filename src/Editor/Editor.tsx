@@ -5,6 +5,7 @@ import {createToggleHeaderPlugin} from "./plugins/toggle-header-plugin";
 import {createToggleListPlugin} from "./plugins/toggle-list-plugin";
 import {EditorPlugin, mergePlugins} from "./plugins";
 import {createResetBlockAfterEnter} from "./plugins/reset-block-after-enter";
+import {createInlineHotkey} from "./plugins/inline-hot-key-plugin";
 
 export interface StateChange{
     (value: EditorState): void,
@@ -34,6 +35,7 @@ export class MyEditor extends Component<Props, State> {
             createToggleHeaderPlugin(this.props.onChange),
             createToggleListPlugin(this.props.editorState, this.props.onChange),
             createResetBlockAfterEnter(this.props.onChange),
+            createInlineHotkey(this.props.editorState, this.props.onChange),
         ];
 
         const props = mergePlugins(plugins);
