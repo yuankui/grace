@@ -18,6 +18,10 @@ const prefixMap: any = {
 export function createToggleListPlugin(value: EditorState, onChange: StateChange): EditorPlugin {
     return {
         handleBeforeInput(chars: string, editorState: EditorState, eventTimeStamp: number): DraftHandleValue {
+            // 仅仅针对unstyled起作用
+            if (isUnstyled(editorState)) {
+                return 'not-handled';
+            }
             if (chars !== ' ') {
                 return 'not-handled';
             }
@@ -67,4 +71,11 @@ export function createToggleListPlugin(value: EditorState, onChange: StateChange
             return 'not-handled';
         }
     };
+}
+
+function isUnstyled(editorState: EditorState) {
+    const blockKey = editorState.getSelection().getFocusKey();
+    const block = editorState.getCurrentContent().getBlockForKey(blockKey);
+    return block.getType() !== 'unstyled';
+
 }
