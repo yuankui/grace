@@ -20,6 +20,13 @@ interface State {
 
 
 export class MyEditor extends Component<Props, State> {
+    private ref: React.RefObject<Editor>;
+
+
+    constructor(props: Readonly<Props>) {
+        super(props);
+        this.ref = React.createRef();
+    }
 
     onChange = (editorState: EditorState) => {
         this.props.onChange(editorState);
@@ -29,6 +36,12 @@ export class MyEditor extends Component<Props, State> {
         const editorState = RichUtils.toggleBlockType(this.props.editorState, type);
         this.props.onChange(editorState);
     };
+
+    componentDidMount(): void {
+        if (this.ref.current != null) {
+            this.ref.current.focus();
+        }
+    }
 
     render() {
         const plugins: Array<EditorPlugin> = [
@@ -48,6 +61,7 @@ export class MyEditor extends Component<Props, State> {
                     </div>
                     <Editor
                         editorState={this.props.editorState}
+                        ref={this.ref}
                         onChange={this.onChange}
                         {...props}
                     />
