@@ -15,17 +15,25 @@ export function createCodePlugin(state: EditorState,onChange: StateChange): Edit
     return {
         keyBindingFn(e: React.KeyboardEvent): string | null {
             if (KeyBindingUtil.hasCommandModifier(e) && e.key === 'e') {
-                // 'e' == 93
-                return 'code';
+                if (e.shiftKey) {
+                    return 'block-code';
+                }
+                return 'inline-code';
             }
             return null;
         },
 
         handleKeyCommand(command: Command, editorState: EditorState, eventTimeStamp: number): DraftHandleValue {
-            if (command === 'code') {
+            if (command === 'inline-code') {
                 let newState = RichUtils.toggleInlineStyle(editorState, 'code');
                 onChange(newState);
                 return "handled";
+            }
+
+            if (command === 'block-code') {
+                let newState = RichUtils.toggleBlockType(editorState, 'code-block');
+                onChange(newState);
+                return 'handled';
             }
 
             return 'not-handled';

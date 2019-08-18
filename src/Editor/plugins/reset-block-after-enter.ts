@@ -9,8 +9,8 @@ export function createResetBlockAfterEnter(onChange: StateChange): EditorPlugin 
             if (command !== 'split-block')
                 return 'not-handled';
 
-            // 对于list不生效
-            if (isList(editorState)) {
+            // 仅仅对header生效
+            if (!isHeader(editorState)) {
                 return 'not-handled';
             }
 
@@ -42,9 +42,9 @@ function isEnd(editorState: EditorState) {
     }
     return false;
 }
-function isList(editorState: EditorState) {
+function isHeader(editorState: EditorState) {
     let blockType = RichUtils.getCurrentBlockType(editorState);
-    return blockType === 'unordered-list-item' || blockType === 'ordered-list-item';
+    return blockType.startsWith('header-');
 }
 
 /**
