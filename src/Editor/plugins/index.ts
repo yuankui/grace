@@ -1,11 +1,10 @@
-import Draft, {
-    EditorState,
-    DraftHandleValue,
-    getDefaultKeyBinding,
-    DraftEditorCommand,
+import {
     ContentBlock,
+    DraftEditorCommand,
+    DraftHandleValue,
     DraftStyleMap,
-    DraftInlineStyle,
+    EditorState,
+    getDefaultKeyBinding,
 } from "draft-js";
 import * as React from "react";
 
@@ -19,6 +18,8 @@ export interface EditorPlugin {
     keyBindingFn?(e: React.KeyboardEvent): string | null,
 
     customStyleMap?: DraftStyleMap,
+
+    blockStyleFn?(block: ContentBlock): string,
 }
 
 function mergeMap(maps: Array<DraftStyleMap | undefined>): DraftStyleMap {
@@ -72,7 +73,20 @@ export function mergePlugins(plugins: Array<EditorPlugin>): EditorPlugin {
             }
             return getDefaultKeyBinding(e);
         },
-        customStyleMap: mergeMap(plugins.map(p => p.customStyleMap).filter(p => p !== null))
+
+        customStyleMap: mergeMap(plugins.map(p => p.customStyleMap).filter(p => p !== null)),
+
+        blockStyleFn(block: ContentBlock): string {
+            for (let plugin of plugins) {
+                if (plugin.blockStyleFn != null) {
+                    const className = plugin.blockStyleFn(block);
+                    if (className != null) {
+                        return className;
+                    }
+                }
+            }
+            return "";
+        }
     }
 }
 

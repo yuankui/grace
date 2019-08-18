@@ -1,17 +1,9 @@
-import {
-    ContentBlock,
-    DraftHandleValue,
-    DraftInlineStyle,
-    DraftStyleMap,
-    EditorState,
-    KeyBindingUtil,
-    RichUtils
-} from "draft-js";
+import {ContentBlock, DraftHandleValue, EditorState, KeyBindingUtil, RichUtils} from "draft-js";
 import {StateChange} from "../../Editor";
 import {Command, EditorPlugin} from "../index";
 import * as React from "react";
 
-export function createCodePlugin(state: EditorState,onChange: StateChange): EditorPlugin {
+export function createCodePlugin(state: EditorState, onChange: StateChange): EditorPlugin {
     return {
         keyBindingFn(e: React.KeyboardEvent): string | null {
             if (KeyBindingUtil.hasCommandModifier(e) && e.key === 'e') {
@@ -41,10 +33,17 @@ export function createCodePlugin(state: EditorState,onChange: StateChange): Edit
         customStyleMap: {
             'code': {
                 background: '#ededeb',
-                padding: 2,
+                padding: '2px 4px',
                 borderRadius: 5,
-                color: '#ea5858'
+                color: '#ea5858',
+
+            },
+        },
+        blockStyleFn(block: ContentBlock): string {
+            if (block.getType() === 'code-block') {
+                return 'code-block';
             }
+            return "";
         }
     }
 }
