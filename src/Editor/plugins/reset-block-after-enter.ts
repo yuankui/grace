@@ -42,6 +42,7 @@ function isEnd(editorState: EditorState) {
     }
     return false;
 }
+
 function isHeader(editorState: EditorState) {
     let blockType = RichUtils.getCurrentBlockType(editorState);
     return blockType.startsWith('header-');
