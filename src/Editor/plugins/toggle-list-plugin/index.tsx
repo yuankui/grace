@@ -15,12 +15,15 @@ const prefixMap: any = {
     '1.': 'ordered-list-item',
     '#': 'header-one',
     '##': 'header-two',
+    '###': 'header-three',
+    '####': 'header-four',
+    '#####': 'header-five',
+    '######': 'header-six',
 };
 
 export function createToggleListPlugin(value: EditorState, onChange: StateChange) {
     return {
         handleBeforeInput(chars: string, editorState: EditorState, eventTimeStamp: number): DraftHandleValue {
-            console.log('bbbbbbbbb');
             if (chars !== ' ') {
                 return 'not-handled';
             }
