@@ -36,7 +36,6 @@ export function createCodePlugin(state: EditorState, onChange: StateChange): Edi
                 padding: '2px 4px',
                 borderRadius: 5,
                 color: '#ea5858',
-
             },
         },
         blockStyleFn(block: ContentBlock): string {
