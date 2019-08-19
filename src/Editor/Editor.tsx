@@ -7,10 +7,16 @@ import {EditorPlugin, mergePlugins} from "./plugins";
 import {createResetBlockAfterEnter} from "./plugins/reset-block-after-enter";
 import {createInlineHotkey} from "./plugins/inline-hot-key-plugin";
 import {createCodePlugin} from "./plugins/code-plugin";
+import {createTodoPlugin} from "./plugins/todo-plugin";
 
 export interface StateChange{
     (value: EditorState): void,
 }
+
+export interface GetState {
+    (): EditorState;
+}
+
 interface Props {
     editorState: EditorState,
     onChange: StateChange,
@@ -51,6 +57,7 @@ export class MyEditor extends Component<Props, State> {
             createResetBlockAfterEnter(this.props.onChange),
             createInlineHotkey(this.props.editorState, this.props.onChange),
             createCodePlugin(this.props.editorState, this.props.onChange),
+            createTodoPlugin(() => this.props.editorState, this.props.onChange),
         ];
 
         const props = mergePlugins(plugins);
@@ -58,8 +65,7 @@ export class MyEditor extends Component<Props, State> {
         return (
                 <div className='editor'>
                     <div>
-                        <Button onClick={e=>this.onClick('header-one')}>H1</Button>
-                        <Button onClick={e=>this.onClick('unordered-list-item')}>-</Button>
+                        <Button onClick={e=>this.toggleTodo()}>todo</Button>
                     </div>
                     <Editor
                         editorState={this.props.editorState}
@@ -69,5 +75,10 @@ export class MyEditor extends Component<Props, State> {
                     />
                 </div>
         );
+    }
+
+    toggleTodo() {
+        const state = RichUtils.toggleBlockType(this.props.editorState, 'todo');
+        this.props.onChange(state);
     }
 }

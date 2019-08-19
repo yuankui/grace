@@ -20,6 +20,11 @@ export interface EditorPlugin {
     customStyleMap?: DraftStyleMap,
 
     blockStyleFn?(block: ContentBlock): string,
+
+    // For a given `ContentBlock` object, return an object that specifies
+    // a custom block component and/or props. If no object is returned,
+    // the default `TextEditorBlock` is used.
+    blockRendererFn?(block: ContentBlock): any,
 }
 
 function mergeMap(maps: Array<DraftStyleMap | undefined>): DraftStyleMap {
@@ -33,6 +38,20 @@ function mergeMap(maps: Array<DraftStyleMap | undefined>): DraftStyleMap {
         }
     }
     return res;
+}
+
+function blockRendererFn(plugins: Array<EditorPlugin>) {
+    return (block: ContentBlock) => {
+        for (let plugin of plugins) {
+            if (plugin.blockRendererFn != null) {
+                let ret = plugin.blockRendererFn(block);
+                if (ret != null) {
+                    return ret;
+                }
+            }
+        }
+        return null;
+    }
 }
 
 export function mergePlugins(plugins: Array<EditorPlugin>): EditorPlugin {
@@ -86,7 +105,9 @@ export function mergePlugins(plugins: Array<EditorPlugin>): EditorPlugin {
                 }
             }
             return "";
-        }
+        },
+
+        blockRendererFn: blockRendererFn(plugins),
     }
 }
 
