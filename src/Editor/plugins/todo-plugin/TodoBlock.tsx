@@ -3,7 +3,7 @@ import {
     EditorBlock,
     ContentBlock,
     EditorState,
-    ContentState
+    ContentState,
 } from "draft-js";
 import {GetState, StateChange} from "../../Editor";
 
