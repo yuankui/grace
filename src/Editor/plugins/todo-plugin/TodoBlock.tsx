@@ -7,7 +7,6 @@ import {
 } from "draft-js";
 import {GetState, StateChange} from "../../Editor";
 
-
 export interface TodoProps {
     block: ContentBlock,
     blockProps: TodoBlockProps,
