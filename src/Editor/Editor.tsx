@@ -79,6 +79,9 @@ export class MyEditor extends Component<Props, State> {
 
     toggleTodo() {
         const state = RichUtils.toggleBlockType(this.props.editorState, 'todo');
+        if (this.ref.current != null) {
+            this.ref.current.focus();
+        }
         this.props.onChange(state);
     }
 }
