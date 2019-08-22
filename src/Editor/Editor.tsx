@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {EditorState, RichUtils, Editor} from 'draft-js';
+import {EditorState, RichUtils, Editor, convertToRaw} from 'draft-js';
 import {Button} from "antd";
 import {createToggleHeaderPlugin} from "./plugins/toggle-header-plugin";
 import {createToggleListPlugin} from "./plugins/toggle-list-plugin";
@@ -68,6 +68,7 @@ export class MyEditor extends Component<Props, State> {
                 <div className='editor'>
                     <div>
                         <Button onClick={e=>this.toggle()}>toggle</Button>
+                        <Button onClick={e=>this.logState()}>logState</Button>
                     </div>
                     <Editor
                         editorState={this.props.editorState}
@@ -79,6 +80,10 @@ export class MyEditor extends Component<Props, State> {
         );
     }
 
+    logState() {
+        const content = this.props.editorState.getCurrentContent();
+        console.log(JSON.stringify(convertToRaw(content)));
+    }
     toggle() {
         const state = RichUtils.toggleBlockType(this.props.editorState, 'image');
         if (this.ref.current != null) {

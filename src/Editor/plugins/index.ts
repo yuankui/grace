@@ -25,8 +25,23 @@ export interface EditorPlugin {
     // a custom block component and/or props. If no object is returned,
     // the default `TextEditorBlock` is used.
     blockRendererFn?(block: ContentBlock): any,
+
+    handlePastedFiles?(files: Array<Blob>): DraftHandleValue,
 }
 
+function handlePastedFiles(plugins: Array<EditorPlugin>) {
+    return (files: Array<Blob>) => {
+        for (let plugin of plugins) {
+            if (plugin.handlePastedFiles == null) {
+                continue;
+            }
+            if (plugin.handlePastedFiles(files) === 'handled') {
+                return 'handled'
+            }
+        }
+        return 'not-handled';
+    }
+}
 function mergeMap(maps: Array<DraftStyleMap | undefined>): DraftStyleMap {
     if (maps == null) {
         return {};
@@ -107,6 +122,7 @@ export function mergePlugins(plugins: Array<EditorPlugin>): EditorPlugin {
         },
 
         blockRendererFn: blockRendererFn(plugins),
+        handlePastedFiles: handlePastedFiles(plugins),
     }
 }
 

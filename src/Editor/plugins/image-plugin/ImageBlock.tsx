@@ -26,9 +26,9 @@ export class ImageBlock extends React.Component<ImageProps, any> {
     }
 
     render() {
-        const {block, blockProps} = this.props;
-        return (
-            <img alt="load image failed" src="https://www.baidu.com/img/bd_logo1.png?where=super"/>)
-            ;
+        const {block} = this.props;
+        const data = block.getData();
+        let url = data.get("url");
+        return (<img alt="load image failed" src={url}/>);
     }
 }
