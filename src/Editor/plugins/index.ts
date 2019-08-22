@@ -79,8 +79,7 @@ export function mergePlugins(plugins: Array<EditorPlugin>): EditorPlugin {
             });
             return handled ? "handled" : "not-handled";
         },
-        keyBindingFn(e: React.KeyboardEvent): string | null {
-            for (let plugin of plugins) {
+        keyBindingFn(e: React.KeyboardEvent): string | null {for (let plugin of plugins) {
                 if (plugin.keyBindingFn === undefined) {
                     continue;
                 }

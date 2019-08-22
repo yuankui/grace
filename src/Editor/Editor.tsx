@@ -8,6 +8,7 @@ import {createResetBlockAfterEnter} from "./plugins/reset-block-after-enter";
 import {createInlineHotkey} from "./plugins/inline-hot-key-plugin";
 import {createCodePlugin} from "./plugins/code-plugin";
 import {createTodoPlugin} from "./plugins/todo-plugin";
+import {createImagePlugin} from "./plugins/image-plugin";
 
 export interface StateChange{
     (value: EditorState): void,
@@ -58,6 +59,7 @@ export class MyEditor extends Component<Props, State> {
             createInlineHotkey(this.props.editorState, this.props.onChange),
             createCodePlugin(this.props.editorState, this.props.onChange),
             createTodoPlugin(() => this.props.editorState, this.props.onChange),
+            createImagePlugin(this.props.editorState, this.props.onChange),
         ];
 
         const props = mergePlugins(plugins);
@@ -78,7 +80,7 @@ export class MyEditor extends Component<Props, State> {
     }
 
     toggle() {
-        const state = RichUtils.toggleBlockType(this.props.editorState, 'todo');
+        const state = RichUtils.toggleBlockType(this.props.editorState, 'image');
         if (this.ref.current != null) {
             this.ref.current.focus();
         }
