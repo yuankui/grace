@@ -1,7 +1,14 @@
 import {StateChange} from "../../Editor";
-import {DraftHandleValue, EditorState, Modifier, RichUtils,} from "draft-js";
+import Draft, {
+    DraftHandleValue,
+    EditorState,
+    Modifier,
+    RichUtils,
+    ContentBlock,
+} from "draft-js";
 import * as React from "react";
 import {Command, EditorPlugin} from "../index";
+import './index.css';
 
 const prefixMap: any = {
     '-': 'unordered-list-item',
@@ -69,7 +76,7 @@ export function createToggleListPlugin(value: EditorState, onChange: StateChange
                 return 'handled';
             }
             return 'not-handled';
-        }
+        },
     };
 }
 

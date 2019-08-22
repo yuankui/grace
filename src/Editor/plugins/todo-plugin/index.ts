@@ -3,11 +3,13 @@ import Draft, {
     ContentBlock,
     ContentState,
     EditorState,
-    DraftHandleValue
+    DraftHandleValue,
+    DraftEditorCommand, RichUtils,
 } from "draft-js";
 import {EditorPlugin} from "../index";
 import {TodoBlock} from "./TodoBlock";
 import './index.css';
+import {isRange} from "../utils";
 
 /*
 Returns default block-level metadata for various block type. Empty object otherwise.
@@ -85,6 +87,29 @@ export function createTodoPlugin(getState: GetState, onChange: StateChange): Edi
                 return 'handled';
             }
             return "handled";
+        },
+        handleKeyCommand(command: DraftEditorCommand | string, editorState: EditorState, eventTimeStamp: number): DraftHandleValue {
+
+            if (command === 'split-block') {
+                let contentState = editorState.getCurrentContent();
+                let selection = editorState.getSelection();
+
+                if (isRange(selection)) {
+                    return 'not-handled';
+                }
+
+                let block = contentState.getBlockForKey(selection.getFocusKey());
+
+                if (block.getType() !== 'todo') {
+                    return 'not-handled';
+                }
+                if (block.getText() === '') {
+                    let newState = RichUtils.toggleBlockType(editorState, 'todo');
+                    onChange(newState);
+                    return 'handled';
+                }
+            }
+            return 'not-handled';
         }
     }
 }
