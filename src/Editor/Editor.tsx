@@ -9,6 +9,7 @@ import {createInlineHotkey} from "./plugins/inline-hot-key-plugin";
 import {createCodePlugin} from "./plugins/code-plugin";
 import {createTodoPlugin} from "./plugins/todo-plugin";
 import {createImagePlugin} from "./plugins/image-plugin";
+import {createCodeBlockPlugin} from "./plugins/code-block-plugin";
 
 export interface StateChange{
     (value: EditorState): void,
@@ -38,6 +39,7 @@ export class MyEditor extends Component<Props, State> {
 
     onChange = (editorState: EditorState) => {
         this.props.onChange(editorState);
+        this.logState();
     };
 
     onClick = (type: string) => {
@@ -60,6 +62,7 @@ export class MyEditor extends Component<Props, State> {
             createCodePlugin(this.props.editorState, this.props.onChange),
             createTodoPlugin(() => this.props.editorState, this.props.onChange),
             createImagePlugin(this.props.editorState, this.props.onChange),
+            createCodeBlockPlugin(this.props.editorState, this.props.onChange),
         ];
 
         const props = mergePlugins(plugins);
@@ -85,7 +88,7 @@ export class MyEditor extends Component<Props, State> {
         console.log(JSON.stringify(convertToRaw(content)));
     }
     toggle() {
-        const state = RichUtils.toggleBlockType(this.props.editorState, 'image');
+        const state = RichUtils.toggleBlockType(this.props.editorState, 'grace-code-block');
         if (this.ref.current != null) {
             this.ref.current.focus();
         }
