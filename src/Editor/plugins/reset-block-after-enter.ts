@@ -10,7 +10,7 @@ export function createResetBlockAfterEnter(onChange: StateChange): EditorPlugin 
                 return 'not-handled';
 
             // 仅仅对header生效
-            if (!isHeader(editorState)) {
+            if (!isValidBlock(editorState)) {
                 return 'not-handled';
             }
 
@@ -43,9 +43,18 @@ function isEnd(editorState: EditorState) {
     return false;
 }
 
-function isHeader(editorState: EditorState) {
+function isValidBlock(editorState: EditorState) {
     let blockType = RichUtils.getCurrentBlockType(editorState);
-    return blockType.startsWith('header-');
+    const isHeader =  blockType.startsWith('header-');
+    if(isHeader) {
+        return true;
+    }
+
+    if (blockType === 'image') {
+        return true;
+    }
+
+    return false;
 }
 
 /**

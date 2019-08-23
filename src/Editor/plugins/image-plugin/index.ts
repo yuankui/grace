@@ -1,4 +1,4 @@
-import Draft, {ContentBlock, ContentState, EditorState, DraftHandleValue, RichUtils, Modifier} from "draft-js";
+import Draft, {ContentBlock, DraftHandleValue, EditorState} from "draft-js";
 import {StateChange} from "../../Editor";
 import {ImageBlock} from "./ImageBlock";
 import {EditorPlugin} from "../index";
@@ -22,36 +22,45 @@ export function createImagePlugin(state: EditorState, onChange: StateChange): Ed
             console.log(files);
 
             for (let file of files) {
-                // new block
-                const newBlock = new Draft.ContentBlock({
-                    key: Draft.genKey(),
-                    type: "image",
-                    text: "",
-                    characterList: Immutable.List()
-                });
-                const contentState = state.getCurrentContent();
-                const newBlockMap = contentState.getBlockMap().set(newBlock.getKey(), newBlock);
-                const newContent = Draft.ContentState
-                    .createFromBlockArray(newBlockMap.toArray())
-                    .set('selectionAfter', contentState.getSelectionAfter().merge({
-                        anchorKey: newBlock.getKey(),
-                        anchorOffset: 0,
-                        focusKey: newBlock.getKey(),
-                        focusOffset: 0,
-                        isBackward: false,
-                    })) as Draft.ContentState;
+                let reader = new FileReader();
+                reader.onload = () => {
+                    const bytes = reader.result;
+                    if (bytes == null) {
+                        return;
+                    }
 
-                const contentStateWithEntity = contentState.createEntity(
-                    'image',
-                    'IMMUTABLE',
-                    {url: "https://www.baidu.com/img/bd_logo1.png?where=super"}
-                );
-                const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
+                    // new block
+                    const newBlock = new Draft.ContentBlock({
+                        key: Draft.genKey(),
+                        type: "image",
+                        text: "",
+                        characterList: Immutable.List(),
+                        data: Immutable.fromJS(
+                            {
+                                url: bytes
+                            }
+                        )
 
-                const content = Modifier.applyEntity(newContent, state.getSelection(), entityKey);
+                    });
+                    const contentState = state.getCurrentContent();
+                    const newBlockMap = contentState.getBlockMap().set(newBlock.getKey(), newBlock);
+                    const newContent = Draft.ContentState
+                        .createFromBlockArray(newBlockMap.toArray())
+                        .set('selectionAfter', contentState.getSelectionAfter().merge({
+                            anchorKey: newBlock.getKey(),
+                            anchorOffset: 0,
+                            focusKey: newBlock.getKey(),
+                            focusOffset: 0,
+                            isBackward: false,
+                        })) as Draft.ContentState;
 
-                const newState = EditorState.push(state, content, 'apply-entity');
-                onChange(newState);
+
+                    const newState = EditorState.push(state, newContent, 'apply-entity');
+                    onChange(newState);
+                };
+
+                // read file
+                reader.readAsDataURL(file);
             }
 
             return 'handled';

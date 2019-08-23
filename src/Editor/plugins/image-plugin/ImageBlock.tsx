@@ -14,6 +14,11 @@ export interface ImageBlockProps {
     onChange: StateChange,
 }
 
+/**
+ * TODO: support scale
+ * TODO: support caption
+ *
+ */
 export class ImageBlock extends React.Component<ImageProps, any> {
     private readonly content: ReactElement;
 
@@ -29,6 +34,6 @@ export class ImageBlock extends React.Component<ImageProps, any> {
         const {block} = this.props;
         const data = block.getData();
         let url = data.get("url");
-        return (<img alt="load image failed" src={url}/>);
+        return (<img width='50%' alt="load image failed" src={url}/>);
     }
 }
