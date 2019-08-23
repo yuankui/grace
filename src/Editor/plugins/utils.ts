@@ -1,4 +1,4 @@
-import Draft, {SelectionState} from "draft-js";
+import {SelectionState} from "draft-js";
 
 
 /**

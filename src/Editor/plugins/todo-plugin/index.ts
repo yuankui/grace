@@ -1,11 +1,5 @@
 import {GetState, StateChange} from "../../Editor";
-import Draft, {
-    ContentBlock,
-    ContentState,
-    EditorState,
-    DraftHandleValue,
-    DraftEditorCommand, RichUtils,
-} from "draft-js";
+import {ContentBlock, ContentState, DraftEditorCommand, DraftHandleValue, EditorState, RichUtils,} from "draft-js";
 import {EditorPlugin} from "../index";
 import {TodoBlock} from "./TodoBlock";
 import './index.css';
