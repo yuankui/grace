@@ -25,8 +25,12 @@ interface Props {
 }
 
 interface State {
+    editable: boolean,
 }
 
+export interface EditController {
+    setEditable(editable: boolean): void;
+}
 
 export class MyEditor extends Component<Props, State> {
     private ref: React.RefObject<Editor>;
@@ -34,6 +38,9 @@ export class MyEditor extends Component<Props, State> {
 
     constructor(props: Readonly<Props>) {
         super(props);
+        this.state = {
+            editable: true,
+        };
         this.ref = React.createRef();
     }
 
@@ -48,6 +55,12 @@ export class MyEditor extends Component<Props, State> {
         }
     }
 
+    setEditable(editable: boolean): void {
+        this.setState({
+            editable: editable,
+        })
+    }
+
     render() {
         const plugins: Array<EditorPlugin> = [
             createToggleHeaderPlugin(this.props.onChange),
@@ -57,7 +70,7 @@ export class MyEditor extends Component<Props, State> {
             createCodePlugin(this.props.editorState, this.props.onChange),
             createTodoPlugin(() => this.props.editorState, this.props.onChange),
             createImagePlugin(this.props.editorState, this.props.onChange),
-            createCodeBlockPlugin(this.props.editorState, this.props.onChange),
+            createCodeBlockPlugin(this.props.editorState, this.props.onChange, this),
         ];
 
         const props = mergePlugins(plugins);
@@ -67,9 +80,13 @@ export class MyEditor extends Component<Props, State> {
                     <div>
                         <Button onClick={e=>this.toggle()}>toggle</Button>
                         <Button onClick={e=>this.logState()}>logState</Button>
+                        <Button onClick={e=>this.setState({
+                            editable: !this.state.editable,
+                        })}>enable</Button>
                     </div>
                     <Editor
                         editorState={this.props.editorState}
+                        readOnly={!this.state.editable}
                         ref={this.ref}
                         onChange={this.onChange}
                         {...props}
