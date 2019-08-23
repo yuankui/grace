@@ -52,8 +52,12 @@ export class ImageBlock extends React.Component<ImageProps, any> {
         let url = data.get("url");
         let width = data.get('width');
         let height = data.get('height');
-        return <ResizableBox height={height} onResize={this.onResize} width={width}>
-            <img width='100%' alt="load image failed" src={url}/>
-        </ResizableBox>;
+        return <ResizableBox className='align-left'
+                             lockAspectRatio={true}
+                             height={height}
+                             onResize={this.onResize}
+                             width={width}>
+                <img width='100%' height='100%' alt="load image failed" src={url}/>
+            </ResizableBox>;
     }
 }

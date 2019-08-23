@@ -15,6 +15,7 @@ const map: any = {
     'command-h4': 'header-four',
     'command-h5': 'header-five',
     'command-h6': 'header-six',
+    'command-unstyled': 'unstyled',
 };
 
 export function createToggleHeaderPlugin(onChange: StateChange): EditorPlugin {
@@ -24,11 +25,15 @@ export function createToggleHeaderPlugin(onChange: StateChange): EditorPlugin {
             if (e.metaKey && 48+1 <= e.keyCode && e.keyCode <= 48 + 6) {
                 return 'command-h' + e.key;
             }
+
+            if (e.metaKey && e.key === '0') {
+                return 'command-unstyled';
+            }
             return getDefaultKeyBinding(e);
         },
 
         handleKeyCommand(command: string, editorState: EditorState, eventTimeStamp: number): DraftHandleValue {
-            if (command.startsWith('command-h')) {
+            if (command.startsWith('command-')) {
                 const cmd = map[command];
                 let state = RichUtils.toggleBlockType(editorState, cmd);
                 onChange(state);
