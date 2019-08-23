@@ -17,7 +17,7 @@ export interface ImageBlockProps {
 /**
  * TODO: support scale
  * TODO: support caption
- *
+ * TODO: save image as a file
  */
 export class ImageBlock extends React.Component<ImageProps, any> {
     private readonly content: ReactElement;
