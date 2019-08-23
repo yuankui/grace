@@ -72,6 +72,7 @@ export class CodeBlock extends React.Component<CodeProps, any> {
                             theme: 'material',
                             lineNumbers: true
                         }}
+                        // 防止写入不进去。。 draft的bug
                         onFocus={() => this.props.blockProps.editorController.setEditable(false)}
                         onBlur={() => this.props.blockProps.editorController.setEditable(true)}
                         onBeforeChange={this.onChange}
