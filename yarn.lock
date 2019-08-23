@@ -1333,6 +1333,13 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-resizable@^1.7.1":
+  version "1.7.1"
+  resolved "http://r.cnpmjs.org/@types/react-resizable/download/@types/react-resizable-1.7.1.tgz#a9383c488a935e6bca3d845cec10e83218b623a9"
+  integrity sha1-qTg8SIqTXmvKPYRc7BDoMhi2I6k=
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-slick@^0.23.4":
   version "0.23.4"
   resolved "http://r.cnpmjs.org/@types/react-slick/download/@types/react-slick-0.23.4.tgz#c97e2a9e7e3d1933c68593b8e82752fab1e8ce53"
@@ -8834,6 +8841,14 @@ react-dom@^16.8.6:
     prop-types "^15.6.2"
     scheduler "^0.13.6"
 
+react-draggable@^3.0.3:
+  version "3.3.2"
+  resolved "http://r.cnpmjs.org/react-draggable/download/react-draggable-3.3.2.tgz#966ef1d90f2387af3c2d8bd3516f601ea42ca359"
+  integrity sha1-lm7x2Q8jh688LYvTUW9gHqQso1k=
+  dependencies:
+    classnames "^2.2.5"
+    prop-types "^15.6.0"
+
 react-error-overlay@^5.1.6:
   version "5.1.6"
   resolved "http://r.cnpmjs.org/react-error-overlay/download/react-error-overlay-5.1.6.tgz#0cd73407c5d141f9638ae1e0c63e7b2bf7e9929d"
@@ -8863,6 +8878,14 @@ react-lifecycles-compat@^3.0.2, react-lifecycles-compat@^3.0.4:
   version "3.0.4"
   resolved "http://r.cnpmjs.org/react-lifecycles-compat/download/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha1-TxonOv38jzSIqMUWv9p4+HI1I2I=
+
+react-resizable@^1.8.0:
+  version "1.8.0"
+  resolved "http://r.cnpmjs.org/react-resizable/download/react-resizable-1.8.0.tgz#a6dd8c90826f1e54244141b770318e0320663a43"
+  integrity sha1-pt2MkIJvHlQkQUG3cDGOAyBmOkM=
+  dependencies:
+    prop-types "15.x"
+    react-draggable "^3.0.3"
 
 react-scripts@3.0.1:
   version "3.0.1"

@@ -1,8 +1,10 @@
 import * as React from "react";
-import {ContentBlock, EditorState,} from "draft-js";
+import Draft, {ContentBlock, EditorState, Modifier, RichUtils,} from "draft-js";
 import {StateChange} from "../../Editor";
 import {Input, Popover} from "antd";
 import {ReactElement} from "react";
+import {ResizableBox, ResizeCallbackData} from 'react-resizable';
+import 'react-resizable/css/styles.css';
 
 export interface ImageProps {
     block: ContentBlock,
@@ -30,10 +32,28 @@ export class ImageBlock extends React.Component<ImageProps, any> {
             onKeyDown={e => e.stopPropagation()}/>;
     }
 
+    onResize = (e: React.SyntheticEvent, data: ResizeCallbackData) => {
+        const newData = this.props.block.getData().set('height', data.size.height)
+            .set('width', data.size.width);
+
+        const newContent = Modifier.setBlockData(this.props.blockProps.state.getCurrentContent(),
+            this.props.blockProps.state.getSelection(),
+            newData
+        );
+
+        const newState = EditorState.push(this.props.blockProps.state, newContent, 'change-block-data');
+
+        this.props.blockProps.onChange(newState);
+    };
+
     render() {
         const {block} = this.props;
         const data = block.getData();
         let url = data.get("url");
-        return (<img width='50%' alt="load image failed" src={url}/>);
+        let width = data.get('width');
+        let height = data.get('height');
+        return <ResizableBox height={height} onResize={this.onResize} width={width}>
+            <img width='100%' alt="load image failed" src={url}/>
+        </ResizableBox>;
     }
 }

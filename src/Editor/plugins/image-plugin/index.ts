@@ -3,6 +3,7 @@ import {StateChange} from "../../Editor";
 import {ImageBlock} from "./ImageBlock";
 import {EditorPlugin} from "../index";
 import Immutable from "immutable";
+import './index.css';
 
 export function createImagePlugin(state: EditorState, onChange: StateChange): EditorPlugin {
     return {
@@ -23,11 +24,13 @@ export function createImagePlugin(state: EditorState, onChange: StateChange): Ed
 
             for (let file of files) {
                 let reader = new FileReader();
-                reader.onload = () => {
-                    const bytes = reader.result;
+                reader.onload = async () => {
+                    const bytes: any = reader.result;
                     if (bytes == null) {
                         return;
                     }
+
+                    const size = await getImageSize(bytes);
 
                     // new block
                     const newBlock = new Draft.ContentBlock({
@@ -37,7 +40,8 @@ export function createImagePlugin(state: EditorState, onChange: StateChange): Ed
                         characterList: Immutable.List(),
                         data: Immutable.fromJS(
                             {
-                                url: bytes
+                                url: bytes,
+                                ...size,
                             }
                         )
 
@@ -66,4 +70,22 @@ export function createImagePlugin(state: EditorState, onChange: StateChange): Ed
             return 'handled';
         }
     }
+}
+
+/**
+ * the hack way
+ */
+async function getImageSize(url: string): Promise<any> {
+    let img = new Image();
+
+    return new Promise((resolve, reject) => {
+            img.onload = function (this: GlobalEventHandlers, ev: Event) {
+                resolve({
+                    width: img.width / 2,
+                    height: img.height / 2,
+                })
+            };
+            img.src = url;
+        }
+    );
 }
