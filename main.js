@@ -14,7 +14,7 @@ function createWindow () {
     });
 
     // 加载index.html文件
-    win.loadFile('src/electron/index.html');
+    win.loadFile('electron/index.html');
 }
 
 app.on('ready', createWindow);
