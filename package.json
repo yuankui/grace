@@ -1,6 +1,7 @@
 {
   "name": "test",
   "version": "0.1.0",
+  "main": "main.js",
   "private": true,
   "dependencies": {
     "@types/base64-js": "^1.2.5",
