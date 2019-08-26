@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {convertToRaw, Editor, EditorState, RichUtils} from 'draft-js';
-import {Button} from "antd";
+import {Button, Switch} from "antd";
 import {createToggleHeaderPlugin} from "./plugins/toggle-header-plugin";
 import {EditorPlugin, mergePlugins} from "./plugins";
 import {createCodePlugin} from "./plugins/code-plugin";
@@ -80,9 +80,9 @@ export class MyEditor extends Component<Props, State> {
                     <div>
                         <Button onClick={e=>this.toggle()}>toggle</Button>
                         <Button onClick={e=>this.logState()}>logState</Button>
-                        <Button onClick={e=>this.setState({
-                            editable: !this.state.editable,
-                        })}>enable</Button>
+                        <Switch checked={this.state.editable} onChange={e=>this.setState({
+                            editable: e,
+                        })} />
                     </div>
                     <Editor
                         editorState={this.props.editorState}
