@@ -1,6 +1,7 @@
 import React from 'react';
 import {MyEditor} from "./Editor/Editor";
 import {EditorState} from "draft-js";
+import './App.css';
 
 export class App extends React.Component {
     state = {
@@ -14,8 +15,8 @@ export class App extends React.Component {
     };
 
     render() {
-        return <div>
+        return (
             <MyEditor editorState={this.state.editorState} onChange={this.onChange}/>
-        </div>;
+            );
     }
 }

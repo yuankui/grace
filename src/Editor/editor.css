@@ -13,9 +13,8 @@
     font-family: -apple-system, system-ui, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
     font-size: 16px;
     font-weight: 400;
+    box-shadow: 2px 2px 6px black;
+    overflow-y: scroll;
+    height: calc(100% - 100px);
+    margin-top: 50px;
 }
-
-.editor :global(.public-DraftEditor-content) {
-    min-height: 140px;
-}
-

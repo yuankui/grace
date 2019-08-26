@@ -10,6 +10,7 @@ import {createResetBlockAfterEnter} from "./plugins/common-plugin/reset-block-af
 import {createInlineHotkey} from "./plugins/common-plugin/inline-hot-key-plugin";
 import {createSoftInsertPlugin} from "./plugins/common-plugin/soft-insert-plugin";
 import {createToggleListPlugin} from "./plugins/toggle-prefix-plugin";
+import './editor.css';
 
 export interface StateChange {
     (value: EditorState): void,
@@ -50,6 +51,10 @@ export class MyEditor extends Component<Props, State> {
     };
 
     componentDidMount(): void {
+        this.focus();
+    }
+
+    focus() {
         if (this.ref.current != null) {
             this.ref.current.focus();
         }
@@ -70,7 +75,7 @@ export class MyEditor extends Component<Props, State> {
         const props = mergePlugins(plugins);
 
         return (
-            <div className='editor'>
+            <div className='editor' onClick={() => this.focus()}>
                 <div>
                     <Button onClick={e => this.toggle()}>toggle</Button>
                     <Button onClick={e => this.logState()}>logState</Button>
