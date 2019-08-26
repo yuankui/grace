@@ -2,14 +2,14 @@ import React, {Component} from 'react';
 import {convertToRaw, Editor, EditorState, RichUtils} from 'draft-js';
 import {Button} from "antd";
 import {createToggleHeaderPlugin} from "./plugins/toggle-header-plugin";
-import {createToggleListPlugin} from "./plugins/toggle-list-plugin";
 import {EditorPlugin, mergePlugins} from "./plugins";
-import {createResetBlockAfterEnter} from "./plugins/reset-block-after-enter";
-import {createInlineHotkey} from "./plugins/inline-hot-key-plugin";
 import {createCodePlugin} from "./plugins/code-plugin";
 import {createTodoPlugin} from "./plugins/todo-plugin";
 import {createImagePlugin} from "./plugins/image-plugin";
-import {createCodeBlockPlugin} from "./plugins/code-block-plugin";
+import {createResetBlockAfterEnter} from "./plugins/common-plugin/reset-block-after-enter";
+import {createInlineHotkey} from "./plugins/common-plugin/inline-hot-key-plugin";
+import {createSoftInsertPlugin} from "./plugins/common-plugin/soft-insert-plugin";
+import {createToggleListPlugin} from "./plugins/toggle-prefix-plugin";
 
 export interface StateChange{
     (value: EditorState): void,
@@ -70,7 +70,7 @@ export class MyEditor extends Component<Props, State> {
             createCodePlugin(this.props.editorState, this.props.onChange),
             createTodoPlugin(() => this.props.editorState, this.props.onChange),
             createImagePlugin(this.props.editorState, this.props.onChange),
-            createCodeBlockPlugin(this.props.editorState, this.props.onChange, this),
+            createSoftInsertPlugin(this.props.editorState, this.props.onChange),
         ];
 
         const props = mergePlugins(plugins);
@@ -100,7 +100,7 @@ export class MyEditor extends Component<Props, State> {
         console.log(JSON.stringify(convertToRaw(content)));
     }
     toggle() {
-        const state = RichUtils.toggleBlockType(this.props.editorState, 'grace-code-block');
+        const state = RichUtils.toggleBlockType(this.props.editorState, 'code-block');
         if (this.ref.current != null) {
             this.ref.current.focus();
         }

@@ -7,6 +7,7 @@ import './index.css';
 
 export function createImagePlugin(state: EditorState, onChange: StateChange): EditorPlugin {
     return {
+        name: 'createImagePlugin',
         blockRendererFn(block: ContentBlock): any {
             const type = block.getType();
             if (type === 'image') {

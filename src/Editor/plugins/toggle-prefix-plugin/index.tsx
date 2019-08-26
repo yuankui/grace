@@ -13,10 +13,13 @@ const prefixMap: any = {
     '####': 'header-four',
     '#####': 'header-five',
     '######': 'header-six',
+    '^': 'code-block',
+    '>': 'blockquote',
 };
 
 export function createToggleListPlugin(value: EditorState, onChange: StateChange): EditorPlugin {
     return {
+        name: 'createToggleListPlugin',
         handleBeforeInput(chars: string, editorState: EditorState, eventTimeStamp: number): DraftHandleValue {
             // 仅仅针对unstyled起作用
             if (isUnstyled(editorState)) {

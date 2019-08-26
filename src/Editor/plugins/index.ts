@@ -11,6 +11,7 @@ import * as React from "react";
 export type Command = DraftEditorCommand | string;
 
 export interface EditorPlugin {
+    name: string,
     handleKeyCommand?(command: Command, editorState: EditorState, eventTimeStamp: number): DraftHandleValue,
 
     handleBeforeInput?(chars: string, editorState: EditorState, eventTimeStamp: number): DraftHandleValue,
@@ -42,6 +43,7 @@ function handlePastedFiles(plugins: Array<EditorPlugin>) {
         return 'not-handled';
     }
 }
+
 function mergeMap(maps: Array<DraftStyleMap | undefined>): DraftStyleMap {
     if (maps == null) {
         return {};
@@ -72,6 +74,7 @@ function blockRendererFn(plugins: Array<EditorPlugin>) {
 export function mergePlugins(plugins: Array<EditorPlugin>): EditorPlugin {
 
     return {
+        name: "merged-plugin",
         handleKeyCommand(command: string, editorState: EditorState, eventTimeStamp: number): DraftHandleValue {
             const handled = plugins.some(plugin => {
                 if (plugin.handleKeyCommand === undefined) {
@@ -94,8 +97,9 @@ export function mergePlugins(plugins: Array<EditorPlugin>): EditorPlugin {
             });
             return handled ? "handled" : "not-handled";
         },
-        keyBindingFn(e: React.KeyboardEvent): string | null {for (let plugin of plugins) {
-                if (plugin.keyBindingFn === undefined) {
+        keyBindingFn(e: React.KeyboardEvent): string | null {
+            for (let plugin of plugins) {
+                if (plugin.keyBindingFn == null) {
                     continue;
                 }
                 let result = plugin.keyBindingFn(e);

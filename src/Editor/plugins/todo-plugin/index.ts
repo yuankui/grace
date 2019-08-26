@@ -46,6 +46,7 @@ const resetBlockType = (editorState: EditorState, newType = 'unstyled'): EditorS
 
 export function createTodoPlugin(getState: GetState, onChange: StateChange): EditorPlugin {
     return {
+        name: 'createTodoPlugin',
         blockRendererFn(block: ContentBlock): any {
             const type = block.getType();
             if (type === 'todo') {

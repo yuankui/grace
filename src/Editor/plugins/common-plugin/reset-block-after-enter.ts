@@ -1,10 +1,11 @@
-import {Command, EditorPlugin} from "./index";
+import {Command, EditorPlugin} from "../index";
 import Draft, {DraftHandleValue, EditorState, RichUtils} from "draft-js";
-import {StateChange} from "../Editor";
+import {StateChange} from "../../Editor";
 import Immutable from 'immutable';
 
 export function createResetBlockAfterEnter(onChange: StateChange): EditorPlugin {
     return {
+        name: 'createResetBlockAfterEnter',
         handleKeyCommand(command: Command, editorState: EditorState, eventTimeStamp: number): DraftHandleValue {
             if (command !== 'split-block')
                 return 'not-handled';

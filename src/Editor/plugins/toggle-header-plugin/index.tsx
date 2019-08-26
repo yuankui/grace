@@ -20,6 +20,7 @@ const map: any = {
 
 export function createToggleHeaderPlugin(onChange: StateChange): EditorPlugin {
     return {
+        name: 'createToggleHeaderPlugin',
         keyBindingFn: function (e: React.KeyboardEvent): string | null {
             // h1 ----> h6
             if (e.metaKey && 48+1 <= e.keyCode && e.keyCode <= 48 + 6) {
@@ -29,7 +30,7 @@ export function createToggleHeaderPlugin(onChange: StateChange): EditorPlugin {
             if (e.metaKey && e.key === '0') {
                 return 'command-unstyled';
             }
-            return getDefaultKeyBinding(e);
+            return null;
         },
 
         handleKeyCommand(command: string, editorState: EditorState, eventTimeStamp: number): DraftHandleValue {

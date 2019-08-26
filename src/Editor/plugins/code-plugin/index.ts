@@ -5,6 +5,7 @@ import * as React from "react";
 
 export function createCodePlugin(state: EditorState, onChange: StateChange): EditorPlugin {
     return {
+        name: 'createCodePlugin',
         keyBindingFn(e: React.KeyboardEvent): string | null {
             if (KeyBindingUtil.hasCommandModifier(e) && e.key === 'e') {
                 if (e.shiftKey) {
