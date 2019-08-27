@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {createRef, KeyboardEvent, KeyboardEventHandler} from 'react';
 import {MyEditor} from "./Editor/Editor";
 import {EditorState} from "draft-js";
 import './App.css';
@@ -38,7 +38,14 @@ const treeData = [
 ];
 
 
-export class App extends React.Component {
+export class App extends React.Component<any,any> {
+    private editor: React.RefObject<MyEditor>;
+
+    constructor(props: Readonly<any>) {
+        super(props);
+        this.editor = createRef();
+    }
+
     state = {
         editorState: EditorState.createEmpty(),
     };
@@ -49,22 +56,33 @@ export class App extends React.Component {
         });
     };
 
+    onSave = (e: KeyboardEvent<HTMLDivElement>) => {
+        if (e.metaKey && e.key === 's') {
+            if (this.editor.current != null) {
+                this.editor.current.setEditable(false);
+            }
+            e.preventDefault();
+            e.stopPropagation();
+        }
+    };
+
+    focus = (e: KeyboardEvent) => {
+        if (e.key === 'Enter') {
+            const editor = this.editor.current;
+            if (editor != null) {
+                editor.focus();
+            }
+        }
+    };
     render() {
         return (
             <Layout className='layout'>
                 <Sider theme='light' width={300}>
                     <TreeMenu onClickItem={(e) => console.log(e)} data={treeData} />
                 </Sider>
-                <Content>
-                    <Input className='title' onKeyPress={event => {
-                        if (event.key === 'Enter') {
-                            const editor: any = this.refs.editor;
-                            if (editor.focus != null) {
-                                editor.focus();
-                            }
-                        }
-                    }}/>
-                    <MyEditor ref='editor' editorState={this.state.editorState} onChange={this.onChange}/>
+                <Content onKeyDown={this.onSave}>
+                    <Input className='title' onKeyPress={this.focus}/>
+                    <MyEditor ref={this.editor} editorState={this.state.editorState} onChange={this.onChange}/>
                 </Content>
             </Layout>
         );

@@ -60,6 +60,12 @@ export class MyEditor extends Component<Props, State> {
         }
     }
 
+    setEditable = (editable: boolean) => {
+        this.setState({
+            editable: editable,
+        })
+    };
+
     render() {
         const plugins: Array<EditorPlugin> = [
             createToggleHeaderPlugin(this.props.onChange),
@@ -79,11 +85,7 @@ export class MyEditor extends Component<Props, State> {
                 <div>
                     <Button onClick={e => this.toggle()}>toggle</Button>
                     <Button onClick={e => this.logState()}>logState</Button>
-                    <Switch checked={this.state.editable} onChange={
-                        e => this.setState({
-                            editable: e,
-                        })
-                    }/>
+                    <Switch checked={this.state.editable} onChange={this.setEditable}/>
                 </div>
                 <Editor
                     editorState={this.props.editorState}

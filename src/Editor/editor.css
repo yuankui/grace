@@ -15,5 +15,9 @@
     box-shadow: 2px 2px 6px black;
     overflow-y: scroll;
 
-    height: 100%;
+    height: calc(100% - 30px);
+}
+
+main.ant-layout-content {
+    overflow-y: hidden;
 }
