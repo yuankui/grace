@@ -1,7 +1,6 @@
 import {Backend, Post} from "../index";
 import path from 'path';
 import fs from 'fs';
-import {convertFromRaw} from "draft-js";
 import uuid from 'uuid/v1';
 
 export function createElectronBackend(working: string): Backend {
@@ -94,13 +93,23 @@ export class ElectronBackend implements Backend {
         })
     }
 
-    // TODO implement
-    savePost(post: Post): Promise<Post> {
+    getPostDir(id: Array<string>): string {
+        return path.join(this.workingDir, ...id);
+    }
+
+    async savePost(post: Post, parentId: Array<string>): Promise<Post> {
+        let id = post.id;
         if (post.id == null) {
-            post.id = uuid();
+            id = [...parentId, uuid()];
         }
+
         let json = JSON.stringify(post);
-        this.writeFile(post.)
+        let postPath = path.join(this.getPostDir(id as Array<string>), 'index.json');
+        await this.writeFile(postPath, new Buffer(json, 'utf-8'));
+        return {
+            ...post,
+            id
+        }
     }
 
 }

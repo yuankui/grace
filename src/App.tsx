@@ -5,6 +5,9 @@ import './App.css';
 import {Input, Layout} from 'antd';
 import TreeMenu from 'react-simple-tree-menu';
 import './menu.css';
+import {Backend} from "./backend";
+import {createElectronBackend} from "./backend/electron/ElectronBackend";
+import {createWebBackend} from "./backend/web/WebBackend";
 
 
 const {Sider, Content} = Layout;
@@ -46,10 +49,18 @@ interface AppState {
 }
 export class App extends React.Component<any, AppState> {
     private editor: React.RefObject<MyEditor>;
-
+    private backend: Backend;
     constructor(props: Readonly<any>) {
         super(props);
         this.editor = createRef();
+
+        var userAgent = navigator.userAgent.toLowerCase();
+        if (userAgent.indexOf(' electron/') > -1) {
+            // Electron-specific code
+            this.backend = createElectronBackend("/Users/yuankui/grace-docs");
+        } else {
+            this.backend = createWebBackend();
+        }
     }
 
     state = {
@@ -104,6 +115,7 @@ export class App extends React.Component<any, AppState> {
                 <Content onKeyDown={this.onSave}>
                     <Input className='title' onKeyPress={this.focus}/>
                     <MyEditor ref={this.editor}
+                              backend={this.backend}
                               onEditableChange={this.setEditable}
                               editable={this.state.editable}
                               editorState={this.state.editorState}

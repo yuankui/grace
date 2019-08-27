@@ -11,6 +11,7 @@ import {createInlineHotkey} from "./plugins/common-plugin/inline-hot-key-plugin"
 import {createSoftInsertPlugin} from "./plugins/common-plugin/soft-insert-plugin";
 import {createToggleListPlugin} from "./plugins/toggle-prefix-plugin";
 import './editor.css';
+import {Backend} from "../backend";
 
 export interface StateChange {
     (value: EditorState): void,
@@ -25,6 +26,7 @@ interface Props {
     onChange: StateChange,
     editable: boolean,
     onEditableChange: (editable: boolean) => void;
+    backend: Backend;
 }
 
 interface State {

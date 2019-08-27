@@ -16,13 +16,13 @@ export interface Backend {
      * 保存文章
      * @param post
      */
-    savePost(post: Post): Promise<Post>,
+    savePost(post: Post, parentId: Array<string>): Promise<Post>,
 
     /**
      * 获取文章详情
      * @param id
      */
-    getPost(id: Array<string>): Promise<Post>,
+    getPost(id: Array<string>): Promise<Post|null>,
 }
 
 export interface Post {
