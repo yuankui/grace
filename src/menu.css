@@ -4,9 +4,9 @@
 
 .toggle-icon-symbol {
     width: 2rem;
-    height: 2rem;
+    height: 1rem;
     text-align: center;
-    line-height: 2rem;
+    line-height: 1rem;
 }
 
 .tree-item-group {
@@ -16,7 +16,7 @@
 }
 
 .tree-item {
-    padding: 0.75rem 1rem;
+    padding: 0.25rem 1rem;
     cursor: pointer;
     color: #333;
     background: none;
