@@ -1,9 +1,10 @@
-import {ContentState, RawDraftContentState} from "draft-js";
+import {EditorState, RawDraftContentState} from "draft-js";
 
 export interface Backend {
     /**
      * 存储图像，返回url
      * @param file
+     * @param id
      */
     saveImage(file: File, id: Array<string>): Promise<string>;
 
@@ -15,6 +16,7 @@ export interface Backend {
     /**
      * 保存文章
      * @param post
+     * @param parentId
      */
     savePost(post: Post, parentId: Array<string>): Promise<Post>,
 
@@ -33,5 +35,6 @@ export interface Post {
     title: string,
     tags: Array<string>,
     content: RawDraftContentState,
+    state?: EditorState,
     children: Array<Post>,
 }
