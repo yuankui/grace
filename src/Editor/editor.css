@@ -21,3 +21,7 @@
 main.ant-layout-content {
     overflow-y: hidden;
 }
+
+#DraftEditor-root {
+    box-shadow: inset 0 0 6px black;
+}

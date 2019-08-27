@@ -37,8 +37,14 @@ const treeData = [
     },
 ];
 
+export const EditableContext = React.createContext(true);
 
-export class App extends React.Component<any,any> {
+interface AppState {
+    editable: boolean,
+    editorState: EditorState,
+    title: string,
+}
+export class App extends React.Component<any, AppState> {
     private editor: React.RefObject<MyEditor>;
 
     constructor(props: Readonly<any>) {
@@ -48,6 +54,8 @@ export class App extends React.Component<any,any> {
 
     state = {
         editorState: EditorState.createEmpty(),
+        editable: false,
+        title: "",
     };
 
     onChange = (v: EditorState) => {
@@ -59,11 +67,17 @@ export class App extends React.Component<any,any> {
     onSave = (e: KeyboardEvent<HTMLDivElement>) => {
         if (e.metaKey && e.key === 's') {
             if (this.editor.current != null) {
-                this.editor.current.setEditable(false);
+                this.setEditable(!this.state.editable)
             }
             e.preventDefault();
             e.stopPropagation();
         }
+    };
+
+    setEditable = (e: boolean) => {
+        this.setState({
+            editable: e,
+        })
     };
 
     focus = (e: KeyboardEvent) => {
@@ -74,6 +88,13 @@ export class App extends React.Component<any,any> {
             }
         }
     };
+
+    changeTitle = (title: string) => {
+        this.setState({
+            title
+        });
+    };
+
     render() {
         return (
             <Layout className='layout'>
@@ -82,7 +103,11 @@ export class App extends React.Component<any,any> {
                 </Sider>
                 <Content onKeyDown={this.onSave}>
                     <Input className='title' onKeyPress={this.focus}/>
-                    <MyEditor ref={this.editor} editorState={this.state.editorState} onChange={this.onChange}/>
+                    <MyEditor ref={this.editor}
+                              onEditableChange={this.setEditable}
+                              editable={this.state.editable}
+                              editorState={this.state.editorState}
+                              onChange={this.onChange}/>
                 </Content>
             </Layout>
         );

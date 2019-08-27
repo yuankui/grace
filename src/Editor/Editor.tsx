@@ -23,10 +23,12 @@ export interface GetState {
 interface Props {
     editorState: EditorState,
     onChange: StateChange,
+    editable: boolean,
+    onEditableChange: (editable: boolean) => void;
 }
 
 interface State {
-    editable: boolean,
+
 }
 
 export interface EditController {
@@ -36,12 +38,8 @@ export interface EditController {
 export class MyEditor extends Component<Props, State> {
     private ref: React.RefObject<Editor>;
 
-
     constructor(props: Readonly<Props>) {
         super(props);
-        this.state = {
-            editable: true,
-        };
         this.ref = React.createRef();
     }
 
@@ -61,9 +59,7 @@ export class MyEditor extends Component<Props, State> {
     }
 
     setEditable = (editable: boolean) => {
-        this.setState({
-            editable: editable,
-        })
+        this.props.onEditableChange(editable);
     };
 
     render() {
@@ -85,11 +81,11 @@ export class MyEditor extends Component<Props, State> {
                 <div>
                     <Button onClick={e => this.toggle()}>toggle</Button>
                     <Button onClick={e => this.logState()}>logState</Button>
-                    <Switch checked={this.state.editable} onChange={this.setEditable}/>
+                    <Switch checked={this.props.editable} onChange={this.setEditable}/>
                 </div>
                 <Editor
                     editorState={this.props.editorState}
-                    readOnly={!this.state.editable}
+                    readOnly={!this.props.editable}
                     ref={this.ref}
                     onChange={this.onChange}
                     {...props}
