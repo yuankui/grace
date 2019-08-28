@@ -16,10 +16,6 @@ export interface UpdateListAction extends BaseAction {
     posts: Array<Post>,
 }
 
-export interface SavePostAction extends BaseAction {
-    post: Post,
-}
-
 export interface OpeningAction extends BaseAction {
     opening: boolean,
 }

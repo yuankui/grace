@@ -4,6 +4,6 @@ export type PostState = Post | undefined;
 
 export interface AppState {
     currentPost: PostState,
-    postList: Array<Post> |undefined,
+    postList: Array<Post>,
     isOpening: boolean,
 }
