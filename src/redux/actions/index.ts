@@ -1,40 +1,26 @@
 import {Post} from "../../backend";
+import {PostState} from "../state";
+import {Action} from "redux";
 
-export type Actions = "OpenPost" | "SavePost" | "UpdateList";
+export type Actions = "OpenPost" | "SavePost" | "UpdateList" | 'SetOpening';
 
-export interface Action {
+export interface BaseAction extends Action{
     type: Actions,
 }
 
-export interface OpenPostAction extends Action {
-    post: Post,
+export interface OpenPostAction extends BaseAction {
+    post: PostState,
 }
 
-export interface UpdateListAction extends Action {
+export interface UpdateListAction extends BaseAction {
     posts: Array<Post>,
 }
 
-export interface SavePostAction extends Action {
+export interface SavePostAction extends BaseAction {
     post: Post,
 }
 
-export function openPost(post: Post): OpenPostAction {
-    return {
-        type: "OpenPost",
-        post,
-    }
+export interface OpeningAction extends BaseAction {
+    opening: boolean,
 }
 
-export function refreshList(posts: Array<Post>): UpdateListAction {
-    return {
-        type: "UpdateList",
-        posts
-    }
-}
-
-export function savePost(post: Post): SavePostAction {
-    return {
-        type: "SavePost",
-        post
-    };
-}

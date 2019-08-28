@@ -1,6 +1,9 @@
 import {Post} from "../../backend";
 
+export type PostState = Post | undefined;
+
 export interface AppState {
-    currentPost: Post,
-    postList: Array<Post>,
+    currentPost: PostState,
+    postList: Array<Post> |undefined,
+    isOpening: boolean,
 }

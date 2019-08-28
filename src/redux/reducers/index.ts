@@ -1,25 +1,31 @@
 import {Post} from "../../backend";
-import {UpdateListAction, OpenPostAction} from "../actions";
+import {UpdateListAction, OpenPostAction, OpeningAction} from "../actions";
 import {combineReducers, Reducer} from "redux";
-import {AppState} from "../state";
+import {AppState, PostState} from "../state";
 
-export function openPostReducer(post: Post | undefined, action: OpenPostAction): Post {
+export function openPostReducer(post: PostState, action: OpenPostAction): PostState {
     if (action.type === "OpenPost") {
         return action.post;
     }
-    // TODO tricky
-    return post as Post;
+    return post;
 }
 
-export function updatePostList(posts: Array<Post> | undefined = [], action: UpdateListAction): Array<Post> {
+export function updatePostList(posts: Array<Post> | undefined = [], action: UpdateListAction): Array<Post> |undefined {
     if (action.type === 'UpdateList') {
         return action.posts;
     }
     return posts;
 }
 
+export function updateIsOpening(isOpening: boolean, action: OpeningAction): boolean {
+    if (action.type === 'SetOpening') {
+        return action.opening;
+    }
+    return isOpening;
+}
 
 export const reducer: Reducer<AppState> = combineReducers({
     postList: updatePostList,
     currentPost: openPostReducer,
+    isOpening: updateIsOpening,
 });
