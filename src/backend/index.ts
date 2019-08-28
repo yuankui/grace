@@ -1,4 +1,6 @@
 import {EditorState, RawDraftContentState} from "draft-js";
+import {createElectronBackend} from "./electron/ElectronBackend";
+import {createWebBackend} from "./web/WebBackend";
 
 export interface Backend {
     /**
@@ -39,3 +41,15 @@ export interface Post {
     state?: EditorState,
     children: Array<Post>,
 }
+
+let b: Backend;
+
+var userAgent = navigator.userAgent.toLowerCase();
+if (userAgent.indexOf(' electron/') > -1) {
+    // Electron-specific code
+    b = createElectronBackend("/Users/yuankui/grace-docs");
+} else {
+    b = createWebBackend();
+}
+
+export const backend = b;
