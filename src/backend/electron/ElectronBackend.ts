@@ -1,24 +1,35 @@
 import {Backend, Post} from "../index";
 import path from 'path';
 import fs from 'fs';
-import uuid from 'uuid/v1';
+import uuid from 'uuid/v4';
 
 export function createElectronBackend(working: string): Backend {
     return new ElectronBackend(working);
 }
 
+/**
+ * uuid / index.json,xxx.jpg,
+ */
 export class ElectronBackend implements Backend {
-    private workingDir: string = "";
+    private readonly workingDir: string = "";
 
     constructor(workingDir: string) {
         this.workingDir = workingDir;
     }
 
+    generateId(): string {
+        let id = uuid();
+        id = id.replace("-", "");
+        return id.substring(0, 2) + "." + id.substring(2, 4) + "." + id.substring(4);
+    }
 
-    async getPost(id: Array<string>): Promise<Post> {
-        const dirPath = path.join(this.workingDir, ...id);
+    async getPost(id: string): Promise<Post> {
+        const dirPath = path.join(this.workingDir, ...id.split("."));
+        return this.getPostByPath(dirPath);
+    }
+
+    async getPostByPath(dirPath: string): Promise<Post> {
         let buffer = await this.readFile(path.join(dirPath, 'index.json'));
-
         let text = buffer.toString('utf-8');
         let json = JSON.parse(text);
         return json;
@@ -46,17 +57,35 @@ export class ElectronBackend implements Backend {
         })
     }
 
-    async getPostTree(): Promise<Array<Post>> {
-        let dirs = await this.listDir(this.workingDir);
+    async expandDir(dirs: Array<string>): Promise<Array<string>> {
+        let subDirs: Array<string> = [];
+        for (let dir of dirs) {
+            let subDirs = await this.listDir(dir);
+
+            subDirs = subDirs.map(d => path.join(dir, d));
+            subDirs.push(...subDirs);
+        }
+        return subDirs;
+    }
+
+    async getPosts(id: string | null): Promise<Array<Post>> {
+        let level1 = await this.expandDir([this.workingDir]);
+        let level2 = await this.expandDir(level1);
+        let level3 = await this.expandDir(level2);
+
 
         const posts: Array<Post> = [];
 
-        for (let dir of dirs) {
-            let post = await this.getPost([dir]);
-            posts.push(post);
+        for (let dir of level3) {
+            try {
+                let post = await this.getPostByPath(dir);
+                posts.push(post);
+            } catch (e) {
+                console.log(e);
+            }
         }
 
-        return posts;
+        return posts.filter(p => p.parentId === id);
     }
 
     writeFile(path: string, buffer: Buffer): Promise<any> {
@@ -68,9 +97,9 @@ export class ElectronBackend implements Backend {
             });
         })
     }
-    async saveImage(file: File, id: Array<string>): Promise<string> {
+    async saveImage(file: File, id: string): Promise<string> {
         let imageId = uuid();
-        let imagePath = path.join(this.workingDir, ...id, imageId);
+        let imagePath = path.join(this.workingDir, this.getPostDir(id), imageId);
         let arrayBuffer = await this.readFileAsArrayBuffer(file);
         await this.writeFile(imagePath, new Buffer(arrayBuffer));
         return imageId;
@@ -93,18 +122,18 @@ export class ElectronBackend implements Backend {
         })
     }
 
-    getPostDir(id: Array<string>): string {
-        return path.join(this.workingDir, ...id);
+    getPostDir(id: string): string {
+        return path.join(this.workingDir, ...id.split("."));
     }
 
-    async savePost(post: Post, parentId: Array<string>): Promise<Post> {
+    async savePost(post: Post, parentId: string): Promise<Post> {
         let id = post.id;
         if (post.id == null) {
-            id = [...parentId, uuid()];
+            id = this.generateId();
         }
 
         let json = JSON.stringify(post);
-        let postPath = path.join(this.getPostDir(id as Array<string>), 'index.json');
+        let postPath = path.join(this.getPostDir(id as string), 'index.json');
         await this.writeFile(postPath, new Buffer(json, 'utf-8'));
         return {
             ...post,

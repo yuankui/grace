@@ -6,18 +6,21 @@ export function createWebBackend() {
 }
 
 export class WebBackend implements Backend {
-    private posts: Array<Post> = [];
     private postMap: {[prop: string]: Post} = {};
 
-    async getPost(id: Array<string>): Promise<Post|null> {
-        return this.postMap[id[id.length - 1]];
+    async getPost(id: string): Promise<Post|null> {
+        return this.postMap[id];
     }
 
-    async getPostTree(): Promise<Array<Post>> {
-        return this.posts;
+    async getPosts(id: string | null): Promise<Array<Post>> {
+        let posts: Array<Post> = Object.entries(this.postMap)
+            .map(kv => kv[1]);
+
+
+        return posts.filter(p => p.parentId === id);
     }
 
-    saveImage(file: File, id: Array<string>): Promise<string> {
+    saveImage(file: File, id: string): Promise<string> {
         return new Promise<string>((resolve, reject) => {
             let reader = new FileReader();
             reader.onload = ev => {
@@ -34,22 +37,17 @@ export class WebBackend implements Backend {
         })
     }
 
-    async savePost(post: Post, parentId: Array<string>): Promise<Post> {
-        let newPost = post;
+    async savePost(post: Post, parentId: string): Promise<Post> {
+        let id = post.id;
         if (post.id == null) {
-           newPost = {
-               ...post,
-               id: [...parentId, uuid()],
-           }
+           id = uuid();
         }
 
-        const id = newPost.id as Array<string>;
-        this.postMap[id[id.length-1]] = post;
-
-        let parentPost = await this.getPost(parentId);
-        if (parentPost != null) {
-            parentPost.children.push(newPost);
-        }
+        let newPost: Post = {
+            ...post,
+            id,
+            parentId
+        };
 
         return newPost;
     }

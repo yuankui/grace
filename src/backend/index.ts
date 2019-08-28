@@ -6,32 +6,33 @@ export interface Backend {
      * @param file
      * @param id
      */
-    saveImage(file: File, id: Array<string>): Promise<string>;
+    saveImage(file: File, id: string): Promise<string>;
 
     /**
      * 获取文章属性结构
      */
-    getPostTree(): Promise<Array<Post>>,
+    getPosts(id: string | null): Promise<Array<Post>>,
 
     /**
      * 保存文章
      * @param post
      * @param parentId
      */
-    savePost(post: Post, parentId: Array<string>): Promise<Post>,
+    savePost(post: Post, parentId: string): Promise<Post>,
 
     /**
      * 获取文章详情
      * @param id
      */
-    getPost(id: Array<string>): Promise<Post|null>,
+    getPost(id: string): Promise<Post|null>,
 }
 
 export interface Post {
     /**
      * id组成规则，创建时间
      */
-    id: Array<string> | null,
+    id: string | null,
+    parentId: string | null,
     title: string,
     tags: Array<string>,
     content: RawDraftContentState,
