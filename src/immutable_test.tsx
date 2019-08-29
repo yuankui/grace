@@ -4,7 +4,7 @@ import React from "react";
 
 function mapState(state: AppState): Props {
     return {
-        age: 2
+        age: 3
     };
 }
 
