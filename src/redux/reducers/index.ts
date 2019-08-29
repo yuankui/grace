@@ -10,18 +10,18 @@ export function openPostReducer(post: PostState, action: OpenPostAction): PostSt
     return post;
 }
 
-export function updatePostList(posts: Array<Post> | undefined = [], action: UpdateListAction): Array<Post> |undefined {
+export function updatePostList(posts: Array<Post> | undefined = [], action: UpdateListAction): Array<Post> {
     if (action.type === 'UpdateList') {
         return action.posts;
     }
     return posts;
 }
 
-export function updateIsOpening(isOpening: boolean, action: OpeningAction): boolean {
+export function updateIsOpening(isOpening: boolean |undefined = false, action: OpeningAction): boolean {
     if (action.type === 'SetOpening') {
         return action.opening;
     }
-    return isOpening;
+    return isOpening as boolean;
 }
 
 export const reducer: Reducer<AppState> = combineReducers({
