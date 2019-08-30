@@ -77,7 +77,7 @@ export function mergePlugins(plugins: Array<EditorPlugin>): EditorPlugin {
         name: "merged-plugin",
         handleKeyCommand(command: string, editorState: EditorState, eventTimeStamp: number): DraftHandleValue {
             const handled = plugins.some(plugin => {
-                if (plugin.handleKeyCommand === undefined) {
+                if (plugin.handleKeyCommand == null) {
                     return false;
                 }
                 let result = plugin.handleKeyCommand(command, editorState, eventTimeStamp);
@@ -88,7 +88,7 @@ export function mergePlugins(plugins: Array<EditorPlugin>): EditorPlugin {
         },
         handleBeforeInput(chars: string, editorState: EditorState, eventTimeStamp: number): DraftHandleValue {
             const handled = plugins.some(plugin => {
-                if (plugin.handleBeforeInput === undefined) {
+                if (plugin.handleBeforeInput == null) {
                     return false;
                 }
                 let result = plugin.handleBeforeInput(chars, editorState, eventTimeStamp);
@@ -111,7 +111,7 @@ export function mergePlugins(plugins: Array<EditorPlugin>): EditorPlugin {
             return getDefaultKeyBinding(e);
         },
 
-        customStyleMap: mergeMap(plugins.map(p => p.customStyleMap).filter(p => p !== null)),
+        customStyleMap: mergeMap(plugins.map(p => p.customStyleMap).filter(p => p != null)),
 
         blockStyleFn(block: ContentBlock): string {
             for (let plugin of plugins) {
