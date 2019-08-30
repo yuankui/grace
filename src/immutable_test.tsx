@@ -1,8 +1,8 @@
 import {connect} from "react-redux";
-import {AppState} from "./redux/state";
+import {AppStore} from "./redux/store";
 import React from "react";
 
-function mapState(state: AppState): Props {
+function mapState(state: AppStore): Props {
     return {
         age: 3
     };

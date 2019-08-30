@@ -38,7 +38,6 @@ export interface Post {
     title: string,
     tags: Array<string>,
     content: RawDraftContentState,
-    state?: EditorState,
     children: Array<Post>,
 }
 

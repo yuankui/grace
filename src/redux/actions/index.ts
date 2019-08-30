@@ -1,15 +1,15 @@
 import {Post} from "../../backend";
-import {PostState} from "../state";
+import {PostStore} from "../store";
 import {Action} from "redux";
 
 export type Actions = "OpenPost" | "SavePost" | "UpdateList" | 'SetOpening' | string;
 
-export interface BaseAction extends Action {
+export interface BaseAction extends Action<string> {
     type: Actions,
 }
 
 export interface OpenPostAction extends BaseAction {
-    post: PostState,
+    post: PostStore,
 }
 
 export interface UpdateListAction extends BaseAction {

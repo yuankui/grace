@@ -1,8 +1,8 @@
 import React, {createRef, KeyboardEvent, KeyboardEventHandler} from 'react';
 import {MyEditor} from "./Editor/Editor";
-import {EditorState} from "draft-js";
+import {convertFromRaw, EditorState} from "draft-js";
 import './App.css';
-import {Input, Layout} from 'antd';
+import {Button, Icon, Input, Layout} from 'antd';
 import TreeMenu from 'react-simple-tree-menu';
 import './menu.css';
 import {Backend} from "./backend";
@@ -17,6 +17,10 @@ import {createCodePlugin} from "./Editor/plugins/code-plugin";
 import {createTodoPlugin} from "./Editor/plugins/todo-plugin";
 import {createImagePlugin} from "./Editor/plugins/image-plugin";
 import {createSoftInsertPlugin} from "./Editor/plugins/common-plugin/soft-insert-plugin";
+import {connect} from "react-redux";
+import {Dispatch, Store} from "redux";
+import {AppStore} from "./redux/store";
+import {BaseAction} from "./redux/actions";
 
 
 const {Sider, Content} = Layout;
@@ -49,20 +53,40 @@ const treeData = [
     },
 ];
 
-export const EditableContext = React.createContext(true);
-
 interface AppState {
     editable: boolean,
     editorState: EditorState,
     title: string,
 }
-export class App extends React.Component<any, AppState> {
-    private editor: React.RefObject<MyEditor>;
-    private backend: Backend;
+
+interface AppProps {
+    state: AppStore,
+    dispatch: Dispatch<BaseAction>,
+}
+
+class App extends React.Component<AppProps, AppState> {
+    private readonly editor: React.RefObject<MyEditor>;
+    private readonly backend: Backend;
     constructor(props: Readonly<any>) {
         super(props);
         this.editor = createRef();
 
+        // init state
+        console.log(this.props);
+        let post = this.props.state.currentPost;
+
+        let editorState = EditorState.createEmpty();
+        if (post != null) {
+            const content = convertFromRaw(post.content);
+            editorState = EditorState.createWithContent(content);
+        }
+        this.state = {
+            editorState: editorState,
+            editable: false,
+            title: "",
+        };
+
+        // init backend
         var userAgent = navigator.userAgent.toLowerCase();
         if (userAgent.indexOf(' electron/') > -1) {
             // Electron-specific code
@@ -71,12 +95,6 @@ export class App extends React.Component<any, AppState> {
             this.backend = createWebBackend();
         }
     }
-
-    state = {
-        editorState: EditorState.createEmpty(),
-        editable: false,
-        title: "",
-    };
 
     onChange = (v: EditorState) => {
         this.setState({
@@ -109,12 +127,6 @@ export class App extends React.Component<any, AppState> {
         }
     };
 
-    changeTitle = (title: string) => {
-        this.setState({
-            title
-        });
-    };
-
     render() {
         const plugins: Array<EditorPlugin> = [
             createToggleHeaderPlugin(this.onChange),
@@ -132,7 +144,11 @@ export class App extends React.Component<any, AppState> {
         return (
             <Layout className='layout'>
                 <Sider theme='light' width={300}>
-                    <TreeMenu onClickItem={(e) => console.log(e)} data={treeData} />
+                    <div className='search-bar'>
+                        <Input className='input' placeholder="search"/>
+                        <span className='icon'><Button><Icon type="edit" /></Button></span>
+                    </div>
+                    <TreeMenu hasSearch={false} onClickItem={(e) => console.log(e)} data={treeData} />
                 </Sider>
                 <Content onKeyDown={this.onSave}>
                     <Input className='title' onKeyPress={this.focus}/>
@@ -148,3 +164,11 @@ export class App extends React.Component<any, AppState> {
         );
     }
 }
+
+function mapState(state: AppStore) {
+    return {
+        state
+    }
+}
+
+export default connect(mapState)(App);

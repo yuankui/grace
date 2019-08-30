@@ -38,3 +38,12 @@
     font-size: 30px;
     outline: none;
 }
+
+/*search bar*/
+.search-bar .icon {
+    width: 50px;
+}
+
+.search-bar .input {
+    width: calc(100% - 50px)
+}
