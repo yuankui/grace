@@ -8,6 +8,15 @@ import './menu.css';
 import {Backend} from "./backend";
 import {createElectronBackend} from "./backend/electron/ElectronBackend";
 import {createWebBackend} from "./backend/web/WebBackend";
+import {EditorPlugin, mergePlugins} from "./Editor/plugins";
+import {createToggleHeaderPlugin} from "./Editor/plugins/toggle-header-plugin";
+import {createToggleListPlugin} from "./Editor/plugins/toggle-prefix-plugin";
+import {createResetBlockAfterEnter} from "./Editor/plugins/common-plugin/reset-block-after-enter";
+import {createInlineHotkey} from "./Editor/plugins/common-plugin/inline-hot-key-plugin";
+import {createCodePlugin} from "./Editor/plugins/code-plugin";
+import {createTodoPlugin} from "./Editor/plugins/todo-plugin";
+import {createImagePlugin} from "./Editor/plugins/image-plugin";
+import {createSoftInsertPlugin} from "./Editor/plugins/common-plugin/soft-insert-plugin";
 
 
 const {Sider, Content} = Layout;
@@ -107,6 +116,19 @@ export class App extends React.Component<any, AppState> {
     };
 
     render() {
+        const plugins: Array<EditorPlugin> = [
+            createToggleHeaderPlugin(this.onChange),
+            createToggleListPlugin(this.state.editorState, this.onChange),
+            createResetBlockAfterEnter(this.onChange),
+            createInlineHotkey(this.state.editorState, this.onChange),
+            createCodePlugin(this.state.editorState, this.onChange),
+            createTodoPlugin(() => this.state.editorState, this.onChange),
+            createImagePlugin(this.state.editorState, this.onChange),
+            createSoftInsertPlugin(this.state.editorState, this.onChange),
+        ];
+
+        const plugin = mergePlugins(plugins);
+
         return (
             <Layout className='layout'>
                 <Sider theme='light' width={300}>
@@ -119,6 +141,7 @@ export class App extends React.Component<any, AppState> {
                               onEditableChange={this.setEditable}
                               editable={this.state.editable}
                               editorState={this.state.editorState}
+                              plugin={plugin}
                               onChange={this.onChange}/>
                 </Content>
             </Layout>

@@ -27,6 +27,7 @@ interface Props {
     editable: boolean,
     onEditableChange: (editable: boolean) => void;
     backend: Backend;
+    plugin: EditorPlugin,
 }
 
 interface State {
@@ -65,18 +66,6 @@ export class MyEditor extends Component<Props, State> {
     };
 
     render() {
-        const plugins: Array<EditorPlugin> = [
-            createToggleHeaderPlugin(this.props.onChange),
-            createToggleListPlugin(this.props.editorState, this.props.onChange),
-            createResetBlockAfterEnter(this.props.onChange),
-            createInlineHotkey(this.props.editorState, this.props.onChange),
-            createCodePlugin(this.props.editorState, this.props.onChange),
-            createTodoPlugin(() => this.props.editorState, this.props.onChange),
-            createImagePlugin(this.props.editorState, this.props.onChange),
-            createSoftInsertPlugin(this.props.editorState, this.props.onChange),
-        ];
-
-        const props = mergePlugins(plugins);
 
         return (
             <div className='editor' onClick={() => this.focus()}>
@@ -90,7 +79,7 @@ export class MyEditor extends Component<Props, State> {
                     readOnly={!this.props.editable}
                     ref={this.ref}
                     onChange={this.onChange}
-                    {...props}
+                    {...this.props.plugin}
                 />
             </div>
         );
