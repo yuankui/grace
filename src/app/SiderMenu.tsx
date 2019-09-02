@@ -33,7 +33,7 @@ function mapStateToList(state: AppStore): Array<TreeNodeInArray> {
     let a: Array<TreeNodeInArray> = [];
 
     state.posts.forEach(p => {
-        if (p != null) {
+        if (p !== undefined) {
             a.push({
                 label: p.title,
                 key: p.id,

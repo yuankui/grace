@@ -31,7 +31,7 @@ export interface EditController {
 }
 
 export class MyEditor extends Component<Props, State> {
-    private ref: React.RefObject<Editor>;
+    private readonly ref: React.RefObject<Editor>;
 
     constructor(props: Readonly<Props>) {
         super(props);
