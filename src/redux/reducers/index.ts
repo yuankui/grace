@@ -3,6 +3,7 @@ import {BaseAction, OpeningAction, OpenPostAction, UpdateListAction} from "../ac
 import {combineReducers, Reducer} from "redux";
 import {AppStore, PostStore} from "../store";
 import {createNewPostReducer} from "./post_reducers";
+import {OrderedMap} from "immutable";
 
 export function openPostReducer(post: PostStore | undefined, action: OpenPostAction): PostStore {
     if (action.type === "OpenPost") {
@@ -14,11 +15,11 @@ export function openPostReducer(post: PostStore | undefined, action: OpenPostAct
     return post;
 }
 
-export function updatePostList(posts: Array<Post> | undefined = [], action: UpdateListAction): Array<Post> {
+export function updatePostList(posts: OrderedMap<string, Post> | undefined = OrderedMap(), action: UpdateListAction): OrderedMap<string, Post> {
     if (action.type === 'UpdateList') {
         return action.posts;
     }
-    return posts as Array<Post>;
+    return posts as OrderedMap<string, Post>;
 }
 
 export function updateIsOpening(isOpening: boolean | undefined = false, action: OpeningAction): boolean {
@@ -38,7 +39,7 @@ function concatReducers<S, A extends BaseAction>(reducers: Array<Reducer<S, A>>)
 }
 
 const combinedReducer: Reducer<AppStore, BaseAction> = combineReducers({
-    postList: updatePostList,
+    posts: updatePostList,
     currentPost: openPostReducer,
     isOpening: updateIsOpening,
 });

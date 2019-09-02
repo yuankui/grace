@@ -30,13 +30,18 @@ class SiderMenu extends React.Component<Props, any> {
 }
 
 function mapStateToList(state: AppStore): Array<TreeNodeInArray> {
-    const nodes: Array<TreeNodeInArray> = state.postList.map(p => {
-        return {
-            label: p.title,
-            key: p.id,
+    let a: Array<TreeNodeInArray> = [];
+
+    state.posts.forEach(p => {
+        if (p != null) {
+            a.push({
+                label: p.title,
+                key: p.id,
+            })
         }
     });
-    return nodes;
+
+    return a;
 }
 
 function mapState(state: AppStore) {

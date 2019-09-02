@@ -1,6 +1,7 @@
 import {AppStore, createEmptyStore} from "../store";
 import {CreateNewPostAction, createPostId} from "../actions";
 import {createEmptyContent} from "../utils";
+import {Post} from "../../backend";
 
 export function createNewPostReducer(store: AppStore | undefined, action: CreateNewPostAction): AppStore {
     if (store === undefined) {
@@ -10,15 +11,35 @@ export function createNewPostReducer(store: AppStore | undefined, action: Create
         return store;
     }
 
-    return {
-        ...store,
-        currentPost: {
-            id: createPostId(),
-            content: createEmptyContent(),
-            tags: [],
-            children: [],
-            title: "未命名",
-            parentId: null,
+    let newPost = {
+        id: createPostId(),
+        content: createEmptyContent(),
+        tags: [],
+        children: [],
+        title: "未命名",
+        parentId: null,
+    };
+
+    let parent: Post | undefined = undefined;
+    if (action.parentId != null) {
+        parent = store.posts.get(action.parentId);
+    }
+
+    if (parent === undefined) {
+        return {
+            ...store,
+            currentPost: newPost,
+            posts: store.posts.set(newPost.id, newPost)
+        }
+    } else {
+        const newParent: Post = {
+            ...parent,
+            children: [...parent.children, newPost]
+        };
+        return {
+            ...store,
+            currentPost: newPost,
+            posts: store.posts.set(parent.id, newParent)
         }
     }
 }

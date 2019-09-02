@@ -2,6 +2,7 @@ import {Post} from "../../backend";
 import {PostStore} from "../store";
 import {Action} from "redux";
 import uuid from "uuid";
+import {OrderedMap} from "immutable";
 
 export type Actions = "OpenPost"
     | "SavePost"
@@ -12,6 +13,7 @@ export type Actions = "OpenPost"
 
 export interface BaseAction extends Action {
     type: Actions,
+
     [props: string]: any,
 }
 
@@ -20,7 +22,7 @@ export interface OpenPostAction extends BaseAction {
 }
 
 export interface UpdateListAction extends BaseAction {
-    posts: Array<Post>,
+    posts: OrderedMap<string, Post>,
 }
 
 export interface OpeningAction extends BaseAction {
