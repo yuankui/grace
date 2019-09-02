@@ -2,8 +2,8 @@ import React, {createRef, KeyboardEvent} from 'react';
 import {MyEditor} from "../Editor/Editor";
 import {convertFromRaw, EditorState} from "draft-js";
 import './App.css';
-import {Button, Icon, Input, Layout} from 'antd';
-import TreeMenu, {TreeNodeInArray} from 'react-simple-tree-menu';
+import {Input, Layout} from 'antd';
+import {TreeNodeInArray} from 'react-simple-tree-menu';
 import './menu.css';
 import {Backend} from "../backend";
 import {createElectronBackend} from "../backend/electron/ElectronBackend";
@@ -21,6 +21,7 @@ import {connect} from "react-redux";
 import {Dispatch} from "redux";
 import {AppStore} from "../redux/store";
 import {BaseAction} from "../redux/actions";
+import SiderMenu from "./SiderMenu";
 
 const {Sider, Content} = Layout;
 
@@ -34,16 +35,6 @@ interface AppProps {
     state: AppStore,
     dispatch: Dispatch<BaseAction>,
     list: Array<TreeNodeInArray>,
-}
-
-function mapStateToList(state: AppStore): Array<TreeNodeInArray> {
-    const nodes: Array<TreeNodeInArray> = state.postList.map(p => {
-        return {
-            label: p.title,
-            key: p.id,
-        }
-    });
-    return nodes;
 }
 
 class App extends React.Component<AppProps, AppState> {
@@ -126,13 +117,7 @@ class App extends React.Component<AppProps, AppState> {
         return (
             <Layout className='layout'>
                 <Sider theme='light' width={300}>
-                    <div className='search-bar'>
-                        <Input className='input' placeholder="search"/>
-                        <span className='icon'>
-                            <Button><Icon type="edit" /></Button>
-                        </span>
-                    </div>
-                    <TreeMenu hasSearch={false} onClickItem={(e) => console.log(e)} data={this.props.list} />
+                    <SiderMenu />
                 </Sider>
                 <Content onKeyDown={this.onSave}>
                     <Input className='title' onKeyPress={this.focus}/>
@@ -152,7 +137,6 @@ class App extends React.Component<AppProps, AppState> {
 function mapState(state: AppStore) {
     return {
         state,
-        list: mapStateToList(state),
     }
 }
 
