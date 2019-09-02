@@ -1,5 +1,5 @@
 import {Backend, Post} from "../index";
-import uuid from "uuid";
+import uuid from "uuid/v4";
 
 export function createWebBackend() {
     return new WebBackend();

@@ -7,3 +7,11 @@ export interface AppStore {
     postList: Array<Post>,
     isOpening: boolean,
 }
+
+export function createEmptyStore(): AppStore {
+    return {
+        currentPost: null,
+        postList: [],
+        isOpening: false,
+    }
+}
