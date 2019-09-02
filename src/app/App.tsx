@@ -1,6 +1,6 @@
-import React, {createRef, KeyboardEvent} from 'react';
+import React, {ChangeEvent, createRef, KeyboardEvent} from 'react';
 import {MyEditor} from "../Editor/Editor";
-import {convertFromRaw, EditorState} from "draft-js";
+import {EditorState} from "draft-js";
 import './App.css';
 import {Input, Layout} from 'antd';
 import {TreeNodeInArray} from 'react-simple-tree-menu';
@@ -19,20 +19,19 @@ import {createImagePlugin} from "../Editor/plugins/image-plugin";
 import {createSoftInsertPlugin} from "../Editor/plugins/common-plugin/soft-insert-plugin";
 import {connect} from "react-redux";
 import {Dispatch} from "redux";
-import {AppStore} from "../redux/store";
-import {BaseAction} from "../redux/actions";
+import {AppStore, EditingPost} from "../redux/store";
+import {BaseAction, createUpdateEditingPostAction} from "../redux/actions";
 import SiderMenu from "./SiderMenu";
 
 const {Sider, Content} = Layout;
 
 interface AppState {
     editable: boolean,
-    editorState: EditorState,
-    title: string,
 }
 
 interface AppProps {
     state: AppStore,
+    editingPost: EditingPost,
     dispatch: Dispatch<BaseAction>,
     list: Array<TreeNodeInArray>,
 }
@@ -46,21 +45,13 @@ class App extends React.Component<AppProps, AppState> {
 
         // init state
         console.log(this.props);
-        let post = this.props.state.currentPost;
 
-        let editorState = EditorState.createEmpty();
-        if (post != null) {
-            const content = convertFromRaw(post.content);
-            editorState = EditorState.createWithContent(content);
-        }
         this.state = {
-            editorState: editorState,
             editable: false,
-            title: "",
         };
 
         // init backend
-        var userAgent = navigator.userAgent.toLowerCase();
+        let userAgent = navigator.userAgent.toLowerCase();
         if (userAgent.indexOf(' electron/') > -1) {
             // Electron-specific code
             this.backend = createElectronBackend("/Users/yuankui/grace-docs");
@@ -70,9 +61,10 @@ class App extends React.Component<AppProps, AppState> {
     }
 
     onChange = (v: EditorState) => {
-        this.setState({
+        this.props.dispatch(createUpdateEditingPostAction({
+            ...this.props.editingPost,
             editorState: v,
-        });
+        }));
     };
 
     onSave = (e: KeyboardEvent<HTMLDivElement>) => {
@@ -101,40 +93,47 @@ class App extends React.Component<AppProps, AppState> {
     };
 
     render() {
+        const editorState = this.props.editingPost.editorState;
         const plugins: Array<EditorPlugin> = [
             createToggleHeaderPlugin(this.onChange),
-            createToggleListPlugin(this.state.editorState, this.onChange),
+            createToggleListPlugin(editorState, this.onChange),
             createResetBlockAfterEnter(this.onChange),
-            createInlineHotkey(this.state.editorState, this.onChange),
-            createCodePlugin(this.state.editorState, this.onChange),
-            createTodoPlugin(() => this.state.editorState, this.onChange),
-            createImagePlugin(this.state.editorState, this.onChange),
-            createSoftInsertPlugin(this.state.editorState, this.onChange),
+            createInlineHotkey(editorState, this.onChange),
+            createCodePlugin(editorState, this.onChange),
+            createTodoPlugin(() => editorState, this.onChange),
+            createImagePlugin(editorState, this.onChange),
+            createSoftInsertPlugin(editorState, this.onChange),
         ];
 
         const plugin = mergePlugins(plugins);
 
-        let key = "empty";
-        if (this.props.state.currentPost != null) {
-            key = this.props.state.currentPost.id;
-        }
+        let key = this.props.state.currentPost.id;
         return (
             <Layout className='layout'>
                 <Sider theme='light' width={300}>
                     <SiderMenu />
                 </Sider>
                 <Content onKeyDown={this.onSave}>
-                    <Input className='title' onKeyPress={this.focus}/>
+                    <Input className='title' onChange={this.onTitleChange} onKeyPress={this.focus}/>
                     <MyEditor ref={this.editor}
                               key={key}
                               backend={this.backend}
                               onEditableChange={this.setEditable}
                               editable={this.state.editable}
-                              editorState={this.state.editorState}
+                              editorState={editorState}
                               plugin={plugin}
                               onChange={this.onChange}/>
                 </Content>
             </Layout>
+        );
+    }
+
+    onTitleChange = (value: ChangeEvent<HTMLInputElement>) => {
+        this.props.dispatch(
+            createUpdateEditingPostAction({
+                ...this.props.editingPost,
+                title: value.target.value,
+            })
         );
     }
 }
@@ -142,6 +141,7 @@ class App extends React.Component<AppProps, AppState> {
 function mapState(state: AppStore) {
     return {
         state,
+        editingPost: state.currentPost,
     }
 }
 

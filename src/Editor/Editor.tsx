@@ -22,15 +22,11 @@ interface Props {
     plugin: EditorPlugin,
 }
 
-interface State {
-
-}
-
 export interface EditController {
     setEditable(editable: boolean): void;
 }
 
-export class MyEditor extends Component<Props, State> {
+export class MyEditor extends Component<Props, any> {
     private readonly ref: React.RefObject<Editor>;
 
     constructor(props: Readonly<Props>) {

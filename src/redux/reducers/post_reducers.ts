@@ -2,6 +2,7 @@ import {AppStore, createEmptyStore} from "../store";
 import {CreateNewPostAction, createPostId} from "../actions";
 import {createEmptyContent} from "../utils";
 import {Post} from "../../backend";
+import {EditorState} from "draft-js";
 
 export function createNewPostReducer(store: AppStore | undefined, action: CreateNewPostAction): AppStore {
     if (store === undefined) {
@@ -14,6 +15,7 @@ export function createNewPostReducer(store: AppStore | undefined, action: Create
     let newPost = {
         id: createPostId(),
         content: createEmptyContent(),
+        editorState: EditorState.createEmpty(),
         tags: [],
         children: [],
         title: "未命名",

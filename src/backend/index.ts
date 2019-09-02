@@ -1,4 +1,4 @@
-import {EditorState, RawDraftContentState} from "draft-js";
+import {RawDraftContentState} from "draft-js";
 import {createElectronBackend} from "./electron/ElectronBackend";
 import {createWebBackend} from "./web/WebBackend";
 

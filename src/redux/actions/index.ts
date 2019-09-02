@@ -1,14 +1,17 @@
 import {Post} from "../../backend";
-import {PostStore} from "../store";
+import {EditingPost, PostStore} from "../store";
 import {Action} from "redux";
 import uuid from "uuid";
 import {OrderedMap} from "immutable";
+import {EditorState} from "draft-js";
 
 export type Actions = "OpenPost"
     | "SavePost"
+    | "UpdatePost"
     | "CreateNewPost"
     | "UpdateList"
     | 'SetOpening'
+    | 'UpdateEditingPost'
     | any;
 
 export interface BaseAction extends Action {
@@ -19,6 +22,10 @@ export interface BaseAction extends Action {
 
 export interface OpenPostAction extends BaseAction {
     post: PostStore,
+}
+
+export interface UpdateEditingPostAction extends BaseAction {
+    editingPost: EditingPost,
 }
 
 export interface UpdateListAction extends BaseAction {
@@ -37,11 +44,26 @@ export interface CreateNewPostAction extends BaseAction {
     parentId: string | null,
 }
 
+export interface UpdateEditorStateAction extends BaseAction {
+    state: EditorState,
+}
+
+export interface UpdatePostAction extends BaseAction {
+
+}
+
 export function createSavePostAction(post: Post): SavePostAction {
     return {
         type: "SavePost",
         post
     };
+}
+
+export function createUpdateEditingPostAction(post: EditingPost): UpdateEditingPostAction {
+    return {
+        type: 'UpdateEditingPost',
+        editingPost: post,
+    }
 }
 
 export function createCreateNewPostAction(parentId: string | null = null): CreateNewPostAction {
