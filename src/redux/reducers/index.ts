@@ -1,6 +1,6 @@
 import {Post} from "../../backend";
-import {UpdateListAction, OpenPostAction, OpeningAction, BaseAction} from "../actions";
-import {Action, combineReducers, Reducer} from "redux";
+import {BaseAction, OpeningAction, OpenPostAction, UpdateListAction} from "../actions";
+import {combineReducers, Reducer} from "redux";
 import {AppStore, PostStore} from "../store";
 import {createNewPostReducer} from "./post_reducers";
 

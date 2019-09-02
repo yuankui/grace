@@ -1,5 +1,5 @@
 import {AppStore, createEmptyStore} from "../store";
-import {BaseAction, CreateNewPostAction, createPostId} from "../actions";
+import {CreateNewPostAction, createPostId} from "../actions";
 import {createEmptyContent} from "../utils";
 
 export function createNewPostReducer(store: AppStore | undefined, action: CreateNewPostAction): AppStore {
