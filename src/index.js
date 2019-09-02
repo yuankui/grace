@@ -1,7 +1,7 @@
 import React from 'react';
 import * as ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import App from './app/App';
 import * as serviceWorker from './serviceWorker';
 import {createStore, applyMiddleware} from "redux";
 import {reducer} from "./redux/reducers";

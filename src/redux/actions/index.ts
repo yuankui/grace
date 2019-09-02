@@ -24,6 +24,9 @@ export interface SavePostAction extends BaseAction {
     post: Post,
 }
 
-export function createSavePostAction(post: Post) {
-
+export function createSavePostAction(post: Post): SavePostAction {
+    return {
+        type: "SavePost",
+        post
+    };
 }
