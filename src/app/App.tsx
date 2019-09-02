@@ -39,6 +39,7 @@ interface AppProps {
 class App extends React.Component<AppProps, AppState> {
     private readonly editor: React.RefObject<MyEditor>;
     private readonly backend: Backend;
+
     constructor(props: Readonly<any>) {
         super(props);
         this.editor = createRef();
@@ -111,10 +112,13 @@ class App extends React.Component<AppProps, AppState> {
         return (
             <Layout className='layout'>
                 <Sider theme='light' width={300}>
-                    <SiderMenu />
+                    <SiderMenu/>
                 </Sider>
                 <Content onKeyDown={this.onSave}>
-                    <Input className='title' onChange={this.onTitleChange} onKeyPress={this.focus}/>
+                    <Input className='title'
+                           value={this.props.editingPost.title}
+                           onChange={this.onTitleChange}
+                           onKeyPress={this.focus}/>
                     <MyEditor ref={this.editor}
                               key={key}
                               backend={this.backend}
