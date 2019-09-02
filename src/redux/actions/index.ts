@@ -20,3 +20,10 @@ export interface OpeningAction extends BaseAction {
     opening: boolean,
 }
 
+export interface SavePostAction extends BaseAction {
+    post: Post,
+}
+
+export function createSavePostAction(post: Post) {
+
+}

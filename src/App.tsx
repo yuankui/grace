@@ -40,7 +40,7 @@ function mapStateToList(state: AppStore): Array<TreeNodeInArray> {
     const nodes: Array<TreeNodeInArray> = state.postList.map(p => {
         return {
             label: p.title,
-            key: p.id as string,
+            key: p.id,
         }
     });
     return nodes;
@@ -128,7 +128,9 @@ class App extends React.Component<AppProps, AppState> {
                 <Sider theme='light' width={300}>
                     <div className='search-bar'>
                         <Input className='input' placeholder="search"/>
-                        <span className='icon'><Button><Icon type="edit" /></Button></span>
+                        <span className='icon'>
+                            <Button><Icon type="edit" /></Button>
+                        </span>
                     </div>
                     <TreeMenu hasSearch={false} onClickItem={(e) => console.log(e)} data={this.props.list} />
                 </Sider>

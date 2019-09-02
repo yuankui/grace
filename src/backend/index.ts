@@ -26,14 +26,14 @@ export interface Backend {
      * 获取文章详情
      * @param id
      */
-    getPost(id: string): Promise<Post|null>,
+    getPost(id: string): Promise<Post | null>,
 }
 
 export interface Post {
     /**
      * id组成规则，创建时间
      */
-    id: string | null,
+    id: string,
     parentId: string | null,
     title: string,
     tags: Array<string>,
