@@ -8,9 +8,9 @@ export type Actions = "OpenPost"
     | "CreateNewPost"
     | "UpdateList"
     | 'SetOpening'
-    | string;
+    | any;
 
-export interface BaseAction extends Action<string> {
+export interface BaseAction extends Action {
     type: Actions,
     [props: string]: any,
 }

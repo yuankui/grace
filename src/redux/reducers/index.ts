@@ -28,7 +28,7 @@ export function updateIsOpening(isOpening: boolean | undefined = false, action: 
     return isOpening as boolean;
 }
 
-function concatReducers<S, A extends Action>(reducers: Array<Reducer<S, A>>): Reducer<S, A> {
+function concatReducers<S, A extends BaseAction>(reducers: Array<Reducer<S, A>>): Reducer<S, A> {
     return function (state: S |undefined, action: A): S {
         for (let reducer of reducers) {
             state = reducer(state, action);
@@ -37,15 +37,13 @@ function concatReducers<S, A extends Action>(reducers: Array<Reducer<S, A>>): Re
     }
 }
 
-const combinedReducer: Reducer<AppStore> = combineReducers({
+const combinedReducer: Reducer<AppStore, BaseAction> = combineReducers({
     postList: updatePostList,
     currentPost: openPostReducer,
     isOpening: updateIsOpening,
 });
 
-let func: Reducer<AppStore, BaseAction> = createNewPostReducer;
-
-export const reducer: Reducer<AppStore> = concatReducers([
+export const reducer: Reducer<AppStore, any> = concatReducers([
     combinedReducer,
     createNewPostReducer,
 ]);
