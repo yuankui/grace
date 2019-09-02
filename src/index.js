@@ -3,12 +3,15 @@ import * as ReactDOM from 'react-dom';
 import './index.css';
 import App from './app/App';
 import * as serviceWorker from './serviceWorker';
-import {createStore, applyMiddleware} from "redux";
+import {createStore, applyMiddleware, compose} from "redux";
 import {reducer} from "./redux/reducers";
 import thunk from 'redux-thunk';
 import {Provider} from "react-redux";
 
-const store = createStore(reducer, applyMiddleware(thunk));
+/* eslint-disable no-underscore-dangle */
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+/* eslint-enable */
+const store = createStore(reducer, composeEnhancers(applyMiddleware(thunk)));
 
 ReactDOM.render(
     <Provider store={store}>

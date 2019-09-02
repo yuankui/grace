@@ -114,6 +114,10 @@ class App extends React.Component<AppProps, AppState> {
 
         const plugin = mergePlugins(plugins);
 
+        let key = "empty";
+        if (this.props.state.currentPost != null) {
+            key = this.props.state.currentPost.id;
+        }
         return (
             <Layout className='layout'>
                 <Sider theme='light' width={300}>
@@ -122,6 +126,7 @@ class App extends React.Component<AppProps, AppState> {
                 <Content onKeyDown={this.onSave}>
                     <Input className='title' onKeyPress={this.focus}/>
                     <MyEditor ref={this.editor}
+                              key={key}
                               backend={this.backend}
                               onEditableChange={this.setEditable}
                               editable={this.state.editable}
