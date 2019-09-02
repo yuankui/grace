@@ -1,9 +1,9 @@
-import React, {createRef, KeyboardEvent, KeyboardEventHandler} from 'react';
+import React, {createRef, KeyboardEvent} from 'react';
 import {MyEditor} from "./Editor/Editor";
 import {convertFromRaw, EditorState} from "draft-js";
 import './App.css';
 import {Button, Icon, Input, Layout} from 'antd';
-import TreeMenu from 'react-simple-tree-menu';
+import TreeMenu, {TreeNodeInArray} from 'react-simple-tree-menu';
 import './menu.css';
 import {Backend} from "./backend";
 import {createElectronBackend} from "./backend/electron/ElectronBackend";
@@ -18,40 +18,11 @@ import {createTodoPlugin} from "./Editor/plugins/todo-plugin";
 import {createImagePlugin} from "./Editor/plugins/image-plugin";
 import {createSoftInsertPlugin} from "./Editor/plugins/common-plugin/soft-insert-plugin";
 import {connect} from "react-redux";
-import {Dispatch, Store} from "redux";
+import {Dispatch} from "redux";
 import {AppStore} from "./redux/store";
 import {BaseAction} from "./redux/actions";
 
-
 const {Sider, Content} = Layout;
-
-const treeData = [
-    {
-        key: 'first-level-node-1',
-        label: 'Node 1 at the first level',
-        nodes: [
-            {
-                key: 'second-level-node-1',
-                label: 'Node 1 at the second level',
-                nodes: [
-                    {
-                        key: 'third-level-node-1',
-                        label: 'Last node of the branch',
-                        nodes: [] // you can remove the nodes property or leave it as an empty array
-                    },
-                ],
-            },
-        ],
-    },
-    {
-        key: 'first-level-node-2',
-        label: 'Node 2 at the first level',
-    },
-    {
-        key: 'first-level-node-3',
-        label: 'Node 3 at the first level',
-    },
-];
 
 interface AppState {
     editable: boolean,
@@ -62,6 +33,17 @@ interface AppState {
 interface AppProps {
     state: AppStore,
     dispatch: Dispatch<BaseAction>,
+    list: Array<TreeNodeInArray>,
+}
+
+function mapStateToList(state: AppStore): Array<TreeNodeInArray> {
+    const nodes: Array<TreeNodeInArray> = state.postList.map(p => {
+        return {
+            label: p.title,
+            key: p.id as string,
+        }
+    });
+    return nodes;
 }
 
 class App extends React.Component<AppProps, AppState> {
@@ -148,7 +130,7 @@ class App extends React.Component<AppProps, AppState> {
                         <Input className='input' placeholder="search"/>
                         <span className='icon'><Button><Icon type="edit" /></Button></span>
                     </div>
-                    <TreeMenu hasSearch={false} onClickItem={(e) => console.log(e)} data={treeData} />
+                    <TreeMenu hasSearch={false} onClickItem={(e) => console.log(e)} data={this.props.list} />
                 </Sider>
                 <Content onKeyDown={this.onSave}>
                     <Input className='title' onKeyPress={this.focus}/>
@@ -167,7 +149,8 @@ class App extends React.Component<AppProps, AppState> {
 
 function mapState(state: AppStore) {
     return {
-        state
+        state,
+        list: mapStateToList(state),
     }
 }
 

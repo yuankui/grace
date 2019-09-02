@@ -1,15 +1,7 @@
 import React, {Component} from 'react';
 import {convertToRaw, Editor, EditorState, RichUtils} from 'draft-js';
 import {Button, Switch} from "antd";
-import {createToggleHeaderPlugin} from "./plugins/toggle-header-plugin";
-import {EditorPlugin, mergePlugins} from "./plugins";
-import {createCodePlugin} from "./plugins/code-plugin";
-import {createTodoPlugin} from "./plugins/todo-plugin";
-import {createImagePlugin} from "./plugins/image-plugin";
-import {createResetBlockAfterEnter} from "./plugins/common-plugin/reset-block-after-enter";
-import {createInlineHotkey} from "./plugins/common-plugin/inline-hot-key-plugin";
-import {createSoftInsertPlugin} from "./plugins/common-plugin/soft-insert-plugin";
-import {createToggleListPlugin} from "./plugins/toggle-prefix-plugin";
+import {EditorPlugin} from "./plugins";
 import './editor.css';
 import {Backend} from "../backend";
 

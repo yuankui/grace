@@ -59,7 +59,7 @@ export class ImageBlock extends React.Component<ImageProps, any> {
                              height={height}
                              onResize={this.onResize}
                              width={width}>
-                <img width='100%' height='100%' alt="load image failed" src={url}/>
+                <img width='100%' height='100%' alt="load failed" src={url}/>
             </ResizableBox>;
     }
 }

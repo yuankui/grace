@@ -1,10 +1,5 @@
 import {StateChange} from "../../Editor";
-import {
-    EditorState,
-    getDefaultKeyBinding,
-    DraftHandleValue,
-    RichUtils
-} from "draft-js";
+import {DraftHandleValue, EditorState, RichUtils} from "draft-js";
 import * as React from "react";
 import {EditorPlugin} from "../index";
 
