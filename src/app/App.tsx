@@ -20,9 +20,8 @@ import {createSoftInsertPlugin} from "../Editor/plugins/common-plugin/soft-inser
 import {connect} from "react-redux";
 import {Dispatch} from "redux";
 import {AppStore, EditingPost} from "../redux/store";
-import {createUpdateEditingPostAction} from "../redux/actions";
 import SiderMenu from "./SiderMenu";
-import {TestCommand} from "../redux/commands/TestCommand";
+import {UpdateEditingPostCommand} from "../redux/commands/UpdateEditingPostCommand";
 
 const {Sider, Content} = Layout;
 
@@ -63,7 +62,7 @@ class App extends React.Component<AppProps, AppState> {
     }
 
     onChange = (v: EditorState) => {
-        this.props.dispatch(createUpdateEditingPostAction({
+        this.props.dispatch(new UpdateEditingPostCommand({
             ...this.props.editingPost,
             editorState: v,
         }));
@@ -114,7 +113,7 @@ class App extends React.Component<AppProps, AppState> {
             <Layout className='layout'>
                 <Sider theme='light' width={300}>
                     <Button onClick={() => {
-                        this.props.dispatch(new TestCommand());
+                        
                     }}>测试</Button>
                     <SiderMenu/>
                 </Sider>
@@ -138,7 +137,7 @@ class App extends React.Component<AppProps, AppState> {
 
     onTitleChange = (value: ChangeEvent<HTMLInputElement>) => {
         this.props.dispatch(
-            createUpdateEditingPostAction({
+            new UpdateEditingPostCommand({
                 ...this.props.editingPost,
                 title: value.target.value,
             })

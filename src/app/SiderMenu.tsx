@@ -4,11 +4,11 @@ import TreeMenu, {TreeNodeInArray} from "react-simple-tree-menu";
 import {connect} from "react-redux";
 import {AppStore} from "../redux/store";
 import {Dispatch} from "redux";
-import {BaseAction, createCreateNewPostAction} from "../redux/actions";
+import {CreateNewPostCommand} from "../redux/commands/CreateNewPostCommand";
 
 interface Props {
     list: Array<TreeNodeInArray>,
-    dispatch: Dispatch<BaseAction>,
+    dispatch: Dispatch<any>,
 }
 
 class SiderMenu extends React.Component<Props, any> {
@@ -25,7 +25,7 @@ class SiderMenu extends React.Component<Props, any> {
     }
 
     createNewPost = () => {
-        this.props.dispatch(createCreateNewPostAction());
+        this.props.dispatch(new CreateNewPostCommand(null));
     }
 }
 

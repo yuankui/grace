@@ -4,15 +4,15 @@ import './index.css';
 import App from './app/App';
 import * as serviceWorker from './serviceWorker';
 import {createStore, applyMiddleware, compose} from "redux";
-import {reducer} from "./redux/reducers";
 import thunk from 'redux-thunk';
 import {Provider} from "react-redux";
 import {commandMiddleware, enhanceCommandReducer} from "./command";
+import {initReducer} from "./redux/utils";
 
 /* eslint-disable no-underscore-dangle */
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 /* eslint-enable */
-const store = createStore(enhanceCommandReducer(reducer), composeEnhancers(applyMiddleware(thunk, commandMiddleware)));
+const store = createStore(enhanceCommandReducer(initReducer), composeEnhancers(applyMiddleware(thunk, commandMiddleware)));
 
 ReactDOM.render(
     <Provider store={store}>

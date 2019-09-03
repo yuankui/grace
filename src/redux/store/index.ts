@@ -1,9 +1,7 @@
 import {Post} from "../../backend";
 import Immutable from 'immutable';
 import {EditorState} from "draft-js";
-import {createPostId} from "../actions";
-
-export type PostStore = Post | null;
+import {createPostId} from "../utils";
 
 export interface EditingPost {
     id: string,
@@ -24,6 +22,7 @@ export function createEmptyEditingPost(): EditingPost {
 export interface AppStore {
     currentPost: EditingPost,
     posts: Immutable.OrderedMap<string, Post>,
+    editMode: boolean,
     isOpening: boolean,
 }
 
@@ -31,6 +30,7 @@ export function createEmptyStore(): AppStore {
     return {
         currentPost: createEmptyEditingPost(),
         isOpening: false,
+        editMode: false,
         posts: Immutable.OrderedMap<string, Post>(),
     }
 }
