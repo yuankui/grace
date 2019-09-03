@@ -57,6 +57,9 @@ export class MyEditor extends Component<Props, any> {
                     onChange={this.onChange}
                     {...this.props.plugin}
                 />
+                <div className={"post-bottom-bar"}>
+                    hello
+                </div>
             </div>
         );
     }

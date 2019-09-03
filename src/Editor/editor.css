@@ -37,3 +37,8 @@ main.ant-layout-content {
 .DraftEditor-editorContainer {
     display: block;
 }
+
+.post-bottom-bar {
+    position: absolute;
+    bottom: 0;
+}
