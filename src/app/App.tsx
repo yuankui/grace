@@ -20,7 +20,7 @@ import {createSoftInsertPlugin} from "../Editor/plugins/common-plugin/soft-inser
 import {connect} from "react-redux";
 import {Dispatch} from "redux";
 import {AppStore, EditingPost} from "../redux/store";
-import {BaseAction, createUpdateEditingPostAction} from "../redux/actions";
+import {createUpdateEditingPostAction} from "../redux/actions";
 import SiderMenu from "./SiderMenu";
 import {TestCommand} from "../redux/commands/TestCommand";
 
