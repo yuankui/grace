@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {convertToRaw, Editor, EditorState, RichUtils} from 'draft-js';
-import {Button, Switch} from "antd";
+import {Editor, EditorState} from 'draft-js';
+import {Switch} from "antd";
 import {EditorPlugin} from "./plugins";
 import './editor.css';
 import {Backend} from "../backend";
@@ -36,7 +36,6 @@ export class MyEditor extends Component<Props, any> {
 
     onChange = (editorState: EditorState) => {
         this.props.onChange(editorState);
-        this.logState();
     };
 
     componentDidMount(): void {
@@ -54,12 +53,9 @@ export class MyEditor extends Component<Props, any> {
     };
 
     render() {
-
         return (
             <div className='editor' onClick={() => this.focus()}>
                 <div>
-                    <Button onClick={e => this.toggle()}>toggle</Button>
-                    <Button onClick={e => this.logState()}>logState</Button>
                     <Switch checked={this.props.editable} onChange={this.setEditable}/>
                 </div>
                 <Editor
@@ -71,18 +67,5 @@ export class MyEditor extends Component<Props, any> {
                 />
             </div>
         );
-    }
-
-    logState() {
-        const content = this.props.editorState.getCurrentContent();
-        console.log(JSON.stringify(convertToRaw(content)));
-    }
-
-    toggle() {
-        const state = RichUtils.toggleBlockType(this.props.editorState, 'code-block');
-        if (this.ref.current != null) {
-            this.ref.current.focus();
-        }
-        this.props.onChange(state);
     }
 }

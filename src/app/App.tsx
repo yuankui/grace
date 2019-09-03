@@ -3,7 +3,7 @@ import {MyEditor} from "../Editor/Editor";
 import {EditorState} from "draft-js";
 import './App.css';
 import {Button, Input, Layout} from 'antd';
-import {Node} from './SiderMenu';
+import SiderMenu, {Node} from './SiderMenu';
 import './menu.css';
 import {Backend} from "../backend";
 import {createElectronBackend} from "../backend/electron/ElectronBackend";
@@ -20,7 +20,6 @@ import {createSoftInsertPlugin} from "../Editor/plugins/common-plugin/soft-inser
 import {connect} from "react-redux";
 import {Dispatch} from "redux";
 import {AppStore, EditingPost} from "../redux/store";
-import SiderMenu from "./SiderMenu";
 import {UpdateEditingPostCommand} from "../redux/commands/UpdateEditingPostCommand";
 
 const {Sider, Content} = Layout;
@@ -68,22 +67,6 @@ class App extends React.Component<AppProps, AppState> {
         }));
     };
 
-    onSave = (e: KeyboardEvent<HTMLDivElement>) => {
-        if (e.metaKey && e.key === 's') {
-            if (this.editor.current != null) {
-                this.setEditable(!this.state.editable)
-            }
-            e.preventDefault();
-            e.stopPropagation();
-        }
-    };
-
-    setEditable = (e: boolean) => {
-        this.setState({
-            editable: e,
-        })
-    };
-
     focus = (e: KeyboardEvent) => {
         if (e.key === 'Enter') {
             const editor = this.editor.current;
@@ -117,7 +100,7 @@ class App extends React.Component<AppProps, AppState> {
                     }}>测试</Button>
                     <SiderMenu/>
                 </Sider>
-                <Content onKeyDown={this.onSave}>
+                <Content onKeyDown={e => e.stopPropagation()}>
                     <Input className='title'
                            value={this.props.editingPost.title}
                            onChange={this.onTitleChange}
