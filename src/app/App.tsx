@@ -2,7 +2,7 @@ import React, {ChangeEvent, createRef, KeyboardEvent} from 'react';
 import {MyEditor} from "../Editor/Editor";
 import {EditorState} from "draft-js";
 import './App.css';
-import {Input, Layout} from 'antd';
+import {Button, Input, Layout} from 'antd';
 import {TreeNodeInArray} from 'react-simple-tree-menu';
 import './menu.css';
 import {Backend} from "../backend";
@@ -22,6 +22,7 @@ import {Dispatch} from "redux";
 import {AppStore, EditingPost} from "../redux/store";
 import {BaseAction, createUpdateEditingPostAction} from "../redux/actions";
 import SiderMenu from "./SiderMenu";
+import {TestCommand} from "../redux/commands/TestCommand";
 
 const {Sider, Content} = Layout;
 
@@ -32,7 +33,7 @@ interface AppState {
 interface AppProps {
     state: AppStore,
     editingPost: EditingPost,
-    dispatch: Dispatch<BaseAction>,
+    dispatch: Dispatch<any>,
     list: Array<TreeNodeInArray>,
 }
 
@@ -112,6 +113,9 @@ class App extends React.Component<AppProps, AppState> {
         return (
             <Layout className='layout'>
                 <Sider theme='light' width={300}>
+                    <Button onClick={() => {
+                        this.props.dispatch(new TestCommand());
+                    }}>测试</Button>
                     <SiderMenu/>
                 </Sider>
                 <Content onKeyDown={this.onSave}>

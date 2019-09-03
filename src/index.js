@@ -7,11 +7,12 @@ import {createStore, applyMiddleware, compose} from "redux";
 import {reducer} from "./redux/reducers";
 import thunk from 'redux-thunk';
 import {Provider} from "react-redux";
+import {commandMiddleware, enhanceCommandReducer} from "./command";
 
 /* eslint-disable no-underscore-dangle */
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 /* eslint-enable */
-const store = createStore(reducer, composeEnhancers(applyMiddleware(thunk)));
+const store = createStore(enhanceCommandReducer(reducer), composeEnhancers(applyMiddleware(thunk, commandMiddleware)));
 
 ReactDOM.render(
     <Provider store={store}>
