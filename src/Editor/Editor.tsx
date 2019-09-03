@@ -47,6 +47,17 @@ export class MyEditor extends Component<Props, any> {
     }
 
     render() {
+        const wordCount = this.props.editorState.getCurrentContent()
+            .getBlockMap()
+            .valueSeq()
+            .map<number>(value => {
+                if (value != null) {
+                    return value.getLength();
+                }
+                return 0;
+            })
+            .reduce((reduction, value) => (reduction as number) + (value as number), 0);
+
         return (
             <div className='editor' onClick={() => this.focus()}>
                 <Editor
@@ -58,7 +69,7 @@ export class MyEditor extends Component<Props, any> {
                     {...this.props.plugin}
                 />
                 <div className={"post-bottom-bar"}>
-                    hello
+                    word count: {wordCount}
                 </div>
             </div>
         );
