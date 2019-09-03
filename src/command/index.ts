@@ -18,14 +18,11 @@ export const commandMiddleware: Middleware = api => next => action => {
     return next(action);
 };
 
-export abstract class Command<S> {
-    abstract name(): string;
+export abstract class Command<S, C = string> {
+    abstract name(): C;
     process(state: S): S {
         return state;
     }
-}
-
-export abstract class AppCommand extends Command<AppStore> {
 }
 
 export interface CommandAction<S> extends Action<string> {
