@@ -113,7 +113,8 @@ class App extends React.Component<AppProps, AppState> {
                     }}>测试</Button>
                     <SiderMenu/>
                 </Sider>
-                <Content onKeyDown={e => e.stopPropagation()}>
+                <Content
+                    onKeyDown={e => e.stopPropagation()}>
                     <span>
                         <input className={'title'}
                                placeholder={"Untitled"}

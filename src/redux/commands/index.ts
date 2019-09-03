@@ -9,4 +9,5 @@ export type CommandType = "TestCommand"
     | "UpdateEditingPost"
     | "SavePost"
     | "CreateNewPost"
+    | "PostSelect"
 ;

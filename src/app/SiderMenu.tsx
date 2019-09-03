@@ -5,6 +5,7 @@ import {AppStore} from "../redux/store";
 import {Dispatch} from "redux";
 import {CreateNewPostCommand} from "../redux/commands/CreateNewPostCommand";
 import {Post} from "../backend";
+import {PostSelectCommand} from "../redux/commands/PostSelectCommand";
 
 const {TreeNode} = Tree;
 
@@ -35,6 +36,8 @@ class SiderMenu extends React.Component<Props, any> {
             <Tree
                 selectedKeys={this.props.selectedKeys}
                 expandedKeys={this.props.expandedKeys}
+                multiple={false}
+                onSelect={this.onSelect}
                 autoExpandParent={true}
             >
                 {this.renderTreeNodes(this.props.list)}
@@ -43,6 +46,11 @@ class SiderMenu extends React.Component<Props, any> {
         </React.Fragment>
     }
 
+    onSelect = (keys: Array<string>) => {
+        if (keys.length === 0)
+            return;
+        this.props.dispatch(new PostSelectCommand(keys[0]))
+    };
     renderTreeNodes(data: Array<Node>) {
         return data.map(item => {
             if (item.children) {
