@@ -1,45 +1,12 @@
-.toggle-icon {
-    display: inline-block;
+.menu-item:hover .plus-icon {
+    opacity: 1;
 }
 
-.toggle-icon-symbol {
-    width: 2rem;
-    height: 1rem;
-    text-align: center;
-    line-height: 1rem;
-}
-
-.tree-item-group {
-    list-style-type: none;
-    padding-left: 0;
-    border-top: 1px solid #ccc;
-}
-
-.tree-item {
-    padding: 0.25rem 1rem;
-    cursor: pointer;
-    color: #333;
-    background: none;
-    border-bottom: 1px solid #ccc;
-    box-shadow: none;
-    z-index: unset;
-    position: relative;
-}
-
-.tree-item--active {
-    color: white;
-    background: #179ed3;
-    border-bottom: none;
-}
-
-.tree-item--focused {
-    box-shadow: 0 0 5px 0 #222;
-    z-index: 999;
-}
-
-.search {
-    padding: 1rem 1.5rem;
-    border: none;
-    width: 100%;
-    outline: none;
+.menu-item .plus-icon {
+    /*todo update*/
+    opacity: 1;
+    height: 22px;
+    width: 22px;
+    padding: 0px;
+    margin-right: 3px;
 }

@@ -28,14 +28,10 @@ class SiderMenu extends React.Component<Props, any> {
                     <Button onClick={this.createNewPost}><Icon type="edit"/></Button>
                 </span>
             </div>
-            <DirectoryTree
-                showIcon
-                defaultExpandAll
-                defaultSelectedKeys={['0-0-0']}
-                switcherIcon={<Icon type="down" />}
+            <Tree
             >
                 {renderTreeNodes(this.props.list)}
-            </DirectoryTree>
+            </Tree>
 
         </React.Fragment>
     }
@@ -49,13 +45,20 @@ function renderTreeNodes(data: Array<Node>) {
     return data.map(item => {
         if (item.children) {
             return (
-                <TreeNode title={item.title} key={item.key} dataRef={item}>
+                <TreeNode className='menu-item' title={renderTitle(item)} key={item.key} dataRef={item}>
                     {renderTreeNodes(item.children)}
                 </TreeNode>
             );
         }
         return <TreeNode key={item.key} {...item} />;
     });
+}
+
+function renderTitle(item: Node) {
+    return <React.Fragment>
+        <Button onClick={e=> e.stopPropagation()} className='plus-icon'><Icon type="plus" /></Button>
+        <span>{item.title}</span>
+    </React.Fragment>
 }
 
 
