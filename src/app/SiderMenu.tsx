@@ -1,15 +1,23 @@
 import React from "react";
-import {Button, Icon, Input} from "antd";
-import TreeMenu, {TreeNodeInArray} from "react-simple-tree-menu";
+import {Button, Icon, Input, Tree} from "antd";
 import {connect} from "react-redux";
 import {AppStore} from "../redux/store";
 import {Dispatch} from "redux";
 import {CreateNewPostCommand} from "../redux/commands/CreateNewPostCommand";
 
+const { TreeNode, DirectoryTree } = Tree;
+
+interface Node {
+    key: string,
+    title: string,
+    children: Array<Node>,
+}
+
 interface Props {
-    list: Array<TreeNodeInArray>,
+    list: Array<Node>,
     dispatch: Dispatch<any>,
 }
+
 
 class SiderMenu extends React.Component<Props, any> {
     render() {
@@ -20,7 +28,15 @@ class SiderMenu extends React.Component<Props, any> {
                     <Button onClick={this.createNewPost}><Icon type="edit"/></Button>
                 </span>
             </div>
-            <TreeMenu hasSearch={false} onClickItem={(e) => console.log(e)} data={this.props.list}/>
+            <DirectoryTree
+                showIcon
+                defaultExpandAll
+                defaultSelectedKeys={['0-0-0']}
+                switcherIcon={<Icon type="down" />}
+            >
+                {renderTreeNodes(this.props.list)}
+            </DirectoryTree>
+
         </React.Fragment>
     }
 
@@ -29,14 +45,30 @@ class SiderMenu extends React.Component<Props, any> {
     }
 }
 
-function mapStateToList(state: AppStore): Array<TreeNodeInArray> {
-    let a: Array<TreeNodeInArray> = [];
+function renderTreeNodes(data: Array<Node>) {
+    return data.map(item => {
+        if (item.children) {
+            return (
+                <TreeNode title={item.title} key={item.key} dataRef={item}>
+                    {renderTreeNodes(item.children)}
+                </TreeNode>
+            );
+        }
+        return <TreeNode key={item.key} {...item} />;
+    });
+}
+
+
+
+function mapStateToList(state: AppStore): Array<Node> {
+    let a: Array<Node> = [];
 
     state.posts.forEach(p => {
         if (p !== undefined) {
             a.push({
-                label: p.title,
+                title: p.title,
                 key: p.id,
+                children: [],
             })
         }
     });

@@ -4282,11 +4282,6 @@ fast-levenshtein@~2.0.4:
   resolved "https://registry.yarnpkg.com/fast-levenshtein/-/fast-levenshtein-2.0.6.tgz#3d8a5c66883a16a30ca8643e851f19baa7797917"
   integrity sha1-PYpcZog6FqMMqGQ+hR8Zuqd5eRc=
 
-fast-memoize@^2.5.1:
-  version "2.5.1"
-  resolved "http://r.cnpmjs.org/fast-memoize/download/fast-memoize-2.5.1.tgz#c3519241e80552ce395e1a32dcdde8d1fd680f5d"
-  integrity sha1-w1GSQegFUs45Xhoy3N3o0f1oD10=
-
 faye-websocket@^0.10.0:
   version "0.10.0"
   resolved "https://registry.yarnpkg.com/faye-websocket/-/faye-websocket-0.10.0.tgz#4e492f8d04dfb6f89003507f6edbf2d501e7c6f4"
@@ -9219,15 +9214,6 @@ react-scripts@3.0.1:
     workbox-webpack-plugin "4.2.0"
   optionalDependencies:
     fsevents "2.0.6"
-
-react-simple-tree-menu@^1.1.4:
-  version "1.1.4"
-  resolved "http://r.cnpmjs.org/react-simple-tree-menu/download/react-simple-tree-menu-1.1.4.tgz#9d06bec7e0e9f38d60e2d10982e3756fc2e80c4f"
-  integrity sha1-nQa+x+Dp841g4tEJguN1b8LoDE8=
-  dependencies:
-    classnames "^2.2.6"
-    fast-memoize "^2.5.1"
-    lodash "^4.17.11"
 
 react-slick@~0.24.0:
   version "0.24.0"
