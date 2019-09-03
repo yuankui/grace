@@ -1,5 +1,5 @@
 import {AppStore} from "../store";
-import {AppCommand} from "./index";
+import {AppCommand, CommandType} from "./index";
 
 export class TestCommand extends AppCommand {
     process(state: AppStore): AppStore {
@@ -8,8 +8,7 @@ export class TestCommand extends AppCommand {
             isOpening: true,
         }
     }
-
-    name(): string {
+    name(): CommandType {
         return "TestCommand";
     }
 }
