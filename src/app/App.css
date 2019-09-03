@@ -35,8 +35,16 @@
 }
 
 .title {
-    font-size: 30px;
+    font-size: 40px;
+    font-weight: bold;
+    height: 60px;
     outline: none;
+    width: 100%;
+    border: none;
+    padding-left: 20px;
+}
+.title::placeholder {
+    color: darkgray;
 }
 
 /*search bar*/

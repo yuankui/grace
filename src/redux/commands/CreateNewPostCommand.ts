@@ -22,6 +22,7 @@ export class CreateNewPostCommand extends AppCommand {
             id: createPostId(),
             content: createEmptyContent(),
             editorState: EditorState.createEmpty(),
+            saved: true,
             tags: [],
             children: [],
             title: "未命名",

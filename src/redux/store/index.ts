@@ -7,6 +7,7 @@ export interface EditingPost {
     id: string,
     title: string,
     tags: Array<string>,
+    saved: boolean,
     editorState: EditorState,
 }
 
@@ -14,6 +15,7 @@ export function createEmptyEditingPost(): EditingPost {
     return {
         id: createPostId(),
         title: '',
+        saved: true,
         tags: [],
         editorState: EditorState.createEmpty()
     }

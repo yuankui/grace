@@ -50,6 +50,7 @@ export class MyEditor extends Component<Props, any> {
         return (
             <div className='editor' onClick={() => this.focus()}>
                 <Editor
+                    placeholder={"Start here..."}
                     editorState={this.props.editorState}
                     readOnly={!this.props.editable}
                     ref={this.ref}

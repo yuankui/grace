@@ -72,6 +72,7 @@ class App extends React.Component<AppProps, AppState> {
     onChange = (v: EditorState) => {
         this.props.dispatch(new UpdateEditingPostCommand({
             ...this.props.editingPost,
+            saved: false,
             editorState: v,
         }));
     };
@@ -113,10 +114,13 @@ class App extends React.Component<AppProps, AppState> {
                     <SiderMenu/>
                 </Sider>
                 <Content onKeyDown={e => e.stopPropagation()}>
-                    <Input className='title'
-                           value={this.props.editingPost.title}
-                           onChange={this.onTitleChange}
-                           onKeyPress={this.focus}/>
+                    <span>
+                        <input className={'title'}
+                               placeholder={"Untitled"}
+                               value={this.props.editingPost.title}
+                               onChange={this.onTitleChange}
+                               onKeyPress={this.focus}/>
+                    </span>
                     <MyEditor ref={this.editor}
                               key={key}
                               backend={this.backend}
@@ -133,6 +137,7 @@ class App extends React.Component<AppProps, AppState> {
         this.props.dispatch(
             new UpdateEditingPostCommand({
                 ...this.props.editingPost,
+                saved: false,
                 title: value.target.value,
             })
         );
