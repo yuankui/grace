@@ -25,7 +25,7 @@ export class CreateNewPostCommand extends AppCommand {
             tags: [],
             children: [],
             title: "未命名",
-            parentId: null,
+            parentId: this.parentId,
         };
 
         let parent: Post | undefined = undefined;
@@ -48,6 +48,7 @@ export class CreateNewPostCommand extends AppCommand {
                 ...store,
                 currentPost: newPost,
                 posts: store.posts.set(parent.id, newParent)
+                    .set(newPost.id, newPost)
             }
         }
     }
