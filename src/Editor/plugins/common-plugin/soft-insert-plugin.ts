@@ -7,7 +7,6 @@ export function createSoftInsertPlugin(state: EditorState, onChange: StateChange
     return {
         name: 'createSoftInsertPlugin',
         keyBindingFn(e: React.KeyboardEvent<Element>): string |null {
-            console.log(e.key);
             if (e.shiftKey && e.key === 'Enter') {
                 return 'soft-insert';
             }

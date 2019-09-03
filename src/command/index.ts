@@ -11,7 +11,6 @@ export const commandMiddleware: Middleware = api => next => action => {
             state:nextState,
             command: action,
         });
-        console.log(nextState);
         return nextState;
     }
     return next(action);

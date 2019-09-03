@@ -65,7 +65,6 @@ export function createToggleListPlugin(value: EditorState, onChange: StateChange
         },
 
         handleKeyCommand(command: Command, editorState: EditorState, eventTimeStamp: number): DraftHandleValue {
-            console.log('command', command);
             if (command === "unordered-list1") {
                 let state = RichUtils.toggleBlockType(editorState, '');
                 onChange(state);

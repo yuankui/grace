@@ -43,11 +43,8 @@ class App extends React.Component<AppProps, AppState> {
         super(props);
         this.editor = createRef();
 
-        // init state
-        console.log(this.props);
-
         this.state = {
-            editable: false,
+            editable: true,
         };
 
         // init backend
@@ -57,6 +54,18 @@ class App extends React.Component<AppProps, AppState> {
             this.backend = createElectronBackend("/Users/yuankui/grace-docs");
         } else {
             this.backend = createWebBackend();
+        }
+    }
+
+    componentDidMount(): void {
+        document.onkeydown = function(event) {
+            // If Control or Command key is pressed and the S key is pressed
+            // run save function. 83 is the key code for S.
+            if((event.ctrlKey || event.metaKey) && event.which === 83) {
+                // Save Function
+                event.preventDefault();
+                return false;
+            }
         }
     }
 
@@ -93,7 +102,10 @@ class App extends React.Component<AppProps, AppState> {
 
         let key = this.props.state.currentPost.id;
         return (
-            <Layout className='layout'>
+            <Layout className='layout' onKeyDown={event => {
+                event.preventDefault();
+                return false;
+            }}>
                 <Sider theme='light' width={300}>
                     <Button onClick={() => {
 
