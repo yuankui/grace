@@ -7,7 +7,7 @@ import {CreateNewPostCommand} from "../redux/commands/CreateNewPostCommand";
 
 const { TreeNode, DirectoryTree } = Tree;
 
-interface Node {
+export interface Node {
     key: string,
     title: string,
     children: Array<Node>,
@@ -57,7 +57,6 @@ function renderTreeNodes(data: Array<Node>) {
         return <TreeNode key={item.key} {...item} />;
     });
 }
-
 
 
 function mapStateToList(state: AppStore): Array<Node> {

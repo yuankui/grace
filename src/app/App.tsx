@@ -3,7 +3,7 @@ import {MyEditor} from "../Editor/Editor";
 import {EditorState} from "draft-js";
 import './App.css';
 import {Button, Input, Layout} from 'antd';
-import {TreeNodeInArray} from 'react-simple-tree-menu';
+import {Node} from './SiderMenu';
 import './menu.css';
 import {Backend} from "../backend";
 import {createElectronBackend} from "../backend/electron/ElectronBackend";
@@ -33,7 +33,7 @@ interface AppProps {
     state: AppStore,
     editingPost: EditingPost,
     dispatch: Dispatch<any>,
-    list: Array<TreeNodeInArray>,
+    list: Array<Node>,
 }
 
 class App extends React.Component<AppProps, AppState> {
@@ -113,7 +113,7 @@ class App extends React.Component<AppProps, AppState> {
             <Layout className='layout'>
                 <Sider theme='light' width={300}>
                     <Button onClick={() => {
-                        
+
                     }}>测试</Button>
                     <SiderMenu/>
                 </Sider>
