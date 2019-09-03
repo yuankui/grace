@@ -104,7 +104,7 @@ function mapStateToList(state: AppStore): Array<Node> {
 
 function expandChild(id: string, state: AppStore): Array<Node> {
     const post: Post | undefined = state.posts.get(id);
-    if (post === undefined) {
+    if (post == null) {
         return [];
     }
     return post.children.map(id => {

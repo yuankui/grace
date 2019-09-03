@@ -12,8 +12,10 @@ export class SavePostCommand extends AppCommand{
         let currentPost = state.currentPost;
         let post = state.posts.get(currentPost.id);
 
+
         const newPost: Post = {
             ...post,
+            children: post == null? []: post.children,
             id: currentPost.id,
             title: currentPost.title,
             tags: currentPost.tags,

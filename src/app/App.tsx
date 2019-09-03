@@ -21,6 +21,7 @@ import {connect} from "react-redux";
 import {Dispatch} from "redux";
 import {AppStore, EditingPost} from "../redux/store";
 import {UpdateEditingPostCommand} from "../redux/commands/UpdateEditingPostCommand";
+import {SavePostCommand} from "../redux/commands/SavePostCommand";
 
 const {Sider, Content} = Layout;
 
@@ -114,6 +115,9 @@ class App extends React.Component<AppProps, AppState> {
                     <SiderMenu/>
                 </Sider>
                 <Content
+                    onBlur={() => {
+                        this.props.dispatch(new SavePostCommand());
+                    }}
                     onKeyDown={e => e.stopPropagation()}>
                     <span>
                         <input className={'title'}
