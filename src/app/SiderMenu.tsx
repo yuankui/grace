@@ -76,7 +76,7 @@ function mapStateToList(state: AppStore): Array<Node> {
     let a: Array<Node> = [];
 
     state.posts.forEach(p => {
-        if (p == undefined) {
+        if (p == null) {
             return;
         }
 

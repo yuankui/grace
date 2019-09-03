@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {Editor, EditorState} from 'draft-js';
-import {Switch} from "antd";
 import {EditorPlugin} from "./plugins";
 import './editor.css';
 import {Backend} from "../backend";
@@ -17,7 +16,6 @@ interface Props {
     editorState: EditorState,
     onChange: StateChange,
     editable: boolean,
-    onEditableChange: (editable: boolean) => void;
     backend: Backend;
     plugin: EditorPlugin,
 }
@@ -48,16 +46,9 @@ export class MyEditor extends Component<Props, any> {
         }
     }
 
-    setEditable = (editable: boolean) => {
-        this.props.onEditableChange(editable);
-    };
-
     render() {
         return (
             <div className='editor' onClick={() => this.focus()}>
-                <div>
-                    <Switch checked={this.props.editable} onChange={this.setEditable}/>
-                </div>
                 <Editor
                     editorState={this.props.editorState}
                     readOnly={!this.props.editable}

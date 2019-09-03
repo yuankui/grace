@@ -108,7 +108,6 @@ class App extends React.Component<AppProps, AppState> {
                     <MyEditor ref={this.editor}
                               key={key}
                               backend={this.backend}
-                              onEditableChange={this.setEditable}
                               editable={this.state.editable}
                               editorState={editorState}
                               plugin={plugin}
