@@ -38,7 +38,7 @@ export interface Post {
     title: string,
     tags: Array<string>,
     content: RawDraftContentState,
-    children: Array<Post>,
+    children: Array<string>,
 }
 
 let b: Backend;

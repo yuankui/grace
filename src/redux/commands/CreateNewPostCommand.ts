@@ -42,7 +42,7 @@ export class CreateNewPostCommand extends AppCommand {
         } else {
             const newParent: Post = {
                 ...parent,
-                children: [...parent.children, newPost]
+                children: [...parent.children, newPost.id]
             };
             return {
                 ...store,
