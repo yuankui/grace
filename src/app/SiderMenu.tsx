@@ -93,13 +93,9 @@ class SiderMenu extends React.Component<Props, State> {
     doubleClick = (item: Node) => {
         let keys = this.state.expandedKeys.filter(key => key !== item.key);
         if (keys.length === this.state.expandedKeys.length) {
-            this.setState({
-                expandedKeys: [...this.state.expandedKeys, item.key]
-            })
+            this.onExpand([...this.state.expandedKeys, item.key]);
         } else {
-            this.setState({
-                expandedKeys: keys,
-            })
+            this.onExpand(keys);
         }
     };
 
