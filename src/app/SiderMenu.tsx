@@ -20,7 +20,6 @@ interface Props {
     dispatch: Dispatch<any>,
     state: AppStore,
     selectedKeys: Array<string>,
-    expandedKeys: Array<string>,
 }
 
 interface State {
@@ -56,7 +55,6 @@ class SiderMenu extends React.Component<Props, State> {
                 onExpand={this.onExpand}
                 multiple={false}
                 onSelect={this.onSelect}
-                autoExpandParent={true}
             >
                 {this.renderTreeNodes(this.props.list)}
             </Tree>
@@ -83,7 +81,7 @@ class SiderMenu extends React.Component<Props, State> {
     }
 
     renderTitle(item: Node) {
-        return <span className={"menu-item"}>
+        return <span onDoubleClick={() => this.doubleClick(item)} className={"menu-item"}>
             <Button onClick={e => {
                 this.props.dispatch(new CreateNewPostCommand(item.key));
                 e.stopPropagation();
@@ -91,6 +89,19 @@ class SiderMenu extends React.Component<Props, State> {
             <span>{item.title}</span>
         </span>
     }
+
+    doubleClick = (item: Node) => {
+        let keys = this.state.expandedKeys.filter(key => key !== item.key);
+        if (keys.length === this.state.expandedKeys.length) {
+            this.setState({
+                expandedKeys: [...this.state.expandedKeys, item.key]
+            })
+        } else {
+            this.setState({
+                expandedKeys: keys,
+            })
+        }
+    };
 
     createNewPost = () => {
         this.props.dispatch(new CreateNewPostCommand(null));
