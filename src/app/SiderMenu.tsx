@@ -35,7 +35,6 @@ class SiderMenu extends React.Component<Props, any> {
             </div>
             <Tree
                 selectedKeys={this.props.selectedKeys}
-                expandedKeys={this.props.expandedKeys}
                 multiple={false}
                 onSelect={this.onSelect}
                 autoExpandParent={true}
