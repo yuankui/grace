@@ -23,8 +23,25 @@ interface Props {
     expandedKeys: Array<string>,
 }
 
+interface State {
+    expandedKeys: Array<string>,
+}
 
-class SiderMenu extends React.Component<Props, any> {
+class SiderMenu extends React.Component<Props, State> {
+
+    constructor(props: Readonly<Props>) {
+        super(props);
+        this.state = {
+            expandedKeys: [],
+        }
+    }
+
+    onExpand = (expandedKeys: Array<string>) => {
+        this.setState({
+            expandedKeys
+        })
+    };
+
     render() {
         return <React.Fragment>
             <div className='search-bar'>
@@ -35,6 +52,8 @@ class SiderMenu extends React.Component<Props, any> {
             </div>
             <Tree
                 selectedKeys={this.props.selectedKeys}
+                expandedKeys={this.state.expandedKeys}
+                onExpand={this.onExpand}
                 multiple={false}
                 onSelect={this.onSelect}
                 autoExpandParent={true}
@@ -54,7 +73,7 @@ class SiderMenu extends React.Component<Props, any> {
         return data.map(item => {
             if (item.children) {
                 return (
-                    <TreeNode className='menu-item' title={this.renderTitle(item)} key={item.key} dataRef={item}>
+                    <TreeNode title={this.renderTitle(item)} key={item.key} dataRef={item}>
                         {this.renderTreeNodes(item.children)}
                     </TreeNode>
                 );
@@ -64,13 +83,13 @@ class SiderMenu extends React.Component<Props, any> {
     }
 
     renderTitle(item: Node) {
-        return <React.Fragment>
+        return <span className={"menu-item"}>
             <Button onClick={e => {
                 this.props.dispatch(new CreateNewPostCommand(item.key));
                 e.stopPropagation();
             }} className='plus-icon'><Icon type="plus"/></Button>
             <span>{item.title}</span>
-        </React.Fragment>
+        </span>
     }
 
     createNewPost = () => {
