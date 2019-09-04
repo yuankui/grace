@@ -1,7 +1,6 @@
 import {AppCommand, CommandType} from "./index";
 import {AppStore, EditingPost} from "../store";
 import {Post} from "../../backend";
-import {convertToRaw} from "draft-js";
 
 export class UpdateEditingPostCommand extends AppCommand {
     post: EditingPost;
@@ -20,7 +19,7 @@ export class UpdateEditingPostCommand extends AppCommand {
         const children = oldPost == null || oldPost.children == null? []: oldPost.children;
         const newPost: Post = {
             ...oldPost,
-            content: convertToRaw(this.post.editorState.getCurrentContent()),
+            content: this.post.content,
             title: this.post.title,
             tags: this.post.tags,
             children,

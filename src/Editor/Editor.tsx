@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Editor, EditorState} from 'draft-js';
+import {convertFromRaw, Editor, EditorState, RawDraftContentState} from 'draft-js';
 import {EditorPlugin, mergePlugins} from "./plugins";
 import './editor.css';
 import {Backend} from "../backend";
@@ -21,7 +21,7 @@ export interface GetState {
 }
 
 interface Props {
-    editorState: EditorState,
+    content: RawDraftContentState,
     onChange: StateChange,
     editable: boolean,
     backend: Backend;
@@ -43,7 +43,9 @@ export class MyEditor extends Component<Props, State> {
         super(props);
         this.ref = React.createRef();
         this.state = {
-            editorState: this.props.editorState,
+            editorState: EditorState.createWithContent(
+                convertFromRaw(this.props.content)
+            ),
             saved: true,
         };
     }
@@ -89,7 +91,7 @@ export class MyEditor extends Component<Props, State> {
 
         const plugin = mergePlugins(plugins);
 
-        const wordCount = this.props.editorState.getCurrentContent()
+        const wordCount = this.state.editorState.getCurrentContent()
             .getBlockMap()
             .valueSeq()
             .map<number>(value => {

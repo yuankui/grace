@@ -1,7 +1,6 @@
 import {AppCommand, CommandType} from "./index";
 import {AppStore} from "../store";
 import {Post} from "../../backend";
-import {convertToRaw} from "draft-js";
 
 export class SyncPostCommand extends AppCommand{
     name(): CommandType {
@@ -19,7 +18,7 @@ export class SyncPostCommand extends AppCommand{
             id: currentPost.id,
             title: currentPost.title,
             tags: currentPost.tags,
-            content: convertToRaw(currentPost.editorState.getCurrentContent()),
+            content: currentPost.content,
         };
 
         const posts = state.posts.set(newPost.id, newPost);

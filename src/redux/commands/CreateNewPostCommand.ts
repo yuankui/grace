@@ -1,7 +1,6 @@
 import {AppCommand, CommandType} from "./index";
 import {AppStore} from "../store";
 import {createEmptyContent, createPostId} from "../utils";
-import {EditorState} from "draft-js";
 import {Post} from "../../backend";
 
 export class CreateNewPostCommand extends AppCommand {
@@ -21,7 +20,6 @@ export class CreateNewPostCommand extends AppCommand {
         let newPost = {
             id: createPostId(),
             content: createEmptyContent(),
-            editorState: EditorState.createEmpty(),
             saved: true,
             tags: [],
             children: [],

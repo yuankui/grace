@@ -1,19 +1,10 @@
 import React, {ChangeEvent, createRef, KeyboardEvent} from 'react';
 import {MyEditor} from "../Editor/Editor";
-import {EditorState} from "draft-js";
+import {convertToRaw, EditorState} from "draft-js";
 import './App.css';
 import {Button, Layout} from 'antd';
 import SiderMenu, {Node} from './SiderMenu';
 import './menu.css';
-import {EditorPlugin, mergePlugins} from "../Editor/plugins";
-import {createToggleHeaderPlugin} from "../Editor/plugins/toggle-header-plugin";
-import {createToggleListPlugin} from "../Editor/plugins/toggle-prefix-plugin";
-import {createResetBlockAfterEnter} from "../Editor/plugins/common-plugin/reset-block-after-enter";
-import {createInlineHotkey} from "../Editor/plugins/common-plugin/inline-hot-key-plugin";
-import {createCodePlugin} from "../Editor/plugins/code-plugin";
-import {createTodoPlugin} from "../Editor/plugins/todo-plugin";
-import {createImagePlugin} from "../Editor/plugins/image-plugin";
-import {createSoftInsertPlugin} from "../Editor/plugins/common-plugin/soft-insert-plugin";
 import {connect} from "react-redux";
 import {Dispatch} from "redux";
 import {AppStore, EditingPost} from "../redux/store";
@@ -62,7 +53,7 @@ class App extends React.Component<AppProps, AppState> {
         this.props.dispatch(new UpdateEditingPostCommand({
             ...this.props.editingPost,
             saved: false,
-            editorState: v,
+            content: convertToRaw(v.getCurrentContent()),
         }));
     };
 
@@ -76,7 +67,7 @@ class App extends React.Component<AppProps, AppState> {
     };
 
     render() {
-        const editorState = this.props.editingPost.editorState;
+        const editorState = this.props.editingPost.content;
 
         let key = this.props.state.currentPost.id;
         return (
@@ -107,7 +98,7 @@ class App extends React.Component<AppProps, AppState> {
                               key={key}
                               backend={this.props.state.backend}
                               editable={this.state.editable}
-                              editorState={editorState}
+                              content={editorState}
                               onChange={this.onChange}/>
                 </Content>
             </Layout>

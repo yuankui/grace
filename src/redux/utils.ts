@@ -1,4 +1,4 @@
-import {convertFromRaw, convertToRaw, EditorState, RawDraftContentState} from "draft-js";
+import {convertToRaw, EditorState, RawDraftContentState} from "draft-js";
 import uuid from "uuid";
 import {AppStore, createEmptyStore, EditingPost} from "./store";
 import {Post} from "../backend";
@@ -49,9 +49,7 @@ export function convertToEditingPost(post: Post): EditingPost {
         id: post.id,
         tags: post.tags,
         title: post.title,
-        editorState: EditorState.createWithContent(
-            convertFromRaw(post.content)
-        )
+        content: post.content,
     }
 }
 
@@ -62,6 +60,6 @@ export function convertToPost(currentPost: EditingPost): Post {
         id: currentPost.id,
         title: currentPost.title,
         tags: currentPost.tags,
-        content: convertToRaw(currentPost.editorState.getCurrentContent()),
+        content: currentPost.content,
     }
 }

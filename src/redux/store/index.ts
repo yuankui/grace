@@ -1,16 +1,17 @@
 import {Backend, Post} from "../../backend";
 import Immutable from 'immutable';
-import {EditorState} from "draft-js";
+import {convertToRaw, EditorState, RawDraftContentState} from "draft-js";
 import {createPostId} from "../utils";
 import {createElectronBackend} from "../../backend/electron/ElectronBackend";
 import {createWebBackend} from "../../backend/web/WebBackend";
+
 
 export interface EditingPost {
     id: string,
     title: string,
     tags: Array<string>,
     saved: boolean,
-    editorState: EditorState,
+    content: RawDraftContentState,
 }
 
 export function createEmptyEditingPost(): EditingPost {
@@ -19,7 +20,9 @@ export function createEmptyEditingPost(): EditingPost {
         title: '',
         saved: true,
         tags: [],
-        editorState: EditorState.createEmpty()
+        content: convertToRaw(
+            EditorState.createEmpty().getCurrentContent()
+        ),
     }
 }
 
