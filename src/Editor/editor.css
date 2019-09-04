@@ -41,4 +41,5 @@ main.ant-layout-content {
 .post-bottom-bar {
     position: absolute;
     bottom: 0;
+    color: grey;
 }

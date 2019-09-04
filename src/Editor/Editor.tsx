@@ -24,16 +24,30 @@ export interface EditController {
     setEditable(editable: boolean): void;
 }
 
-export class MyEditor extends Component<Props, any> {
+interface State {
+    editorState: EditorState,
+    saved: boolean,
+}
+
+export class MyEditor extends Component<Props, State> {
     private readonly ref: React.RefObject<Editor>;
 
     constructor(props: Readonly<Props>) {
         super(props);
         this.ref = React.createRef();
+        this.state ={
+            editorState: this.props.editorState,
+            saved: true,
+        };
     }
 
-    onChange = (editorState: EditorState) => {
-        this.props.onChange(editorState);
+    save = () => {
+        if (!this.state.saved) {
+            this.props.onChange(this.state.editorState);
+            this.setState({
+                saved: true,
+            })
+        }
     };
 
     componentDidMount(): void {
@@ -59,13 +73,18 @@ export class MyEditor extends Component<Props, any> {
             .reduce((reduction, value) => (reduction as number) + (value as number), 0);
 
         return (
-            <div className='editor' onClick={() => this.focus()}>
+            <div onBlur={this.save} className='editor' onClick={() => this.focus()}>
                 <Editor
                     placeholder={"Start here..."}
-                    editorState={this.props.editorState}
+                    editorState={this.state.editorState}
                     readOnly={!this.props.editable}
                     ref={this.ref}
-                    onChange={this.onChange}
+                    onChange={editorState => {
+                        this.setState({
+                            editorState,
+                            saved: false,
+                        });
+                    }}
                     {...this.props.plugin}
                 />
                 <div className={"post-bottom-bar"}>
