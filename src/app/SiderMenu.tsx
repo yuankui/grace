@@ -15,6 +15,7 @@ export interface Node {
     key: string,
     title: string,
     children: Array<Node>,
+    saved: boolean,
 }
 
 interface Props {
@@ -89,7 +90,7 @@ class SiderMenu extends React.Component<Props, State> {
                 this.props.dispatch(new CreateNewPostCommand(item.key));
                 e.stopPropagation();
             }} className='plus-icon'><Icon type="plus"/></Button>
-            <span>{item.title}</span>
+            <span>{item.title + (item.saved? "": " *")}</span>
         </span>
     }
 
@@ -139,6 +140,7 @@ function mapStateToList(state: AppStore): Array<Node> {
             title: p.title,
             key: p.id,
             children: expandChild(p.id, state),
+            saved: p.saved,
         })
     });
 
@@ -159,6 +161,7 @@ function expandChild(id: string, state: AppStore): Array<Node> {
             key: id,
             title: child.title,
             children: expandChild(id, state),
+            saved: child.saved,
         }
     })
         .filter(o => o != null) as Array<Node>;
