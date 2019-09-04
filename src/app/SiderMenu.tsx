@@ -81,7 +81,7 @@ class SiderMenu extends React.Component<Props, State> {
     }
 
     renderTitle(item: Node) {
-        return <span onDoubleClick={() => this.doubleClick(item)} className={"menu-item"}>
+        return <span onDoubleClick={(e) => this.doubleClick(item, e)} className={"menu-item"}>
             <Button onClick={e => {
                 this.props.dispatch(new CreateNewPostCommand(item.key));
                 e.stopPropagation();
@@ -90,13 +90,14 @@ class SiderMenu extends React.Component<Props, State> {
         </span>
     }
 
-    doubleClick = (item: Node) => {
+    doubleClick = (item: Node, e: React.MouseEvent<HTMLSpanElement>) => {
         let keys = this.state.expandedKeys.filter(key => key !== item.key);
         if (keys.length === this.state.expandedKeys.length) {
             this.onExpand([...this.state.expandedKeys, item.key]);
         } else {
             this.onExpand(keys);
         }
+        e.stopPropagation();
     };
 
     createNewPost = () => {
