@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {convertFromRaw, Editor, EditorState, RawDraftContentState} from 'draft-js';
 import {EditorPlugin, mergePlugins} from "./plugins";
-import './editor.css';
 import {Backend} from "../backend";
 import {createToggleHeaderPlugin} from "./plugins/toggle-header-plugin";
 import {createToggleListPlugin} from "./plugins/toggle-prefix-plugin";
@@ -11,6 +10,7 @@ import {createCodePlugin} from "./plugins/code-plugin";
 import {createTodoPlugin} from "./plugins/todo-plugin";
 import {createImagePlugin} from "./plugins/image-plugin";
 import {createSoftInsertPlugin} from "./plugins/common-plugin/soft-insert-plugin";
+import './editor.css';
 
 export interface StateChange {
     (value: EditorState): void,
