@@ -3,7 +3,7 @@ import {AppStore} from "../store";
 import {Post} from "../../backend";
 import {convertToRaw} from "draft-js";
 
-export class SavePostCommand extends AppCommand{
+export class SyncPostCommand extends AppCommand{
     name(): CommandType {
         return "SavePost";
     }

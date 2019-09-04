@@ -5,9 +5,6 @@ import './App.css';
 import {Button, Layout} from 'antd';
 import SiderMenu, {Node} from './SiderMenu';
 import './menu.css';
-import {Backend} from "../backend";
-import {createElectronBackend} from "../backend/electron/ElectronBackend";
-import {createWebBackend} from "../backend/web/WebBackend";
 import {EditorPlugin, mergePlugins} from "../Editor/plugins";
 import {createToggleHeaderPlugin} from "../Editor/plugins/toggle-header-plugin";
 import {createToggleListPlugin} from "../Editor/plugins/toggle-prefix-plugin";
@@ -21,7 +18,7 @@ import {connect} from "react-redux";
 import {Dispatch} from "redux";
 import {AppStore, EditingPost} from "../redux/store";
 import {UpdateEditingPostCommand} from "../redux/commands/UpdateEditingPostCommand";
-import {SavePostCommand} from "../redux/commands/SavePostCommand";
+import {SyncPostCommand} from "../redux/commands/SyncPostCommand";
 
 const {Sider, Content} = Layout;
 
@@ -38,7 +35,6 @@ interface AppProps {
 
 class App extends React.Component<AppProps, AppState> {
     private readonly editor: React.RefObject<MyEditor>;
-    private readonly backend: Backend;
 
     constructor(props: Readonly<any>) {
         super(props);
@@ -47,15 +43,6 @@ class App extends React.Component<AppProps, AppState> {
         this.state = {
             editable: true,
         };
-
-        // init backend
-        let userAgent = navigator.userAgent.toLowerCase();
-        if (userAgent.indexOf(' electron/') > -1) {
-            // Electron-specific code
-            this.backend = createElectronBackend("/Users/yuankui/grace-docs");
-        } else {
-            this.backend = createWebBackend();
-        }
     }
 
     componentDidMount(): void {
@@ -116,7 +103,7 @@ class App extends React.Component<AppProps, AppState> {
                 </Sider>
                 <Content
                     onBlur={() => {
-                        this.props.dispatch(new SavePostCommand());
+                        this.props.dispatch(new SyncPostCommand());
                     }}
                     onKeyDown={e => e.stopPropagation()}>
                     <span>
@@ -128,7 +115,7 @@ class App extends React.Component<AppProps, AppState> {
                     </span>
                     <MyEditor ref={this.editor}
                               key={key}
-                              backend={this.backend}
+                              backend={this.props.state.backend}
                               editable={this.state.editable}
                               editorState={editorState}
                               plugin={plugin}
