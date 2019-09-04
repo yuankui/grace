@@ -1,8 +1,16 @@
 import React, {Component} from 'react';
 import {Editor, EditorState} from 'draft-js';
-import {EditorPlugin} from "./plugins";
+import {EditorPlugin, mergePlugins} from "./plugins";
 import './editor.css';
 import {Backend} from "../backend";
+import {createToggleHeaderPlugin} from "./plugins/toggle-header-plugin";
+import {createToggleListPlugin} from "./plugins/toggle-prefix-plugin";
+import {createResetBlockAfterEnter} from "./plugins/common-plugin/reset-block-after-enter";
+import {createInlineHotkey} from "./plugins/common-plugin/inline-hot-key-plugin";
+import {createCodePlugin} from "./plugins/code-plugin";
+import {createTodoPlugin} from "./plugins/todo-plugin";
+import {createImagePlugin} from "./plugins/image-plugin";
+import {createSoftInsertPlugin} from "./plugins/common-plugin/soft-insert-plugin";
 
 export interface StateChange {
     (value: EditorState): void,
@@ -17,7 +25,6 @@ interface Props {
     onChange: StateChange,
     editable: boolean,
     backend: Backend;
-    plugin: EditorPlugin,
 }
 
 export interface EditController {
@@ -35,7 +42,7 @@ export class MyEditor extends Component<Props, State> {
     constructor(props: Readonly<Props>) {
         super(props);
         this.ref = React.createRef();
-        this.state ={
+        this.state = {
             editorState: this.props.editorState,
             saved: true,
         };
@@ -60,7 +67,27 @@ export class MyEditor extends Component<Props, State> {
         }
     }
 
+    onChange = (state: EditorState) => {
+        this.setState({
+            editorState: state,
+        })
+    };
+
     render() {
+        const editorState = this.state.editorState;
+        const plugins: Array<EditorPlugin> = [
+            createToggleHeaderPlugin(this.onChange),
+            createToggleListPlugin(editorState, this.onChange),
+            createResetBlockAfterEnter(this.onChange),
+            createInlineHotkey(editorState, this.onChange),
+            createCodePlugin(editorState, this.onChange),
+            createTodoPlugin(() => editorState, this.onChange),
+            createImagePlugin(editorState, this.onChange),
+            createSoftInsertPlugin(editorState, this.onChange),
+        ];
+
+        const plugin = mergePlugins(plugins);
+
         const wordCount = this.props.editorState.getCurrentContent()
             .getBlockMap()
             .valueSeq()
@@ -79,13 +106,8 @@ export class MyEditor extends Component<Props, State> {
                     editorState={this.state.editorState}
                     readOnly={!this.props.editable}
                     ref={this.ref}
-                    onChange={editorState => {
-                        this.setState({
-                            editorState,
-                            saved: false,
-                        });
-                    }}
-                    {...this.props.plugin}
+                    onChange={this.onChange}
+                    {...plugin}
                 />
                 <div className={"post-bottom-bar"}>
                     word count: {wordCount}

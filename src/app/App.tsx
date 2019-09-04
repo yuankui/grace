@@ -77,18 +77,6 @@ class App extends React.Component<AppProps, AppState> {
 
     render() {
         const editorState = this.props.editingPost.editorState;
-        const plugins: Array<EditorPlugin> = [
-            createToggleHeaderPlugin(this.onChange),
-            createToggleListPlugin(editorState, this.onChange),
-            createResetBlockAfterEnter(this.onChange),
-            createInlineHotkey(editorState, this.onChange),
-            createCodePlugin(editorState, this.onChange),
-            createTodoPlugin(() => editorState, this.onChange),
-            createImagePlugin(editorState, this.onChange),
-            createSoftInsertPlugin(editorState, this.onChange),
-        ];
-
-        const plugin = mergePlugins(plugins);
 
         let key = this.props.state.currentPost.id;
         return (
@@ -120,7 +108,6 @@ class App extends React.Component<AppProps, AppState> {
                               backend={this.props.state.backend}
                               editable={this.state.editable}
                               editorState={editorState}
-                              plugin={plugin}
                               onChange={this.onChange}/>
                 </Content>
             </Layout>
