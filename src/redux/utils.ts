@@ -24,6 +24,7 @@ export function buildPostTree(posts: Array<Post>): Immutable.OrderedMap<string, 
 
     // 1. 构造map
     for (let post of posts) {
+        post.children = [];
         map = map.set(post.id, post);
     }
 
