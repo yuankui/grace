@@ -126,7 +126,7 @@ export class ElectronBackend implements Backend {
         return path.join(this.workingDir, ...id.split("."));
     }
 
-    async savePost(post: Post, parentId: string): Promise<Post> {
+    async savePost(post: Post): Promise<Post> {
         let id = post.id;
         if (post.id == null) {
             id = this.generateId();

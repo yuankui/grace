@@ -18,9 +18,8 @@ export interface Backend {
     /**
      * 保存文章
      * @param post
-     * @param parentId
      */
-    savePost(post: Post, parentId: string): Promise<Post>,
+    savePost(post: Post): Promise<Post>,
 
     /**
      * 获取文章详情

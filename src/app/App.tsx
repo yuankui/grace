@@ -19,6 +19,7 @@ import {Dispatch} from "redux";
 import {AppStore, EditingPost} from "../redux/store";
 import {UpdateEditingPostCommand} from "../redux/commands/UpdateEditingPostCommand";
 import {SyncPostCommand} from "../redux/commands/SyncPostCommand";
+import {SavePostCommand} from "../redux/commands/SavePostCommand";
 
 const {Sider, Content} = Layout;
 
@@ -104,6 +105,7 @@ class App extends React.Component<AppProps, AppState> {
                 <Content
                     onBlur={() => {
                         this.props.dispatch(new SyncPostCommand());
+                        this.props.dispatch(new SavePostCommand(this.props.editingPost.id))
                     }}
                     onKeyDown={e => e.stopPropagation()}>
                     <span>

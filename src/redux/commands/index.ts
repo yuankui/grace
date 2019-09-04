@@ -10,4 +10,5 @@ export type CommandType = "TestCommand"
     | "SyncPost"
     | "CreateNewPost"
     | "PostSelect"
+    | "SavePost"
 ;

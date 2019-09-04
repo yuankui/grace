@@ -48,7 +48,7 @@ export class WebBackend implements Backend {
         })
     }
 
-    async savePost(post: Post, parentId: string): Promise<Post> {
+    async savePost(post: Post): Promise<Post> {
         let id = post.id;
         if (post.id == null) {
            id = uuid();
@@ -57,7 +57,6 @@ export class WebBackend implements Backend {
         let newPost: Post = {
             ...post,
             id,
-            parentId
         };
 
         localStorage.setItem(id, JSON.stringify(newPost));
