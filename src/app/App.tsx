@@ -59,15 +59,15 @@ class App extends React.Component<AppProps, AppState> {
     }
 
     componentDidMount(): void {
-        document.onkeydown = function(event) {
+        document.addEventListener("keydown", function (event) {
             // If Control or Command key is pressed and the S key is pressed
             // run save function. 83 is the key code for S.
-            if((event.ctrlKey || event.metaKey) && event.which === 83) {
+            if ((event.ctrlKey || event.metaKey) && event.which === 83) {
                 // Save Function
                 event.preventDefault();
                 return false;
             }
-        }
+        });
     }
 
     onChange = (v: EditorState) => {
