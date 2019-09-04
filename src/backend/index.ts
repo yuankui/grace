@@ -38,6 +38,7 @@ export interface Post {
     tags: Array<string>,
     content: RawDraftContentState,
     children: Array<string>,
+    saved: boolean,
 }
 
 let b: Backend;

@@ -61,5 +61,6 @@ export function convertToPost(currentPost: EditingPost): Post {
         title: currentPost.title,
         tags: currentPost.tags,
         content: currentPost.content,
+        saved: false,
     }
 }

@@ -6,6 +6,8 @@ import {Dispatch} from "redux";
 import {CreateNewPostCommand} from "../redux/commands/CreateNewPostCommand";
 import {Post} from "../backend";
 import {PostSelectCommand} from "../redux/commands/PostSelectCommand";
+import {AntTreeNodeDropEvent} from "antd/es/tree/Tree";
+import {MovePostCommand} from "../redux/commands/MovePostCommand";
 
 const {TreeNode} = Tree;
 
@@ -27,7 +29,6 @@ interface State {
 }
 
 class SiderMenu extends React.Component<Props, State> {
-
     constructor(props: Readonly<Props>) {
         super(props);
         this.state = {
@@ -50,10 +51,12 @@ class SiderMenu extends React.Component<Props, State> {
                 </span>
             </div>
             <Tree
+                onDrop={options => this.onDrop(options)}
                 selectedKeys={this.props.selectedKeys}
                 expandedKeys={this.state.expandedKeys}
                 onExpand={this.onExpand}
                 multiple={false}
+                draggable={true}
                 onSelect={this.onSelect}
             >
                 {this.renderTreeNodes(this.props.list)}
@@ -102,6 +105,20 @@ class SiderMenu extends React.Component<Props, State> {
 
     createNewPost = () => {
         this.props.dispatch(new CreateNewPostCommand(null));
+    };
+
+    private onDrop(options: AntTreeNodeDropEvent) {
+        console.log(options);
+        if (options.dropToGap) {
+            return;
+        }
+
+        const dragKey = options.dragNode.props.eventKey;
+        const targetKey = options.node.props.eventKey;
+        if (dragKey === undefined || targetKey === undefined) {
+            return;
+        }
+        this.props.dispatch(new MovePostCommand(dragKey, targetKey));
     }
 }
 

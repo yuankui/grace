@@ -12,4 +12,5 @@ export type CommandType = "TestCommand"
     | "PostSelect"
     | "SavePost"
     | "ReloadPosts"
+    | "MovePost"
 ;
