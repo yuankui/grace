@@ -2,7 +2,7 @@ import React, {ChangeEvent, createRef, KeyboardEvent} from 'react';
 import {MyEditor} from "../Editor/Editor";
 import {EditorState} from "draft-js";
 import './App.css';
-import {Button, Input, Layout} from 'antd';
+import {Button, Layout} from 'antd';
 import SiderMenu, {Node} from './SiderMenu';
 import './menu.css';
 import {Backend} from "../backend";
