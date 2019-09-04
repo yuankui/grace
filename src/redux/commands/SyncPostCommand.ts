@@ -5,7 +5,7 @@ import {convertToRaw} from "draft-js";
 
 export class SyncPostCommand extends AppCommand{
     name(): CommandType {
-        return "SavePost";
+        return "SyncPost";
     }
 
     process(state: AppStore): AppStore {
