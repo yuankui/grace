@@ -19,6 +19,7 @@ export class SyncPostCommand extends AppCommand{
             title: currentPost.title,
             tags: currentPost.tags,
             content: currentPost.content,
+            saved: false,
         };
 
         const posts = state.posts.set(newPost.id, newPost);

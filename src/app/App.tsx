@@ -10,7 +10,7 @@ import {Dispatch} from "redux";
 import {AppStore, EditingPost} from "../redux/store";
 import {UpdateEditingPostCommand} from "../redux/commands/UpdateEditingPostCommand";
 import {SyncPostCommand} from "../redux/commands/SyncPostCommand";
-import {SavePostCommand} from "../redux/commands/SavePostCommand";
+import {SavePostsCommand} from "../redux/commands/SavePostsCommand";
 
 const {Sider, Content} = Layout;
 
@@ -38,11 +38,12 @@ class App extends React.Component<AppProps, AppState> {
     }
 
     componentDidMount(): void {
+        const that = this;
         document.addEventListener("keydown", function (event) {
-            // If Control or Command key is pressed and the S key is pressed
-            // run save function. 83 is the key code for S.
+
             if ((event.ctrlKey || event.metaKey) && event.which === 83) {
                 // Save Function
+                that.props.dispatch(new SavePostsCommand());
                 event.preventDefault();
                 return false;
             }
@@ -66,15 +67,13 @@ class App extends React.Component<AppProps, AppState> {
         }
     };
 
+
     render() {
         const editorState = this.props.editingPost.content;
 
         let key = this.props.state.currentPost.id;
         return (
-            <Layout className='layout' onKeyDown={event => {
-                event.preventDefault();
-                return false;
-            }}>
+            <Layout className='layout'>
                 <Sider theme='light' width={300}>
                     <Button onClick={() => {
 
@@ -84,7 +83,6 @@ class App extends React.Component<AppProps, AppState> {
                 <Content
                     onBlur={() => {
                         this.props.dispatch(new SyncPostCommand());
-                        this.props.dispatch(new SavePostCommand(this.props.editingPost.id))
                     }}
                     onKeyDown={e => e.stopPropagation()}>
                     <span>
@@ -113,7 +111,7 @@ class App extends React.Component<AppProps, AppState> {
                 title: value.target.value,
             })
         );
-    }
+    };
 }
 
 function mapState(state: AppStore) {
