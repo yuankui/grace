@@ -6,18 +6,29 @@ export function createWebBackend() {
 }
 
 export class WebBackend implements Backend {
-    private postMap: {[prop: string]: Post} = {};
 
     async getPost(id: string): Promise<Post|null> {
-        return this.postMap[id];
+        let item = localStorage.getItem(id);
+        if (item == null) {
+            return null;
+        }
+        return JSON.parse(item);
     }
 
     async getPosts(id: string | null): Promise<Array<Post>> {
-        let posts: Array<Post> = Object.entries(this.postMap)
-            .map(kv => kv[1]);
-
-
-        return posts.filter(p => p.parentId === id);
+        let posts: Array<Post> = [];
+        for (let i = 0; i < 1000; i++) {
+            let key = localStorage.key(i);
+            if (key == null) {
+                break;
+            }
+            let value = localStorage.getItem(key);
+            if (value == null) {
+                continue;
+            }
+            posts.push(JSON.parse(value));
+        }
+        return posts;
     }
 
     saveImage(file: File, id: string): Promise<string> {
@@ -49,6 +60,7 @@ export class WebBackend implements Backend {
             parentId
         };
 
+        localStorage.setItem(id, JSON.stringify(newPost));
         return newPost;
     }
 
