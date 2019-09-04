@@ -13,7 +13,7 @@ export interface Backend {
     /**
      * 获取文章属性结构
      */
-    getPosts(id: string | null): Promise<Array<Post>>,
+    getPosts(): Promise<Array<Post>>,
 
     /**
      * 保存文章

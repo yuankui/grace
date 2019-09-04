@@ -68,7 +68,7 @@ export class ElectronBackend implements Backend {
         return subDirs;
     }
 
-    async getPosts(id: string | null): Promise<Array<Post>> {
+    async getPosts(): Promise<Array<Post>> {
         let level1 = await this.expandDir([this.workingDir]);
         let level2 = await this.expandDir(level1);
         let level3 = await this.expandDir(level2);
@@ -85,7 +85,8 @@ export class ElectronBackend implements Backend {
             }
         }
 
-        return posts.filter(p => p.parentId === id);
+        // TODO fix this
+        return posts.filter(p => p.parentId === 'todoooo');
     }
 
     writeFile(path: string, buffer: Buffer): Promise<any> {

@@ -1,6 +1,6 @@
 import {AppCommand, CommandType} from "./index";
 import {AppStore, EditingPost} from "../store";
-import {convertFromRaw, EditorState} from "draft-js";
+import {convertToEditingPost} from "../utils";
 
 export class PostSelectCommand extends AppCommand {
     id: string;
@@ -17,15 +17,7 @@ export class PostSelectCommand extends AppCommand {
     process(state: AppStore): AppStore {
         // 2. switch post
         let post = state.posts.get(this.id);
-        let currentPost: EditingPost = {
-            saved: true,
-            id: this.id,
-            tags: post.tags,
-            title: post.title,
-            editorState: EditorState.createWithContent(
-                convertFromRaw(post.content)
-            )
-        };
+        let currentPost: EditingPost = convertToEditingPost(post);
 
         return {
             ...state,

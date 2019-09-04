@@ -8,12 +8,14 @@ import thunk from 'redux-thunk';
 import {Provider} from "react-redux";
 import {commandMiddleware, enhanceCommandReducer} from "./command";
 import {initReducer} from "./redux/utils";
+import {ReloadPostsCommand} from "./redux/commands/ReloadPostsCommand";
 
 /* eslint-disable no-underscore-dangle */
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 /* eslint-enable */
 const store = createStore(enhanceCommandReducer(initReducer), composeEnhancers(applyMiddleware(thunk, commandMiddleware)));
 
+store.dispatch(new ReloadPostsCommand());
 ReactDOM.render(
     <Provider store={store}>
         <App/>

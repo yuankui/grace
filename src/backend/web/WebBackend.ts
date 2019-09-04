@@ -15,7 +15,7 @@ export class WebBackend implements Backend {
         return JSON.parse(item);
     }
 
-    async getPosts(id: string | null): Promise<Array<Post>> {
+    async getPosts(): Promise<Array<Post>> {
         let posts: Array<Post> = [];
         for (let i = 0; i < 1000; i++) {
             let key = localStorage.key(i);

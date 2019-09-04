@@ -1,24 +1,41 @@
 import {Action, Middleware, Reducer} from "redux";
+import {AppStore} from "../redux/store";
 
 const CommandActionName = "CommandAction";
+const CommandPromiseActionName = "CommandPromiseAction";
 
-export const commandMiddleware: Middleware = api => next => action => {
+export const commandMiddleware: Middleware = api => dispatch => action => {
     if (action instanceof Command) {
 
-        let nextState: any = action.process(api.getState());
-        next({
-            type: CommandActionName + ":" + action.name(),
-            state:nextState,
-            command: action,
-        });
-        return nextState;
+        let result: any = action.process(api.getState());
+        if (Promise.resolve(result) === result) {
+            // if return is a promise
+            (result as Promise<Mapper<AppStore>>).then(mapper => {
+                dispatch({
+                    type: CommandPromiseActionName + ":" + action.name(),
+                    mapper: mapper,
+                    command: action,
+                })
+            });
+            return
+        } else {
+            dispatch({
+                type: CommandActionName + ":" + action.name(),
+                state: result,
+                command: action,
+            });
+            return;
+        }
     }
-    return next(action);
+    dispatch(action);
 };
 
+export interface Mapper<S> {
+    (s: S): S,
+}
 export abstract class Command<S, C = string> {
     abstract name(): C;
-    process(state: S): S {
+    process(state: S): S | Promise<Mapper<S>> {
         return state;
     }
 }
@@ -34,6 +51,10 @@ export function enhanceCommandReducer<S, A extends Action<string>>(reducer: Redu
         if (action.type.startsWith(CommandActionName)) {
             let a: any = action;
             return a.state;
+        } else if (action.type.startsWith(CommandPromiseActionName)) {
+            const a: any = action;
+            const newState =  a.mapper(state);
+            return newState;
         }else {
             return reducer(state, action);
         }
