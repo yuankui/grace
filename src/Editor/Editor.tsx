@@ -70,6 +70,7 @@ export class MyEditor extends Component<Props, State> {
     onChange = (state: EditorState) => {
         this.setState({
             editorState: state,
+            saved: false,
         })
     };
 
