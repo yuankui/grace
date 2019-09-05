@@ -1,7 +1,7 @@
 import {AppCommand, CommandType} from "./index";
 import {AppStore} from "../store";
-import {Mapper} from "../../command";
 import {Post} from "../../backend";
+import {Mapper} from "redux-commands";
 
 export class SavePostsCommand extends AppCommand {
     name(): CommandType {

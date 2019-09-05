@@ -1,7 +1,7 @@
 import {AppCommand, CommandType} from "./index";
 import {AppStore, createEmptyEditingPost} from "../store";
-import {Mapper} from "../../command";
 import {buildPostTree, convertToEditingPost} from "../utils";
+import {Mapper} from "redux-commands";
 
 export class ReloadPostsCommand extends AppCommand {
     name(): CommandType {

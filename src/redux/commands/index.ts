@@ -1,5 +1,5 @@
 import {AppStore} from "../store";
-import {Command} from "../../command";
+import {Command} from "redux-commands";
 
 export abstract class AppCommand extends Command<AppStore, CommandType> {
 }

@@ -9350,6 +9350,13 @@ redent@^1.0.0:
     indent-string "^2.1.0"
     strip-indent "^1.0.1"
 
+redux-commands@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/redux-commands/-/redux-commands-1.0.3.tgz#35e54db72fbd5698610a61e1555bab5a57228407"
+  integrity sha512-o8277BZva/EPfODdKTmiZ5+knSyo8dB54HUj6NxwAJwlzma4HvWGGt0wnSK8rr6RCfVWRNrqnn6UjmkCVUhaTQ==
+  dependencies:
+    redux "^4.0.4"
+
 redux-promise@^0.6.0:
   version "0.6.0"
   resolved "http://r.cnpmjs.org/redux-promise/download/redux-promise-0.6.0.tgz#c64723b5213bb5603c11b74302883b682e06b319"
