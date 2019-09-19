@@ -20,15 +20,15 @@ export interface GetState {
     (): EditorState;
 }
 
+export interface EditController {
+    setEditable(editable: boolean): void;
+}
+
 interface Props {
     content: RawDraftContentState,
     onChange: StateChange,
     editable: boolean,
     backend: Backend;
-}
-
-export interface EditController {
-    setEditable(editable: boolean): void;
 }
 
 interface State {
