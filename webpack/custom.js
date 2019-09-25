@@ -1,8 +1,8 @@
 const merge = require('webpack-merge');
 
 const config = {
-    entry: {
-        index: './src/index.js',
+    output: {
+        publicPath: ''
     }
 };
 

@@ -1,11 +1,12 @@
 const rewireYAML = require('react-app-rewire-yaml');
-const multiEntry = require('./webpack/multi_entry');
+const custom = require('./webpack/custom');
 
 module.exports = function override(config, env) {
     // support yaml load
     config = rewireYAML(config, env);
 
     // support multi entry
-    config = multiEntry(config, env);
+    config = custom(config, env);
+
     return config;
 };
