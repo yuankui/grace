@@ -1,7 +1,8 @@
 import {Backend, Post} from "../index";
 import path from 'path';
-import fs from 'fs';
 import uuid from 'uuid/v4';
+
+const fs = (window as any).require('fs');
 
 export function createElectronBackend(working: string): Backend {
     return new ElectronBackend(working);
@@ -37,7 +38,7 @@ export class ElectronBackend implements Backend {
 
     readFile(file: string): Promise<Buffer> {
         return new Promise<Buffer>((resolve, reject) => {
-            fs.readFile(file, ((err, data) => {
+            fs.readFile(file, ((err: any, data: any) => {
                 if (err != null) {
                     reject(err);
                 }
@@ -48,7 +49,7 @@ export class ElectronBackend implements Backend {
 
     listDir(path: string): Promise<Array<string>> {
         return new Promise<Array<string>>((resolve, reject) => {
-            fs.readdir(path, (err, files) => {
+            fs.readdir(path, (err: any, files: any) => {
                 if (err != null) {
                     reject(err);
                 }
@@ -91,7 +92,7 @@ export class ElectronBackend implements Backend {
 
     writeFile(path: string, buffer: Buffer): Promise<any> {
         return new Promise<any>((resolve, reject) => {
-            fs.writeFile(path, buffer, err => {
+            fs.writeFile(path, buffer, (err:any) => {
                 if (err != null)
                     reject(err);
                 resolve("");
