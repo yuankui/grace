@@ -92,13 +92,14 @@ export class ElectronBackend implements Backend {
 
     writeFile(path: string, buffer: Buffer): Promise<any> {
         return new Promise<any>((resolve, reject) => {
-            fs.writeFile(path, buffer, (err:any) => {
+            fs.writeFile(path, buffer, (err: any) => {
                 if (err != null)
                     reject(err);
                 resolve("");
             });
         })
     }
+
     async saveImage(file: File, id: string): Promise<string> {
         let imageId = uuid();
         let imagePath = path.join(this.workingDir, this.getPostDir(id), imageId);
