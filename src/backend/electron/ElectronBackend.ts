@@ -2,10 +2,9 @@ import {Backend, Post} from "../index";
 import path from 'path';
 import uuid from 'uuid/v4';
 
-const fs = (window as any).require('fs');
-
 export function createElectronBackend(working: string): Backend {
-    return new ElectronBackend(working);
+    const fs: any = (window as any).require('fs');
+    return new ElectronBackend(working, fs);
 }
 
 /**
@@ -13,8 +12,10 @@ export function createElectronBackend(working: string): Backend {
  */
 export class ElectronBackend implements Backend {
     private readonly workingDir: string = "";
+    private fs: any;
 
-    constructor(workingDir: string) {
+    constructor(workingDir: string, fs: any) {
+        this.fs = fs;
         this.workingDir = workingDir;
     }
 
@@ -38,7 +39,7 @@ export class ElectronBackend implements Backend {
 
     readFile(file: string): Promise<Buffer> {
         return new Promise<Buffer>((resolve, reject) => {
-            fs.readFile(file, ((err: any, data: any) => {
+            this.fs.readFile(file, ((err, data) => {
                 if (err != null) {
                     reject(err);
                 }
@@ -49,7 +50,7 @@ export class ElectronBackend implements Backend {
 
     listDir(path: string): Promise<Array<string>> {
         return new Promise<Array<string>>((resolve, reject) => {
-            fs.readdir(path, (err: any, files: any) => {
+            this.fs.readdir(path, (err, files) => {
                 if (err != null) {
                     reject(err);
                 }
@@ -92,7 +93,7 @@ export class ElectronBackend implements Backend {
 
     writeFile(path: string, buffer: Buffer): Promise<any> {
         return new Promise<any>((resolve, reject) => {
-            fs.writeFile(path, buffer, (err: any) => {
+            this.fs.writeFile(path, buffer, (err) => {
                 if (err != null)
                     reject(err);
                 resolve("");

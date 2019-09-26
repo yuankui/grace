@@ -40,15 +40,3 @@ export interface Post {
     children: Array<string>,
     saved: boolean,
 }
-
-let b: Backend;
-
-var userAgent = navigator.userAgent.toLowerCase();
-if (userAgent.indexOf(' electron/') > -1) {
-    // Electron-specific code
-    b = createElectronBackend("/Users/yuankui/grace-docs");
-} else {
-    b = createWebBackend();
-}
-
-export const backend = b;
